@@ -327,7 +327,6 @@ class Jobinfo extends CI_Model{
             'tbl_med_user_idtbl_med_user' => $userID
         );
 
-        $this->db->where('idtbl_job_list', $idtbl_job_list);
         $this->db->insert('tbl_feedback', $data);
 
         $this->db->trans_complete();
