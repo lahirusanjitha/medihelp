@@ -3,39 +3,42 @@
     <?php include "include/header.php"; ?>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        .dashboard-container {
-            background-color: #f9f9f9;
-            padding: 20px;
-        }
+ .dashboard-container {
+        background-color: #f9f9f9;
+        padding: 20px;
+    }
 
-        .card {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border: none;
-            border-radius: 8px;
-        }
+    .card {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border: none;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
 
-        .nav-tabs .nav-link.active {
-            background-color: #007bff;
-            color: #fff;
-            border-radius: 4px;
-        }
+    .summary-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
 
-        .table-container {
-            overflow-x: auto;
-        }
+    #summaryPieChart {
+        max-width: 500px;
+        max-height: 500px;
+        width: 100%;
+        height: auto;
+    }
 
-        .summary-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-        }
+    .table-container {
+        overflow-x: auto;
+    }
 
-        #summaryPieChart {
-            max-width: 300px;
-            max-height: 300px;
-        }
+    .nav-tabs .nav-link.active {
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 4px;
+    }
     </style>
 </head>
 
@@ -105,6 +108,15 @@
                             </select>
                         </div>
                     </div>
+
+                <!-- Pie Chart -->
+                <div class="card p-3">
+                    <h4 class="text-center">Summary</h4>
+                    <div class="summary-container">
+                        <div id="noDataMessage" style="display:none; text-align: center; font-size: 16px;">No Records available.</div>
+                        <canvas id="summaryPieChart"></canvas>
+                    </div>
+                </div>
 
                     <div class="row">
                         <div class="col-lg-9">
@@ -193,12 +205,12 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-3">
+                     <!--   <div class="col-lg-3">
                             <div class="card p-3">
                                 <h4 class="text-center">Summary</h4>
                                 <div class="summary-container">
                                     <div id="noDataMessage" style="display:none; text-align: center; font-size: 16px;">No Records available.</div> 
-                                    <canvas id="summaryPieChart"></canvas>
+                                    <canvas id="summaryPieChart"></canvas>-->
                                 </div>
                             </div>
                         </div>
