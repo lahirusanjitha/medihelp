@@ -111,11 +111,11 @@ include "include/topnavbar.php";
                 [10, 25, 50, 'All'],
             ],
             "buttons": [
-                { extend: 'csv', className: 'btn btn-success btn-sm', title: 'Job Information', text: '<i class="fas fa-file-csv mr-2"></i> CSV', },
-                { extend: 'pdf', className: 'btn btn-danger btn-sm', title: 'Job Information', text: '<i class="fas fa-file-pdf mr-2"></i> PDF', },
+                { extend: 'csv', className: 'btn btn-success btn-sm', title: 'Cancel Report', text: '<i class="fas fa-file-csv mr-2"></i> CSV', },
+                { extend: 'pdf', className: 'btn btn-danger btn-sm', title: 'Cancel Report', text: '<i class="fas fa-file-pdf mr-2"></i> PDF', },
                 { 
                     extend: 'print', 
-                    title: 'Job Information',
+                    title: 'Cancel Report',
                     className: 'btn btn-primary btn-sm', 
                     text: '<i class="fas fa-print mr-2"></i> Print',
                     customize: function ( win ) {
