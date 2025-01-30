@@ -117,7 +117,7 @@ include "include/topnavbar.php";
                         </form>
                         <div class="col-12">
                             <div class="scrollbar pb-3" id="style-2">
-                                <table class="table table-bordered table-striped table-sm nowrap" id="dataTable" width="100%">
+                                <table class="table table-bordered table-sm nowrap" id="dataTable" width="100%">
                                     <thead>
                                         <tr>
                                             <th>Date</th>
