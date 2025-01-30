@@ -35,4 +35,8 @@ class ChangeRequest extends CI_Controller {
         $this->load->model('ChangeRequestinfo');
         $result=$this->ChangeRequestinfo->CancelRecord();
     }
+    public function pospondRecord(){
+        $this->load->model('ChangeRequestinfo');
+        $result=$this->ChangeRequestinfo->pospondRecord();
+    }
 }

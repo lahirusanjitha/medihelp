@@ -149,6 +149,12 @@ else if($functionmenu=='ChangeRequest'){
     $statuscheck=checkprivilege($menuprivilegearray, 27, 3);
     $deletecheck=checkprivilege($menuprivilegearray, 27, 4);
 }
+else if($functionmenu=='Locationtrack'){
+    $addcheck=checkprivilege($menuprivilegearray, 28, 1);
+    $editcheck=checkprivilege($menuprivilegearray, 28, 2);
+    $statuscheck=checkprivilege($menuprivilegearray, 28, 3);
+    $deletecheck=checkprivilege($menuprivilegearray, 28, 4);
+}
 
 
 
@@ -188,7 +194,7 @@ function checkprivilege($arraymenu, $menuID, $type){
         <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
     </a>
 
-            <div class="collapse <?php if( $controllermenu=="Jobtitle" | $controllermenu=="Employee" | $controllermenu=="Itenarytype" | $controllermenu=="Itenartctegory" | $controllermenu=="Itenarysubcatagory" | $controllermenu=="Itenarygroup" | $controllermenu=="Locationtype" | $controllermenu=="Location" | $controllermenu=="Doctor" | $controllermenu=="Subject" | $controllermenu=="Job" | $controllermenu=="Confirmjob" | $controllermenu=="RejectReason" | $controllermenu=="FeedbackType" ){echo 'show';} ?>" id="collapsematerialinfo" data-parent="#accordionSidenav">
+            <div class="collapse <?php if( $controllermenu=="Jobtitle" | $controllermenu=="Employee" | $controllermenu=="Itenarytype" | $controllermenu=="Itenartctegory" | $controllermenu=="Itenarysubcatagory" | $controllermenu=="Itenarygroup" | $controllermenu=="Locationtype" | $controllermenu=="Location" | $controllermenu=="Doctor" | $controllermenu=="Subject" | $controllermenu=="Job" | $controllermenu=="Confirmjob" | $controllermenu=="RejectReason" | $controllermenu=="FeedbackType" | $controllermenu=="Jobtitle" ){echo 'show';} ?>" id="collapsematerialinfo" data-parent="#accordionSidenav">
                 <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
 
                     <?php } if(menucheck($menuprivilegearray, 4)==1){ ?>
@@ -205,6 +211,8 @@ function checkprivilege($arraymenu, $menuID, $type){
                     <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'RejectReason'; ?>">Reject Reason</a> 
                     <?php } if(menucheck($menuprivilegearray, 21)==1){ ?>
                     <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'FeedbackType'; ?>">Feedback Type</a> 
+                    <?php } if(menucheck($menuprivilegearray, 21)==1){ ?>
+                    <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Locationtrack'; ?>">Track Location</a> 
                     <?php } ?>
                 </nav>
             </div>

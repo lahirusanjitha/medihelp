@@ -26,7 +26,6 @@ include "include/topnavbar.php";
                                 <table class="table table-bordered table-striped table-sm nowrap" id="dataTable" width="100%">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
                                             <th>Date</th>
                                             <th>Start Time</th>
                                             <th>End Time</th>
@@ -89,11 +88,7 @@ include "include/topnavbar.php";
                 // data: function(d) {}
             },
             "order": [[ 0, "desc" ]],
-            "columns": [
-                {
-                    "data": "idtbl_job_list"
-                },
-                                        
+            "columns": [                      
                 { "data": "start_date" },    
                 { "data": "start_time" }, 
                 { "data": "end_time"},

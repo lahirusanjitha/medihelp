@@ -25,7 +25,7 @@ include "include/topnavbar.php";
                             <div class="col-3">
                                 <form action="<?php echo base_url() ?>Itenarygroup/Itenarygroupinsertupdate" method="post" autocomplete="off">
                                     <div class="form-group mb-1">
-                                        <label class="small font-weight-bold">ItenaryGroup*</label>
+                                        <label class="small font-weight-bold">ItinaryStatus*</label>
                                         <input type="text" class="form-control form-control-sm" name="itenarygroup" id="itenarygroup" required>
                                     </div>
                                     <div class="form-group mt-2 text-right">
@@ -39,7 +39,6 @@ include "include/topnavbar.php";
                                 <table class="table table-bordered table-striped table-sm nowrap" id="dataTable" width="100%">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
                                             <th>Itinerary Status</th>
                                             <th class="text-right">Actions</th>
                                         </tr>
@@ -95,9 +94,6 @@ include "include/topnavbar.php";
             },
             "order": [[ 0, "desc" ]],
             "columns": [
-                {
-                    "data": "tblid_itenary_group"
-                },
                 {
                     "data": "group"
                 },

@@ -285,5 +285,52 @@ public function CancelRecord(){
         }
     }
 
+    public function pospondRecord(){
+
+        $this->db->trans_begin();
+
+        $userID=$_SESSION['userid'];
+        $job_id = $this->input->post('idtbl_job_list');
+        $reason = $this->input->post('reason');
+        $pospondDate = $this->input->post('inputDate');
+    
+        $updatedatetime=date('Y-m-d H:i:s');
+    
+            $data = array(
+                'postponed_date'=> $pospondDate, 
+                'insertdatetime'=> $updatedatetime, 
+                'reason'=> $reason, 
+                'tbl_job_list_idtbl_job_list' =>$job_id,
+                'tbl_res_user_idtbl_res_user'=> $userID
+    
+            );
+    
+    
+            $this->db->insert('tbl_postponed', $data);
+    
+            $data1 = array('posponed' => 1);
+            $this->db->where('idtbl_job_list', $job_id);
+            $this->db->update('tbl_job_list', $data1);
+    
+            $this->db->trans_complete();
+    
+            if ($this->db->trans_status() === TRUE) {
+                $this->db->trans_commit();
+                
+                $actionObj=new stdClass();
+                $actionObj->icon='fas fa-pause';
+                $actionObj->title='';
+                $actionObj->message='Record Posponded successfuly';
+                $actionObj->url='';
+                $actionObj->target='_blank';
+                $actionObj->type='success';
+    
+                $actionJSON=json_encode($actionObj);
+                
+                $this->session->set_flashdata('msg', $actionJSON);
+                redirect('ChangeRequest');  
+            }
+
+    }
 
 }

@@ -25,7 +25,9 @@ $columns = array(
     array( 'db' => '`u`.`confirmation`', 'dt' => 'confirmation', 'field' => 'confirmation' ),
     array( 'db' => '`u`.`edit_request`', 'dt' => 'edit_request', 'field' => 'edit_request' ),
     array( 'db' => '`u`.`completion`', 'dt' => 'completion', 'field' => 'completion' ),
-	array( 'db' => '`u`.`tbl_med_user_id`', 'dt' => 'tbl_med_user_id', 'field' => 'tbl_med_user_id' )
+	array( 'db' => '`u`.`tbl_med_user_id`', 'dt' => 'tbl_med_user_id', 'field' => 'tbl_med_user_id' ),
+    array( 'db' => '`ud`.`postponed_date`', 'dt' => 'postponed_date', 'field' => 'postponed_date' ),
+    array( 'db' => '`ud`.`reason`', 'dt' => 'reason', 'field' => 'reason' )
 );
 
 // SQL server connection information
@@ -44,7 +46,7 @@ $year = isset($_POST['year']) ? $_POST['year'] : '';
 $month = isset($_POST['month']) ? $_POST['month'] : '';  
 $bdm = isset($_POST['bdm']) ? $_POST['bdm'] : '';  
 
-$extraWhere = "`u`.`status` IN (2)"; 
+$extraWhere = "`u`.`posponed` IN (1)"; 
 
 if (!empty($year)) {
     $extraWhere .= " AND YEAR(`u`.`start_date`) = '$year'";
@@ -61,7 +63,8 @@ error_log("ExtraWhere Clause: $extraWhere");
 $joinQuery = "FROM `tbl_job_list` AS `u`
     LEFT JOIN `tbl_itenary_category` AS `ub` ON (`ub`.`idtbl_itenary_category` = `u`.`tbl_itenary_category_id`)
     LEFT JOIN `tbl_itenary_group` AS `uc` ON (`uc`.`tblid_itenary_group` = `u`.`tbl_itenary_group_id`)
-    LEFT JOIN `tbl_itenary_type` AS `ua` ON (`ua`.`idtbl_itenary_type` = `u`.`tbl_itenary_type_tblid_itenary_type`)";
+    LEFT JOIN `tbl_itenary_type` AS `ua` ON (`ua`.`idtbl_itenary_type` = `u`.`tbl_itenary_type_tblid_itenary_type`)
+    LEFT JOIN `tbl_postponed` AS `ud` ON (`ud`.`tbl_job_list_idtbl_job_list` = `u`.`idtbl_job_list`)";
 
 require('ssp.customized.class.php');
 

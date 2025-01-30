@@ -39,7 +39,6 @@ include "include/topnavbar.php";
                                 <table class="table table-bordered table-striped table-sm nowrap" id="dataTable" width="100%">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
                                             <th>Itinery Type</th>
                                             <th class="text-right">Actions</th>
                                         </tr>
@@ -95,9 +94,7 @@ include "include/topnavbar.php";
             },
             "order": [[ 0, "desc" ]],
             "columns": [
-                {
-                    "data": "idtbl_itenary_type"
-                },
+
                 {
                     "data": "itenary_type"
                 },

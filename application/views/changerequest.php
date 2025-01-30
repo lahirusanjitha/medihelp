@@ -71,7 +71,6 @@ include "include/topnavbar.php";
                                 <table class="table table-bordered table-striped table-sm nowrap" id="dataTable" width="100%">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
                                             <th>Date</th>
                                             <th>Start Time</th>
                                             <th>End Time</th>
@@ -95,6 +94,36 @@ include "include/topnavbar.php";
     </div>
 </div>
 </div>
+
+<div class="modal fade" id="pospondModal" tabindex="-1" role="dialog" aria-labelledby="dateInputModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dateInputModalLabel">Pospond</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="<?php echo base_url('ChangeRequest/pospondRecord'); ?>" method="post">
+                <div class="modal-body">
+                    <input type="hidden" id="modalDateId" name="idtbl_job_list">
+                    <div class="form-group">
+                        <label for="inputDate" class="font-weight-bold">Select Date</label>
+                        <input type="date" class="form-control" name="inputDate" id="inputDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reason" class="font-weight-bold">Reason</label>
+                        <input type="text" class="form-control" name="reason" id="reason" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 <div class="modal fade" id="staticBackdrop" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -151,11 +180,11 @@ include "include/topnavbar.php";
                 [10, 25, 50, 'All'],
             ],
             "buttons": [
-                { extend: 'csv', className: 'btn btn-success btn-sm', title: 'Job Information', text: '<i class="fas fa-file-csv mr-2"></i> CSV', },
-                { extend: 'pdf', className: 'btn btn-danger btn-sm', title: 'Job Information', text: '<i class="fas fa-file-pdf mr-2"></i> PDF', },
+                { extend: 'csv', className: 'btn btn-success btn-sm', title: 'Approval Change List', text: '<i class="fas fa-file-csv mr-2"></i> CSV', },
+                { extend: 'pdf', className: 'btn btn-danger btn-sm', title: 'Approval Change List', text: '<i class="fas fa-file-pdf mr-2"></i> PDF', },
                 { 
                     extend: 'print', 
-                    title: 'Job Information',
+                    title: 'Approval Change List',
                     className: 'btn btn-primary btn-sm', 
                     text: '<i class="fas fa-print mr-2"></i> Print',
                     customize: function ( win ) {
@@ -177,9 +206,6 @@ include "include/topnavbar.php";
             },
             "order": [[ 0, "desc" ]],
             "columns": [
-                {
-                    "data": "idtbl_job_list"
-                },
                                         
                 { "data": "start_date" },    
                 { "data": "start_time" }, 
@@ -205,19 +231,8 @@ include "include/topnavbar.php";
                             }
                                 button+='"><i class="fa fa-check""></i></a>';
                         
-                        if (full['status'] == 1) {
-                                button += '<a href="<?php echo base_url() ?>ChangeRequest/Jobstatus/' + full['idtbl_job_list'] + '/2" onclick="return pause_confirm()" target="_self" class="btn btn-success btn-sm mr-1 ';
-                                if (statuscheck != 1) {
-                                    button += 'd-none';
-                                }
-                                button += '"><i class="fa fa-play" aria-hidden="true"></i></a>';
-                            } else {
-                                button += '<a href="<?php echo base_url() ?>ChangeRequest/Jobstatus/' + full['idtbl_job_list'] + '/1" onclick="return unpause_confirm()" target="_self" class="btn btn-warning btn-sm mr-1 ';
-                                if (statuscheck != 1) {
-                                    button += 'd-none';
-                                }
-                                button += '"><i class="fa fa-pause" aria-hidden="true"></i></i></a>';
-                            }
+                        button += '<button type="button" class="btn btn-info btn-sm mr-1" data-toggle="modal" data-target="#pospondModal" data-idtbl_job_list="' + full['idtbl_job_list'] + '"><i class="fas fa-pause"></i></button>';
+
                             if (full['confirmation'] == 1 || full['confirmation'] == 2) {
                                 button += '<button type="button" class="btn btn-warning btn-sm mr-1" data-toggle="modal" data-target="#staticBackdrop" data-idtbl_job_list="' + full['idtbl_job_list'] + '"><i class="fas fa-times"></i></button>';
                             } else if (full['confirmation'] == 3) {
@@ -273,6 +288,13 @@ include "include/topnavbar.php";
     var idtbl_job_list = button.data('idtbl_job_list');
     $('#modalIdTbljoblistField').val(idtbl_job_list);
 });
+
+    $('#pospondModal').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget);
+        var idtbl_job_list = button.data('idtbl_job_list');
+        $('#modalDateId').val(idtbl_job_list);
+    });
+
 
 
 

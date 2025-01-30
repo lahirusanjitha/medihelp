@@ -29,7 +29,7 @@ class Dashboardinfo extends CI_Model {
                           ->join('tbl_itenary_type', 'tbl_job_list.tbl_itenary_type_tblid_itenary_type = tbl_itenary_type.idtbl_itenary_type', 'left')
                           ->join('tbl_itenary_group', 'tbl_job_list.tbl_itenary_group_id = tbl_itenary_group.tblid_itenary_group', 'left')
                           ->join('tbl_itenary_category', 'tbl_job_list.tbl_itenary_category_id = tbl_itenary_category.idtbl_itenary_category', 'left')
-                          ->where('tbl_job_list.status', 2);
+                          ->where('tbl_job_list.posponed', 1);
         $query = $this->applyFilter($query, $year, $month, $bdm); 
         return $query->get()->result_array();
     }

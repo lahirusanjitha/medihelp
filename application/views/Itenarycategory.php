@@ -51,7 +51,6 @@ include "include/topnavbar.php";
                                 <table class="table table-bordered table-striped table-sm nowrap" id="dataTable" width="100%">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
                                             <th>Itinery category</th>
                                           <!--  <th>Itenary sub category</th>-->
                                             <th class="text-right">Actions</th>
@@ -108,9 +107,6 @@ include "include/topnavbar.php";
             },
             "order": [[ 0, "desc" ]],
             "columns": [
-                {
-                    "data": "idtbl_itenary_category"
-                },
                                         
                 { 
                     "data": "itenary_category" 
