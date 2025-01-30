@@ -2,6 +2,14 @@
 include "include/header.php";  
 include "include/topnavbar.php"; 
 ?>
+<head>
+<style>
+    .highlighted {
+  background-color: #d4edda;  
+  font-weight: bold;
+}
+</style>
+</head>
 <div id="layoutSidenav">
     <div id="layoutSidenav_nav">
         <?php include "include/menubar.php"; ?>
@@ -233,6 +241,7 @@ include "include/topnavbar.php";
                 { "data": "location"},
                 { "data": "itenary"},
                 { "data": "meet_location"},
+               // {  "data": "feedback", "visible": false },
                 
                 {
                     "targets": -1,
@@ -264,7 +273,13 @@ include "include/topnavbar.php";
             ],
             drawCallback: function(settings) {
                 $('[data-toggle="tooltip"]').tooltip();
-            }
+            },
+            "rowCallback": function(row, data, index) {
+        // Assuming `feedback` is the column that stores the feedback status (1 means feedback exists)
+        if (data.feedback == 1) {
+            $(row).addClass('highlighted');  // Add the 'highlighted' class if feedback is added
+        }
+    }
         });
         $('#dataTable tbody').on('click', '.btnEdit', function() {
             var r = confirm("Are you sure, You want to Edit this ? ");

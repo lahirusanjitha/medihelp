@@ -329,6 +329,11 @@ class Jobinfo extends CI_Model{
 
         $this->db->insert('tbl_feedback', $data);
 
+        $data1 = array('feedback' => 1);
+
+        $this->db->where('idtbl_job_list', $idtbl_job_list);
+        $this->db->update('tbl_job_list', $data1);
+        
         $this->db->trans_complete();
 
         if ($this->db->trans_status() === TRUE) {

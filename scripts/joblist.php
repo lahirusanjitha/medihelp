@@ -48,7 +48,8 @@ $columns = array(
     array( 'db' => '`u`.`status`', 'dt' => 'status', 'field' => 'status' ),
 	array( 'db' => '`u`.`confirmation`', 'dt' => 'confirmation', 'field' => 'confirmation' ),
 	array( 'db' => '`u`.`edit_request`', 'dt' => 'edit_request', 'field' => 'edit_request' ),
-	array( 'db' => '`u`.`tbl_med_user_id`', 'dt' => 'tbl_med_user_id', 'field' => 'tbl_med_user_id' )
+	array( 'db' => '`u`.`tbl_med_user_id`', 'dt' => 'tbl_med_user_id', 'field' => 'tbl_med_user_id' ),
+	array( 'db' => '`u`.`feedback`', 'dt' => 'feedback', 'field' => 'feedback' )
 	
 
 );
