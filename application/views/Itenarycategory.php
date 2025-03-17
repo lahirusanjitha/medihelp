@@ -29,17 +29,6 @@ include "include/topnavbar.php";
                                         <input type="text" class="form-control form-control-sm" name="itenary_category" id="itenary_category" required>
                                     </div>
 
-                                 <!--  <div class="form-group mb-1">
-                                        <label class="small font-weight-bold">Itenary Sub Category*</label>
-                                        <select class="form-control form-control-sm" name="subcategory" id="susubcategoryb" required>
-                                            <option value="">Select</option>
-                                            <?php // foreach ($subcategory->result() as $itenarysubcategory) { ?>
-                                                <option value="<?php // echo $itenarysubcategory->idtbl_itenary_sub_category ?>">
-                                                    <?php // echo $itenarysubcategory->itenary_sub_category ?></option>
-                                            <?php //} ?>
-                                        </select>
-                                    </div>-->
-
                                     <div class="form-group mt-2 text-right">
                                         <button type="submit" id="submitBtn" class="btn btn-primary btn-sm px-4" <?php if($addcheck==0){echo 'disabled';} ?>><i class="far fa-save"></i>&nbsp;Add</button>
                                     </div>
@@ -51,8 +40,8 @@ include "include/topnavbar.php";
                                 <table class="table table-bordered table-striped table-sm nowrap" id="dataTable" width="100%">
                                     <thead>
                                         <tr>
+                                            <th>#</th>
                                             <th>Itinery category</th>
-                                          <!--  <th>Itenary sub category</th>-->
                                             <th class="text-right">Actions</th>
                                         </tr>
                                     </thead>
@@ -102,18 +91,19 @@ include "include/topnavbar.php";
             ],
             ajax: {
                 url: "<?php echo base_url() ?>scripts/itenarycategory.php",
-                type: "POST", // you can use GET
-                // data: function(d) {}
+                type: "POST", 
             },
             "order": [[ 0, "desc" ]],
             "columns": [
-                                        
+                                {  
+                "data": null,
+                "render": function(data, type, row, meta) {
+                    return meta.row + 1 + meta.settings._iDisplayStart;
+                } 
+                 },                       
                 { 
                     "data": "itenary_category" 
                 },                   
-               /* {
-                     "data": "itenary_sub_category"
-                },*/
                 {
                     "targets": -1,
                     "className": 'text-right',

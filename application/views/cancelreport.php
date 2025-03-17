@@ -72,6 +72,7 @@ include "include/topnavbar.php";
                                 <table class="table table-bordered table-striped table-sm nowrap" id="dataTable" width="100%">
                                     <thead>
                                         <tr>
+                                            <th>#</th>
                                             <th>Date</th>
                                            <!-- <th>Task</th> -->
                                             <th>Itenary</th>
@@ -135,7 +136,13 @@ include "include/topnavbar.php";
             }
             },
             "order": [[ 0, "desc" ]],
-            "columns": [                     
+            "columns": [ 
+                {  
+                "data": null,
+                "render": function(data, type, row, meta) {
+                    return meta.row + 1 + meta.settings._iDisplayStart;
+                } 
+                 },         
                 { "data": "start_date" },    
                // { "data": "task"},
                 { "data": "itenary"},

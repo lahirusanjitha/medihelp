@@ -120,6 +120,7 @@ include "include/topnavbar.php";
                                 <table class="table table-bordered table-sm nowrap" id="dataTable" width="100%">
                                     <thead>
                                         <tr>
+                                            <th>#</th>
                                             <th>Date</th>
                                             <th>Start Time</th>
                                             <th>End Time</th>
@@ -230,7 +231,13 @@ include "include/topnavbar.php";
             },
 
             "order": [[ 0, "desc" ]],
-            "columns": [                                     
+            "columns": [  
+                {  
+            "data": null,
+            "render": function(data, type, row, meta) {
+                return meta.row + 1 + meta.settings._iDisplayStart;
+            } 
+        },                                
                 { "data": "start_date" },    
                 { "data": "start_time" }, 
                 { "data": "end_time"},
@@ -241,13 +248,14 @@ include "include/topnavbar.php";
                 { "data": "location"},
                 { "data": "itenary"},
                 { "data": "meet_location"},
-               // {  "data": "feedback", "visible": false },
+
                 
                 {
                     "targets": -1,
                     "className": 'text-right',
                     "data": null,
                     "render": function(data, type, full) {
+
                         var confirm = full['confirmation'];
                         var editrequest = full['edit_request'];
                         var button = '';
@@ -274,10 +282,10 @@ include "include/topnavbar.php";
             drawCallback: function(settings) {
                 $('[data-toggle="tooltip"]').tooltip();
             },
-            "rowCallback": function(row, data, index) {
-        // Assuming `feedback` is the column that stores the feedback status (1 means feedback exists)
+         "rowCallback": function(row, data, index) {
+        
         if (data.feedback == 1) {
-            $(row).addClass('highlighted');  // Add the 'highlighted' class if feedback is added
+            $(row).addClass('highlighted');  
         }
     }
         });

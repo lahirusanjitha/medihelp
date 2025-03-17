@@ -61,6 +61,7 @@ include "include/topnavbar.php";
                                 <table class="table table-bordered table-striped table-sm nowrap" id="dataTable" width="100%">
                                     <thead>
                                         <tr>
+                                            <th>#</th>
                                             <th>Doctor name</th>
                                             <th>Base Hospital</th>
                                             <th>Subject</th>
@@ -119,7 +120,13 @@ include "include/topnavbar.php";
                 // data: function(d) {}
             },
             "order": [[ 0, "desc" ]],
-            "columns": [                      
+            "columns": [    
+                {  
+                "data": null,
+                "render": function(data, type, row, meta) {
+                    return meta.row + 1 + meta.settings._iDisplayStart;
+                } 
+                 },                    
                 { "data": "name" },    
                 { "data": "hospital" }, 
                 { "data": "subject" },              
