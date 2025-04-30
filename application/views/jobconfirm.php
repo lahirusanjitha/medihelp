@@ -57,6 +57,9 @@ include "include/topnavbar.php";
                 <div class="col-md-6 col-lg-3">
                     <label for="bdm">Select BDM</label>
                     <select id="bdm" class="form-control form-control-sm">
+                        <option value="<?php echo $_SESSION['userid'];?>" style="display:none;">
+                            <?php echo $_SESSION['name'];?>
+                        </option>
                         <?php foreach ($user->result() as $users) { ?>
                             <option value="<?php echo $users->idtbl_res_user; ?>">
                                 <?php echo $users->name; ?>
@@ -72,6 +75,7 @@ include "include/topnavbar.php";
                     <table class="table table-bordered table-striped table-sm nowrap" id="dataTable" width="100%">
                         <thead>
                             <tr>
+                                <th><input type="checkbox" id="selectAll"></th>
                                 <th>#</th>
                                 <th>Date</th>
                                 <th>Start Time</th>
@@ -89,7 +93,7 @@ include "include/topnavbar.php";
                         <tbody></tbody>
                     </table>
                     <div class="mt-3">
-                    <button style="float: right;" id="approveAllBtn" class="btn btn-primary btn-sm">Approve All</button>
+                    <button style="float: right;" id="approveAllBtn" class="btn btn-primary btn-sm">Approve</button>
                     </div>
                 </div>
             </div>
@@ -146,8 +150,16 @@ include "include/topnavbar.php";
                 d.year = $('#yearSelect').val(); 
             }
             },
-            "order": [[ 0, "desc" ]],
+            "order": [[ 2, "desc" ]],
             "columns": [
+            {
+                "data": null,
+                "orderable": false,
+                "searchable": false,
+                "render": function(data, type, row) {
+                    return '<input type="checkbox" class="rowCheckbox" value="' + row.idtbl_job_list + '">';
+            }
+            },
                 {  
                 "data": null,
                 "render": function(data, type, row, meta) {
@@ -171,30 +183,29 @@ include "include/topnavbar.php";
         });
 $('#yearSelect,#monthSelect, #bdm').change(function() {
             table.draw(); 
-        });
-    $('#approveAllBtn').on('click', function () {
-    let table = $('#dataTable').DataTable();
-    let displayedRows = table.rows({ filter: 'applied' }).data();
-    let idsToUpdate = [];
+});
 
-    displayedRows.each(function (rowData) {
-        idsToUpdate.push(rowData.idtbl_job_list); 
+$('#approveAllBtn').on('click', function () {
+    let selectedIds = [];
+
+    $('.rowCheckbox:checked').each(function () {
+        selectedIds.push($(this).val());
     });
 
-    if (idsToUpdate.length === 0) {
-        alert('No data available for approval.');
+    if (selectedIds.length === 0) {
+        alert('Please select at least one row for approval.');
         return;
     }
 
     $.ajax({
         url: "<?php echo site_url('ConfirmJob/ApprovalStatus'); ?>",
         type: "POST",
-        data: { ids: idsToUpdate },
+        data: { ids: selectedIds },
         success: function (response) {
             let result = JSON.parse(response);
             if (result.status === 'success') {
-                alert('Approval successfull.');
-                $('#dataTable').DataTable().ajax.reload(); 
+                alert('Data apporoved successfully.');
+                $('#dataTable').DataTable().ajax.reload();
             } else {
                 alert('Failed to update data: ' + result.message);
             }
@@ -206,6 +217,16 @@ $('#yearSelect,#monthSelect, #bdm').change(function() {
 });
 
 });
+
+$('#dataTable').on('change', '#selectAll', function() {
+    var checked = $(this).is(':checked');
+    $('.rowCheckbox').prop('checked', checked);
+});
+
+$('#dataTable').on('draw.dt', function() {
+    $('#selectAll').prop('checked', false); 
+});
+
 
 </script>
 <?php include "include/footer.php"; ?>

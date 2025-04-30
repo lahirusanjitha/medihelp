@@ -32,9 +32,6 @@ class Job extends CI_Controller {
 		$this->load->model('Jobinfo');
         $result=$this->Jobinfo->Jobedit();
 	}
-    public function Insertfeedback(){
-        $this->load->model('Jobinfo');
-        $result=$this->Jobinfo->Insertfeedback(); 
-    }
+
 
 }

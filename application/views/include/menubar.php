@@ -154,6 +154,16 @@ else if($functionmenu=='Locationtrack'){
     $editcheck=checkprivilege($menuprivilegearray, 28, 2);
     $statuscheck=checkprivilege($menuprivilegearray, 28, 3);
     $deletecheck=checkprivilege($menuprivilegearray, 28, 4);
+}else if($functionmenu=='Feedback'){
+    $addcheck=checkprivilege($menuprivilegearray, 29, 1);
+    $editcheck=checkprivilege($menuprivilegearray, 29, 2);
+    $statuscheck=checkprivilege($menuprivilegearray, 29, 3);
+    $deletecheck=checkprivilege($menuprivilegearray, 29, 4);
+}else if($functionmenu=='Editapproval'){
+    $addcheck=checkprivilege($menuprivilegearray, 30, 1);
+    $editcheck=checkprivilege($menuprivilegearray, 30, 2);
+    $statuscheck=checkprivilege($menuprivilegearray, 30, 3);
+    $deletecheck=checkprivilege($menuprivilegearray, 30, 4);
 }
 
 
@@ -197,16 +207,16 @@ function checkprivilege($arraymenu, $menuID, $type){
             <div class="collapse <?php if( $controllermenu=="Jobtitle" | $controllermenu=="Employee" | $controllermenu=="Itenarytype" | $controllermenu=="Itenartctegory" | $controllermenu=="Itenarysubcatagory" | $controllermenu=="Itenarygroup" | $controllermenu=="Locationtype" | $controllermenu=="Location" | $controllermenu=="Doctor" | $controllermenu=="Subject" | $controllermenu=="Job" | $controllermenu=="Confirmjob" | $controllermenu=="RejectReason" | $controllermenu=="FeedbackType" | $controllermenu=="Jobtitle" ){echo 'show';} ?>" id="collapsematerialinfo" data-parent="#accordionSidenav">
                 <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
 
-                    <?php } if(menucheck($menuprivilegearray, 4)==1){ ?>
-                    <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Employee'; ?>">Employee</a>
+                    <!-- <?php //} if(menucheck($menuprivilegearray, 4)==1){ ?>
+                    <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php //echo base_url().'Employee'; ?>">Employee</a> -->
                     <?php } if(menucheck($menuprivilegearray, 5)==1){ ?>
                     <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Locationtype'; ?>">Location Type</a>
                     <?php } if(menucheck($menuprivilegearray, 6)==1){ ?>
                     <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Location'; ?>">Location</a>
                     <?php } if(menucheck($menuprivilegearray, 14)==1){ ?>
-                    <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Subject'; ?>">Subject </a>
+                    <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Subject'; ?>">Specialty </a>
                     <?php } if(menucheck($menuprivilegearray, 8)==1){ ?>
-                    <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Doctor'; ?>">Consultant Relation</a> 
+                    <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Doctor'; ?>">Doctors</a> 
                     <?php } if(menucheck($menuprivilegearray, 20)==1){ ?>
                     <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'RejectReason'; ?>">Reject Reason</a> 
                     <?php } if(menucheck($menuprivilegearray, 21)==1){ ?>
@@ -237,28 +247,32 @@ function checkprivilege($arraymenu, $menuID, $type){
                 </nav>
             </div>
 
-            <?php if(menucheck($menuprivilegearray, 13) == 1 | menucheck($menuprivilegearray, 15) == 1 | menucheck($menuprivilegearray, 16) == 1 | menucheck($menuprivilegearray, 18) ==1 | menucheck($menuprivilegearray, 18) ==1 | menucheck($menuprivilegearray, 22) == 1) { ?>
+            <?php if(menucheck($menuprivilegearray, 13) == 1 | menucheck($menuprivilegearray, 15) == 1 | menucheck($menuprivilegearray, 16) == 1 | menucheck($menuprivilegearray, 18) ==1 | menucheck($menuprivilegearray, 18) ==1 | menucheck($menuprivilegearray, 22) == 1 | menucheck($menuprivilegearray, 29) == 1 | menucheck($menuprivilegearray, 30) == 1) { ?>
     <a class="nav-link p-0 px-3 py-2 collapsed text-dark" href="javascript:void(0);" data-toggle="collapse" data-target="#jobmanagementinfo" aria-expanded="false" aria-controls="jobmanagementinfo">
         <div class="nav-link-icon"><i class="fas fa-shopping-bag"></i></div>
         Itinary Management
         <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
     </a>
 
-            <div class="collapse <?php if( $controllermenu=="Jobtitle" | $controllermenu=="Job" | $controllermenu=="Confirmjob" | $controllermenu=="ItinaryCompletion" |$controllermenu=="Sendtoapprove" |$controllermenu=="ChangeRequest" | $controllermenu=="Sendtoapprove" |$controllermenu=="MonthlyItinaryStatus"){echo 'show';} ?>" id="jobmanagementinfo" data-parent="#accordionSidenav">
+            <div class="collapse <?php if( $controllermenu=="Jobtitle" | $controllermenu=="Job" | $controllermenu=="Confirmjob" | $controllermenu=="ItinaryCompletion" |$controllermenu=="Sendtoapprove" |$controllermenu=="ChangeRequest" | $controllermenu=="Sendtoapprove" |$controllermenu=="MonthlyItinaryStatus" |$controllermenu=="Feedback" |$controllermenu=="Editapproval" ){echo 'show';} ?>" id="jobmanagementinfo" data-parent="#accordionSidenav">
                 <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
 
-                <?php } if(menucheck($menuprivilegearray, 13)==1){ ?>
-                <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Jobtitle'; ?>">Jobtitle </a> 
+                <!-- <?php //} if(menucheck($menuprivilegearray, 13)==1){ ?>
+                <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php //echo base_url().'Jobtitle'; ?>">Jobtitle </a>  -->
                 <?php } if(menucheck($menuprivilegearray, 15)==1){ ?>
                 <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Job'; ?>">Monthly Itinary </a>
                 <?php } if(menucheck($menuprivilegearray, 18)==1){ ?>
                     <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Sendtoapprove'; ?>">Send to Approve Level </a>  
                 <?php } if(menucheck($menuprivilegearray, 16)==1){ ?>
                 <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Confirmjob'; ?>">Approvel Level </a> 
+                <?php } if(menucheck($menuprivilegearray, 29)==1){ ?>
+                    <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Feedback'; ?>">Feed Back </a> 
                 <?php } if(menucheck($menuprivilegearray, 17)==1){ ?>
                     <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'ItinaryCompletion'; ?>">Itinary Completetion Level </a> 
                 <?php } if(menucheck($menuprivilegearray, 19)==1){ ?>
-                    <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'ChangeRequest'; ?>">Approval Change</a> 
+                    <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'ChangeRequest'; ?>">Itinary Actions</a> 
+                <?php } if(menucheck($menuprivilegearray, 30)==1){ ?>
+                    <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Editapproval'; ?>">Edit Aproval</a> 
                 <?php } ?> 
                 </nav>
             </div>

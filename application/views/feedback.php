@@ -21,7 +21,7 @@ include "include/topnavbar.php";
                     <div class="page-header-content py-3">
                         <h1 class="page-header-title font-weight-light">
                             <div class="page-header-icon"><i data-feather="list"></i></div>
-                            <span>Monthly Itinary</span>
+                            <span>Feed Back</span>
                         </h1>
                     </div>
                 </div>
@@ -31,90 +31,7 @@ include "include/topnavbar.php";
                     <div class="card-body p-0 p-2">
                         <div class="row">
                             <div class="col-12">
-                        <form action="<?php echo base_url() ?>Job/Jobinsertupdate" method="post" autocomplete="off">
-                            <div class="row align-items-end">
-                                <div class="col-auto">
-                                    <label class="small font-weight-bold">Month*</label>
-                                    <input type="month" class="form-control form-control-sm" name="month" id="month" required>
-                                </div>
-                                <div class="col-auto">
-                                    <label class="small font-weight-bold">Date*</label>
-                                    <input type="date" class="form-control form-control-sm" name="date" id="date" required>
-                                </div>
-                                <div class="col-auto">
-                                    <label class="small font-weight-bold">Start time*</label>
-                                    <input type="time" class="form-control form-control-sm" name="start_time" id="start_time" required>
-                                </div>
-                                <div class="col-auto">
-                                    <label class="small font-weight-bold">End time*</label>
-                                    <input type="time" class="form-control form-control-sm" name="end_time" id="end_time" required>
-                                </div>
-                                <div class="col-auto">
-                                    <label class="small font-weight-bold">Itinerary Type*</label>
-                                    <select class="form-control form-control-sm" name="type" id="type" required>
-                                        <option value="">Select</option>
-                                        <?php foreach ($iternarytype->result() as $type) { ?>
-                                            <option value="<?php echo $type->idtbl_itenary_type ?>">
-                                                <?php echo $type->itenary_type ?>
-                                            </option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                                <div class="col-auto">
-                                    <label class="small font-weight-bold">Itinerary Category*</label>
-                                    <select class="form-control form-control-sm" name="category" id="category" required>
-                                        <option value="">Select</option>
-                                        <?php foreach ($itenarycategory->result() as $category) { ?>
-                                            <option value="<?php echo $category->idtbl_itenary_category ?>">
-                                                <?php echo $category->itenary_category ?>
-                                            </option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                                <div class="col-auto">
-                                    <label class="small font-weight-bold">Itinerary Status*</label>
-                                    <select class="form-control form-control-sm" name="group" id="group" required>
-                                        <option value="">Select</option>
-                                        <?php foreach ($Itenarygroup->result() as $group) { ?>
-                                            <option value="<?php echo $group->tblid_itenary_group ?>">
-                                                <?php echo $group->group ?>
-                                            </option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                                <div class="col-4">
-                                    <label class="small font-weight-bold">Itinerary*</label>
-                                    <textarea class="form-control form-control-sm" name="itenary" id="itenary" rows="4" maxlength="320" required></textarea>
-                                </div>
-                                <div class="col-auto">
-                                    <label class="small font-weight-bold">Task*</label>
-                                    <input type="number" class="form-control form-control-sm" name="task" id="task" required>
-                                </div>
-                                <div class="col-auto">
-                                    <label class="small font-weight-bold">Location*</label>
-                                    <select class="form-control form-control-sm" name="location" id="location" required>
-                                        <option value="">Select</option>
-                                        <?php foreach ($locationdetails->result() as $location) { ?>
-                                            <option value="<?php echo $location->idtbl_location ?>">
-                                                <?php echo $location->name ?>
-                                            </option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                                <div class="col-auto">
-                                    <label class="small font-weight-bold">Meet Location*</label>
-                                    <input type="text" class="form-control form-control-sm" name="meet_location" id="meet_location" required>
-                                </div>
-                                <div class="col-auto text-right">
-                                    <button type="submit" id="submitBtn" class="btn btn-primary btn-sm px-4" <?php if ($addcheck == 0) { echo 'disabled'; } ?>>
-                                        <i class="far fa-save"></i>&nbsp;Add
-                                    </button>
-                                </div>
-                            </div>
-                            <input type="hidden" name="recordOption" id="recordOption" value="1">
-                            <input type="hidden" name="recordID" id="recordID" value="">
-                            <hr>
-                        </form>
+                       
                         <div class="col-12">
                             <div class="scrollbar pb-3" id="style-2">
                                 <table class="table table-bordered table-sm nowrap" id="dataTable" width="100%">
@@ -131,6 +48,7 @@ include "include/topnavbar.php";
                                             <th>Location</th>
                                             <th>Itinerary</th>
                                             <th>Meet Location</th>
+                                            <!-- <th>Itinary Action</th> -->
                                             <th class="text-right">Actions</th>
                                         </tr>
                                     </thead>
@@ -155,13 +73,13 @@ include "include/topnavbar.php";
                 </button>
             </div>
 
-            <form action="<?php echo base_url('Job/Insertfeedback'); ?>" method="post" autocomplete="off">
+            <form action="<?php echo base_url('Feedback/Insertfeedback'); ?>" method="post" autocomplete="off">
                 <div class="modal-body">
                     <input type="hidden" id="modaltblJobListField" name="idtbl_job_list">
 
                     <div class="form-group">
                                 <label for="feedbacktype" class="font-weight-bold">Feed Back Type</label>
-                                <select class="form-control form-control-sm" name="feedbacktype" id="feedbacktype" required>
+                                <select class="form-control form-control" name="feedbacktype" id="feedbacktype" required>
                                     <option value="">Select</option>
                                     <?php foreach ($feedbacktype->result() as $ftype) { ?>
                                         <option value="<?php echo $ftype->idtbl_feedback_type ?>">
@@ -204,6 +122,7 @@ include "include/topnavbar.php";
 	</div>
 </div>
 
+
 <?php include "include/footerscripts.php"; ?>
 
 <script>
@@ -240,7 +159,7 @@ include "include/topnavbar.php";
                 // 'copy', 'csv', 'excel', 'pdf', 'print'
             ],
             ajax: {
-                url: "<?php echo base_url() ?>scripts/joblist.php",
+                url: "<?php echo base_url() ?>scripts/feedback.php",
                 type: "POST", 
                 data: {
                     userid: <?php echo json_encode($_SESSION['userid']); ?>
@@ -251,13 +170,7 @@ include "include/topnavbar.php";
             "columns": [
                 {
                     "data": "idtbl_job_list"
-                },  
-            //     {  
-            // "data": null,
-            // "render": function(data, type, row, meta) {
-            //     return meta.row + 1 + meta.settings._iDisplayStart;
-            // } 
-        // },                                
+                },                             
                 { "data": "start_date" },    
                 { "data": "start_time" }, 
                 { "data": "end_time"},
@@ -268,6 +181,7 @@ include "include/topnavbar.php";
                 { "data": "location"},
                 { "data": "itenary"},
                 { "data": "meet_location"},
+                // { "data": "actions"},
 
                 
                 {
@@ -280,18 +194,21 @@ include "include/topnavbar.php";
                         var editrequest = full['edit_request'];
                         var button = '';
 
-                        button += '<button class="btn btn-primary btn-sm btnEdit mr-1 ';
-                        if (!((confirm == 2) || (editcheck == 1 && editrequest == 2))) {
-                            button += 'd-none';
-                        }
-                        button += '" id="' + full['idtbl_job_list'] + '"><i class="fas fa-pen"></i></button>';
+                        // button += '<button class="btn btn-primary btn-sm btnEdit mr-1 ';
+                        // if (!((confirm == 2) || (editcheck == 1 && editrequest == 2))) {
+                        //     button += 'd-none';
+                        // }
+                        // button += '" id="' + full['idtbl_job_list'] + '"><i class="fas fa-pen"></i></button>';
 
-                        button += '<a href="<?php echo base_url() ?>ChangeRequest/Editrequest/' + full['idtbl_job_list'] + '/1" onclick="return confirm_request()" target="_self" class="btn btn-primary btn-sm mr-1 '
-                        if (confirm != 1 || editrequest != 0) {
-                            button += 'd-none';
-                        }
-                        button += '" id="' + full['idtbl_job_list'] + '"><i class="fa fa-paper-plane"></i></a>';
+                        // button += '<a href="<?php echo base_url() ?>ChangeRequest/Editrequest/' + full['idtbl_job_list'] + '/1" onclick="return confirm_request()" target="_self" class="btn btn-primary btn-sm mr-1 '
+                        // if (confirm != 1 || editrequest != 0) {
+                        //     button += 'd-none';
+                        // }
+                        // button += '" id="' + full['idtbl_job_list'] + '"><i class="fa fa-paper-plane"></i></a>';
+                        // button += '<button type="button" class="btn btn-info btn-sm mr-1" data-toggle="modal" data-target="#pospondModal" data-idtbl_job_list="' + full['idtbl_job_list'] + '"><i class="fas fa-pause"></i></button>';
+                        button += '<button type="button" class="btn btn-success btn-sm mr-1" data-toggle="modal" data-target="#staticBackdrop" data-idtbl_job_list="' + full['idtbl_job_list'] + '"><i class="far fa-comment"></i></button>';
 
+                        button += '<button class="btn btn-dark btn-sm btnview mr-1"  id="' + full['idtbl_job_list'] + '"><i class="fas fa-eye"></i></button>';
                         return button;
                     }
 
@@ -312,7 +229,7 @@ include "include/topnavbar.php";
             var id = $(this).attr('id');
             $.ajax({
                 type: "POST",
-                url: '<?php echo base_url() ?>Job/feedbackdetails',
+                url: '<?php echo base_url() ?>Feedback/feedbackdetails',
                 data: {
                     recordID: id
                 },

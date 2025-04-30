@@ -13,20 +13,21 @@ include "include/topnavbar.php";
                     <div class="page-header-content py-3">
                         <h1 class="page-header-title font-weight-light">
                             <div class="page-header-icon"><i data-feather="list"></i></div>
-                            <span>Completion List</span>
+                            <span>Edit Approval</span>
                         </h1>
                     </div>
                 </div>
             </div>
             <div class="container-fluid mt-2 p-0 p-2">
                 <div class="card">
+            <div class="card-body p-2">
+            
                     <div class="card-body p-0 p-2">
-                        <div class="row">
+                        <div class="row">     
                             <div class="col-12">
                                 <table class="table table-bordered table-striped table-sm nowrap" id="dataTable" width="100%">
                                     <thead>
                                         <tr>
-                                            <th><input type="checkbox" id="selectAll"></th>
                                             <th>#</th>
                                             <th>Date</th>
                                             <th>Start Time</th>
@@ -37,13 +38,11 @@ include "include/topnavbar.php";
                                             <th>Task</th>
                                             <th>Itenary</th>
                                             <th>Meet Location</th>
-                                            <!-- <th class="text-right">Actions</th> -->
+                                            <th>Status</th>
+                                            <th class="text-right">Actions</th>
                                         </tr>
                                     </thead>
                                 </table>
-                                <div class="d-flex justify-content-end mt-3">
-                                            <button id="completebuton" class="btn btn-primary btn-sm">Mark As Complete</button>
-                                        </div>
                             </div>
                         </div>
                     </div>
@@ -53,6 +52,8 @@ include "include/topnavbar.php";
         <?php include "include/footerbar.php"; ?>
     </div>
 </div>
+</div>
+
 <?php include "include/footerscripts.php"; ?>
 <script>
     $(document).ready(function() {
@@ -61,7 +62,7 @@ include "include/topnavbar.php";
         var statuscheck='<?php echo $statuscheck; ?>';
         var deletecheck='<?php echo $deletecheck; ?>';
 
-        $('#dataTable').DataTable({
+       var table = $('#dataTable').DataTable({
             "destroy": true,
             "processing": true,
             "serverSide": true,
@@ -72,11 +73,11 @@ include "include/topnavbar.php";
                 [10, 25, 50, 'All'],
             ],
             "buttons": [
-                { extend: 'csv', className: 'btn btn-success btn-sm', title: 'Job Information', text: '<i class="fas fa-file-csv mr-2"></i> CSV', },
-                { extend: 'pdf', className: 'btn btn-danger btn-sm', title: 'Job Information', text: '<i class="fas fa-file-pdf mr-2"></i> PDF', },
+                { extend: 'csv', className: 'btn btn-success btn-sm', title: 'Approval Change List', text: '<i class="fas fa-file-csv mr-2"></i> CSV', },
+                { extend: 'pdf', className: 'btn btn-danger btn-sm', title: 'Approval Change List', text: '<i class="fas fa-file-pdf mr-2"></i> PDF', },
                 { 
                     extend: 'print', 
-                    title: 'Job Information',
+                    title: 'Approval Change List',
                     className: 'btn btn-primary btn-sm', 
                     text: '<i class="fas fa-print mr-2"></i> Print',
                     customize: function ( win ) {
@@ -88,26 +89,20 @@ include "include/topnavbar.php";
                 // 'copy', 'csv', 'excel', 'pdf', 'print'
             ],
             ajax: {
-                url: "<?php echo base_url() ?>scripts/completionlist.php",
-                type: "POST", // you can use GET
-                // data: function(d) {}
-            },
-            "order": [[ 2, "desc" ]],
-            "columns": [
-                {
-                "data": null,
-                "orderable": false,
-                "searchable": false,
-                "render": function(data, type, row) {
-                    return '<input type="checkbox" class="rowCheckbox" value="' + row.idtbl_job_list + '">';
+                url: "<?php echo base_url() ?>scripts/editapproval.php",
+                type: "POST", 
+                data: {
+                    userid: <?php echo json_encode($_SESSION['userid']); ?>
                 }
-                },
+            },
+            "order": [[ 0, "desc" ]],
+            "columns": [
                 {  
                 "data": null,
                 "render": function(data, type, row, meta) {
                     return meta.row + 1 + meta.settings._iDisplayStart;
                 } 
-                 },      
+                 },                              
                 { "data": "start_date" },    
                 { "data": "start_time" }, 
                 { "data": "end_time"},
@@ -117,54 +112,79 @@ include "include/topnavbar.php";
                 { "data": "task"},
                 { "data": "itenary"},
                 { "data": "location"},
+                { "data": "actions"},
                 
+                {
+                    "targets": -1,
+                    "className": 'text-right',
+                    "data": null,
+                    "render": function(data, type, full) {
+                        var button='';
+                        var request = full['edit_request'];
+                        var confirm = full['confirmation'];
+                        var editrequest = full['edit_request'];
+
+
+                        button+='<a href="<?php echo base_url() ?>ChangeRequest/Editrequest/'+full['idtbl_job_list']+'/2" onclick="return confirm_request()" target="_self" class="btn btn-primary btn-sm mr-1 ';
+                            if(statuscheck!=1 || request!=1)
+                            {
+                                button+='d-none';
+                            }
+                                button+='"><i class="fa fa-check""></i></a>';
+
+                        return button;
+                    }
+                }
             ],
             drawCallback: function(settings) {
                 $('[data-toggle="tooltip"]').tooltip();
             }
         });
-        $('#completebuton').on('click', function () {
-            let selectedIds = [];
+        $('#dataTable tbody').on('click', '.btnEdit', function() {
+            var r = confirm("Are you sure, You want to Edit this ? ");
+            if (r == true) {
+                var id = $(this).attr('id');
+                $.ajax({
+                    type: "POST",
+                    data: {
+                        recordID: id
+                    },
+                    url: '<?php echo base_url() ?>Job/Jobedit',
+                    success: function(result) { //alert(result);
+                        var obj = JSON.parse(result);
+                        $('#recordID').val(obj.id);
+                        $('#start_date').val(obj.start_date);
+                        $('#end_date').val(obj.end_date); 
+                        $('#category').val(obj.itenary_category);
+                        $('#sub_category').val(obj.sub_category);                        
+                        $('#group').val(obj.group);
+                        $('#task').val(obj.task);  
+                        $('#location').val(obj.location);                     
 
-            $('.rowCheckbox:checked').each(function () {
-                selectedIds.push($(this).val());
-            });
-
-            if (selectedIds.length === 0) {
-                alert('Please select at least one row to send for Complete.');
-                return;
-            }
-
-            $.ajax({
-                url: "<?php echo site_url('ItinaryCompletion/ItinaryCmpletionStatus'); ?>",
-                type: "POST",
-                data: { ids: selectedIds },
-                success: function (response) {
-                    let result = JSON.parse(response);
-                    if (result.status === 'success') {
-                        alert('Itinary Mark As Completed Succesfully.');
-                        $('#dataTable').DataTable().ajax.reload();
-                    } else {
-                        alert('Failed to update data: ' + result.message);
+                        $('#recordOption').val('2');
+                        $('#submitBtn').html('<i class="far fa-save"></i>&nbsp;Update');
                     }
-                },
-                error: function (xhr, status, error) {
-                    alert('An error occurred: ' + error);
-                }
-            });
+                });
+            }
+        });
+        $('#yearSelect,#monthSelect, #bdm').change(function() {
+            table.draw(); 
         });
     });
 
-    $('#dataTable').on('change', '#selectAll', function() {
-    var checked = $(this).is(':checked');
-    $('.rowCheckbox').prop('checked', checked);
-    });
-    $('#dataTable').on('draw.dt', function() {
-        $('#selectAll').prop('checked', false); 
-    });
-    function complete_confirm() {
-        return confirm("Are you sure you want to complete this?");
+    function deactive_confirm() {
+        return confirm("Are you sure want to deconfirm this?");
     }
 
+    function active_confirm() {
+        return confirm("Are you sure you want to Confirm this?");
+    }
+
+    function delete_confirm() {
+        return confirm("Are you sure you want to remove this?");
+    }
+    function cancel_confirm(){
+        return confirm("Are you sure want to cancel this?");
+    }
 </script>
 <?php include "include/footer.php"; ?>

@@ -21,50 +21,7 @@ include "include/topnavbar.php";
             <div class="container-fluid mt-2 p-0 p-2">
                 <div class="card">
             <div class="card-body p-2">
-            <div class="row align-items-end"> 
-            <div class="col-md-4 col-lg-3">
-                    <label for="yearSelect">Select Year</label>
-                            <select id="yearSelect" class="form-control form-control-sm">
-                                <option value="">All Years</option>
-                                    <?php
-                                        $currentYear = date("Y");
-                                        for ($i = $currentYear; $i >= $currentYear - 5; $i--) { 
-                                        echo "<option value='$i'>$i</option>";
-                                        }
-                                ?>
-                    </select>
-                </div>
-
-                <div class="col-md-6 col-lg-3">
-                    <label for="monthSelect">Select Month</label>
-                    <select id="monthSelect" class="form-control form-control-sm">
-                        <option value="">All Months</option>
-                        <option value="01">January</option>
-                        <option value="02">February</option>
-                        <option value="03">March</option>
-                        <option value="04">April</option>
-                        <option value="05">May</option>
-                        <option value="06">June</option>
-                        <option value="07">July</option>
-                        <option value="08">August</option>
-                        <option value="09">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
-                    </select>
-                </div>
-
-                <div class="col-md-6 col-lg-3">
-                    <label for="bdm">Select BDM</label>
-                    <select id="bdm" class="form-control form-control-sm">
-                        <?php foreach ($user->result() as $users) { ?>
-                            <option value="<?php echo $users->idtbl_res_user; ?>">
-                                <?php echo $users->name; ?>
-                            </option>
-                        <?php } ?>
-                    </select>
-                </div>
-            </div>
+            
                     <div class="card-body p-0 p-2">
                         <div class="row">     
                             <div class="col-12">
@@ -81,6 +38,7 @@ include "include/topnavbar.php";
                                             <th>Task</th>
                                             <th>Itenary</th>
                                             <th>Meet Location</th>
+                                            <th>Status</th>
                                             <th class="text-right">Actions</th>
                                         </tr>
                                     </thead>
@@ -199,11 +157,9 @@ include "include/topnavbar.php";
             ajax: {
                 url: "<?php echo base_url() ?>scripts/approvelist.php",
                 type: "POST", 
-                "data": function(d) {
-                d.bdm = $('#bdm').val();   
-                d.month = $('#monthSelect').val(); 
-                d.year = $('#yearSelect').val(); 
-            }
+                data: {
+                    userid: <?php echo json_encode($_SESSION['userid']); ?>
+                }
             },
             "order": [[ 0, "desc" ]],
             "columns": [
@@ -222,6 +178,7 @@ include "include/topnavbar.php";
                 { "data": "task"},
                 { "data": "itenary"},
                 { "data": "location"},
+                { "data": "actions"},
                 
                 {
                     "targets": -1,
@@ -230,6 +187,22 @@ include "include/topnavbar.php";
                     "render": function(data, type, full) {
                         var button='';
                         var request = full['edit_request'];
+                        var confirm = full['confirmation'];
+                        var editrequest = full['edit_request'];
+
+                        button += '<button class="btn btn-primary btn-sm btnEdit mr-1 ';
+                        if (!((confirm == 2) || (editcheck == 1 && editrequest == 2))) {
+                            button += 'd-none';
+                        }
+                        button += '" id="' + full['idtbl_job_list'] + '"><i class="fas fa-pen"></i></button>';
+
+                        button += '<a href="<?php echo base_url() ?>ChangeRequest/Editrequest/' + full['idtbl_job_list'] + '/1" onclick="return confirm_request()" target="_self" class="btn btn-primary btn-sm mr-1 '
+                        if (confirm != 1 || editrequest != 0) {
+                            button += 'd-none';
+                        }
+                        button += '" id="' + full['idtbl_job_list'] + '"><i class="fa fa-paper-plane"></i></a>';
+
+
                         button+='<a href="<?php echo base_url() ?>ChangeRequest/Editrequest/'+full['idtbl_job_list']+'/2" onclick="return confirm_request()" target="_self" class="btn btn-primary btn-sm mr-1 ';
                             if(statuscheck!=1 || request!=1)
                             {
@@ -244,11 +217,11 @@ include "include/topnavbar.php";
                             } else if (full['confirmation'] == 3) {
                                 button += '<button type="button" class="btn btn-danger btn-sm mr-1"><i class="fas fa-times"></i></button>';
                             }
-                        button+='<a href="<?php echo base_url() ?>ChangeRequest/Jobstatus/'+full['idtbl_job_list']+'/3" onclick="return delete_confirm()" target="_self" class="btn btn-danger btn-sm ';
-                        if(deletecheck!=1){
-                            button+='d-none';
-                        }
-                        button+='"><i class="fas fa-trash-alt"></i></a>';
+                        // button+='<a href="<?php echo base_url() ?>ChangeRequest/Jobstatus/'+full['idtbl_job_list']+'/3" onclick="return delete_confirm()" target="_self" class="btn btn-danger btn-sm ';
+                        // if(deletecheck!=1){
+                        //     button+='d-none';
+                        // }
+                        // button+='"><i class="fas fa-trash-alt"></i></a>';
                         
                         return button;
                     }
@@ -289,17 +262,17 @@ include "include/topnavbar.php";
             table.draw(); 
         });
     });
-    $('#staticBackdrop').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget);
-    var idtbl_job_list = button.data('idtbl_job_list');
-    $('#modalIdTbljoblistField').val(idtbl_job_list);
-});
+//     $('#staticBackdrop').on('show.bs.modal', function (event) {
+//     var button = $(event.relatedTarget);
+//     var idtbl_job_list = button.data('idtbl_job_list');
+//     $('#modalIdTbljoblistField').val(idtbl_job_list);
+// });
 
-    $('#pospondModal').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget);
-        var idtbl_job_list = button.data('idtbl_job_list');
-        $('#modalDateId').val(idtbl_job_list);
-    });
+//     $('#pospondModal').on('show.bs.modal', function(event) {
+//         var button = $(event.relatedTarget);
+//         var idtbl_job_list = button.data('idtbl_job_list');
+//         $('#modalDateId').val(idtbl_job_list);
+//     });
 
 
 

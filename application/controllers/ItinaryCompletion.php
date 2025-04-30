@@ -11,10 +11,28 @@ class ItinaryCompletion extends CI_Controller {
 		$this->load->view('itinarycompletion', $result);
 	}
 
-    public function ItinaryCmpletionStatus($x, $y){
-		$this->load->model('ItinaryCompletioninfo');
-        $result=$this->ItinaryCompletioninfo->ItinaryCmpletionStatus($x, $y);
+//     public function ItinaryCmpletionStatus($x, $y){
+// 		$this->load->model('ItinaryCompletioninfo');
+//         $result=$this->ItinaryCompletioninfo->ItinaryCmpletionStatus($x, $y);
 
+
+// }
+public function ItinaryCmpletionStatus() {
+    $this->load->model('ItinaryCompletioninfo');
+
+    $ids = $this->input->post('ids');
+
+    if (empty($ids)) {
+        echo json_encode(['status' => 'error', 'message' => 'No data provided.']);
+        return;
+    }
+        $result = $this->ItinaryCompletioninfo->ItinaryCmpletionStatus($ids);
+
+        if ($result) {
+            echo json_encode(['status' => 'success', 'message' => 'Data updated successfully.']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Failed to update data.']);
+        }
 
 }
 }

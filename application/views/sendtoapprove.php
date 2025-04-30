@@ -58,7 +58,10 @@ include "include/topnavbar.php";
 
                                     <div class="col-md-4 col-lg-3">
                                         <label for="bdm">Select BDM</label>
-                                        <select id="bdm" class="form-control form-control-sm">
+                                        <select id="bdm" class="form-control form-control-sm" >
+                                            <option value="<?php echo $_SESSION['userid'];?>" style="display:none;">
+                                                <?php echo $_SESSION['name'];?>
+                                            </option>
                                             <?php foreach ($user->result() as $users) { ?>
                                                 <option value="<?php echo $users->idtbl_res_user; ?>">
                                                     <?php echo $users->name; ?>
@@ -74,6 +77,7 @@ include "include/topnavbar.php";
                                         <table class="table table-bordered table-striped table-sm nowrap" id="dataTable" width="100%">
                                             <thead>
                                                 <tr>
+                                                    <th><input type="checkbox" id="selectAll"></th>
                                                     <th>#</th>
                                                     <th>Date</th>
                                                     <th>Start Time</th>
@@ -111,86 +115,94 @@ include "include/topnavbar.php";
         var statuscheck='<?php echo $statuscheck; ?>';
         var deletecheck='<?php echo $deletecheck; ?>';
 
-       var table = $('#dataTable').DataTable({
-            "destroy": true,
-            "processing": true,
-            "serverSide": true,
-            dom: "<'row'<'col-sm-5'B><'col-sm-2'l><'col-sm-5'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-            responsive: true,
-            lengthMenu: [
-                [10, 25, 50, -1],
-                [10, 25, 50, 'All'],
-            ],
-            "buttons": [
-                { extend: 'csv', className: 'btn btn-success btn-sm', title: 'Job Information', text: '<i class="fas fa-file-csv mr-2"></i> CSV', },
-                { extend: 'pdf', className: 'btn btn-danger btn-sm', title: 'Job Information', text: '<i class="fas fa-file-pdf mr-2"></i> PDF', },
-                { 
-                    extend: 'print', 
-                    title: 'Job Information',
-                    className: 'btn btn-primary btn-sm', 
-                    text: '<i class="fas fa-print mr-2"></i> Print',
-                    customize: function ( win ) {
-                        $(win.document.body).find( 'table' )
-                            .addClass( 'compact' )
-                            .css( 'font-size', 'inherit' );
-                    }, 
-                },
-                // 'copy', 'csv', 'excel', 'pdf', 'print'
-            ],
-            ajax: {
-                url: "<?php echo base_url() ?>scripts/sendtoapprove.php",
-                type: "POST", 
-                "data": function(d) {
-                d.bdm = $('#bdm').val();   
-                d.month = $('#monthSelect').val(); 
-                d.year = $('#yearSelect').val(); 
+    var table = $('#dataTable').DataTable({
+    "destroy": true,
+    "processing": true,
+    "serverSide": true,
+    dom: "<'row'<'col-sm-5'B><'col-sm-2'l><'col-sm-5'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+    responsive: true,
+    lengthMenu: [
+        [10, 25, 50, -1],
+        [10, 25, 50, 'All'],
+    ],
+    buttons: [
+        { extend: 'csv', className: 'btn btn-success btn-sm', title: 'Job Information', text: '<i class="fas fa-file-csv mr-2"></i> CSV' },
+        { extend: 'pdf', className: 'btn btn-danger btn-sm', title: 'Job Information', text: '<i class="fas fa-file-pdf mr-2"></i> PDF' },
+        { 
+            extend: 'print', 
+            title: 'Job Information',
+            className: 'btn btn-primary btn-sm', 
+            text: '<i class="fas fa-print mr-2"></i> Print',
+            customize: function (win) {
+                $(win.document.body).find('table')
+                    .addClass('compact')
+                    .css('font-size', 'inherit');
+            }, 
+        }
+    ],
+    ajax: {
+        url: "<?php echo base_url() ?>scripts/sendtoapprove.php",
+        type: "POST", 
+        data: function(d) {
+            d.bdm = $('#bdm').val();   
+            d.month = $('#monthSelect').val(); 
+            d.year = $('#yearSelect').val(); 
+        }
+    },
+    "order": [[2, "desc"]], 
+    "columns": [
+        {
+            "data": null,
+            "orderable": false,
+            "searchable": false,
+            "render": function(data, type, row) {
+                return '<input type="checkbox" class="rowCheckbox" value="' + row.idtbl_job_list + '">';
             }
-            },
-            "order": [[ 0, "desc" ]],
-            "columns": [
-                {  
-                "data": null,
-                "render": function(data, type, row, meta) {
-                    return meta.row + 1 + meta.settings._iDisplayStart;
-                } 
-                 },  
-                                        
-                { "data": "start_date" },    
-                { "data": "start_time" }, 
-                { "data": "end_time"},
-                { "data": "itenary_type"},
-                { "data": "itenary_category" },                    
-                { "data": "group" },
-                { "data": "task"},
-                { "data": "location"},
-                { "data": "itenary"},
-                { "data": "meet_location"}
-            ],
-            drawCallback: function(settings) {
-                $('[data-toggle="tooltip"]').tooltip();
+        },
+        {
+            "data": null,
+            "orderable": false,
+            "searchable": false,
+            "render": function(data, type, row, meta) {
+                return meta.row + 1 + meta.settings._iDisplayStart;
             }
-        });
+        },
+        { "data": "start_date" },
+        { "data": "start_time" },
+        { "data": "end_time" },
+        { "data": "itenary_type" },
+        { "data": "itenary_category" },
+        { "data": "group" },
+        { "data": "task" },
+        { "data": "location" },
+        { "data": "itenary" },
+        { "data": "meet_location" }
+    ],
+    drawCallback: function(settings) {
+        $('[data-toggle="tooltip"]').tooltip();
+    }
+});
+
 $('#yearSelect,#monthSelect, #bdm').change(function() {
             table.draw(); 
-        });
-        $('#insertDataButton').on('click', function () {
-    let table = $('#dataTable').DataTable();
-    let displayedRows = table.rows({ filter: 'applied' }).data();
-    let idsToUpdate = [];
+});
 
-    displayedRows.each(function (rowData) {
-        idsToUpdate.push(rowData.idtbl_job_list); 
+$('#insertDataButton').on('click', function () {
+    let selectedIds = [];
+
+    $('.rowCheckbox:checked').each(function () {
+        selectedIds.push($(this).val());
     });
 
-    if (idsToUpdate.length === 0) {
-        alert('No data available to send for approval.');
+    if (selectedIds.length === 0) {
+        alert('Please select at least one row to send for approval.');
         return;
     }
 
     $.ajax({
         url: "<?php echo site_url('Sendtoapprove/updateApprovalStatus'); ?>",
         type: "POST",
-        data: { ids: idsToUpdate },
+        data: { ids: selectedIds },
         success: function (response) {
             let result = JSON.parse(response);
             if (result.status === 'success') {
@@ -206,6 +218,14 @@ $('#yearSelect,#monthSelect, #bdm').change(function() {
     });
 });
 
+});
+
+$('#dataTable').on('change', '#selectAll', function() {
+    var checked = $(this).is(':checked');
+    $('.rowCheckbox').prop('checked', checked);
+});
+$('#dataTable').on('draw.dt', function() {
+    $('#selectAll').prop('checked', false); 
 });
 </script>
 <?php include "include/footer.php"; ?> 

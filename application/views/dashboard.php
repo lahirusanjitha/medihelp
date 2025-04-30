@@ -96,7 +96,10 @@
 
                         <div class="col-md-6 col-lg-3">
                             <label for="bdm">Select Bdm</label>
-                            <select name="bdm" id="bdm" class="form-control form-control-sm">
+                            <select name="bdm" id="bdm" class="form-control form-control-sm" >
+                                <option value="<?php echo $_SESSION['userid'];?>" style="display:none;">
+                                    <?php echo $_SESSION['name'];?>
+                                </option>
                                 <?php foreach ($user->result() as $users) { ?>
                                     <option value="<?php echo $users->idtbl_res_user; ?>">
                                         <?php echo $users->name; ?>
