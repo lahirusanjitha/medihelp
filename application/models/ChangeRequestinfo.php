@@ -174,7 +174,7 @@ public function Editrequest($x, $y){
             $actionJSON=json_encode($actionObj);
             
             $this->session->set_flashdata('msg', $actionJSON);
-            redirect('Job');                
+            redirect('ChangeRequest');                
         } else {
             $this->db->trans_rollback();
 
@@ -189,7 +189,7 @@ public function Editrequest($x, $y){
             $actionJSON=json_encode($actionObj);
             
             $this->session->set_flashdata('msg', $actionJSON);
-            redirect('Job');
+            redirect('ChangeRequest');
         }
     }
     else if($type==2){

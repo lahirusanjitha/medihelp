@@ -76,6 +76,8 @@ include "include/topnavbar.php";
                                         <tr>
                                             <th>#</th>
                                             <th>Date</th>
+                                            <th>Start Time</th>
+                                            <th>End Time</th>
                                            <!-- <th>Task</th> -->
                                             <th>Itenary</th>
                                             <th>Feedback Type</th>
@@ -147,6 +149,8 @@ include "include/topnavbar.php";
                 } 
                  },                
                 { "data": "start_date" },    
+                { "data": "start_time" },  
+                { "data": "end_time" },  
                 //{ "data": "task"},
                 { "data": "itenary"},
                 { "data": "feedback_type"},

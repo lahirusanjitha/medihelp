@@ -9,9 +9,19 @@ class ChangeRequest extends CI_Controller {
         $this->load->model('ChangeRequestinfo');
         $this->load->model('Dashboardinfo');
         $this->load->model('RejectReasoninfo');
+        $this->load->model('Itenarycategoryinfo');
+        $this->load->model('Itenarygroupinfo');
+        $this->load->model('Itenarytypeinfo');
+        $this->load->model('Locationinfo');
+        $this->load->model('Jobinfo');
 		$result['menuaccess']=$this->Commeninfo->Getmenuprivilege();
+        $result['itenarycategory']=$this->Itenarycategoryinfo->Getcategory(); 
+        $result['Itenarygroup']=$this->Itenarygroupinfo->getGroup();
+        $result['iternarytype'] = $this->Itenarytypeinfo->GetIternarytype();  
+        $result['locationdetails'] = $this->Locationinfo->getLocation(); 
         $result['user'] = $this->Dashboardinfo->getUser();
         $result['RejectReason'] = $this->RejectReasoninfo->getRejectReason();
+        $result['time'] = $this->Jobinfo->generateFullDayTimeOptions(); 
 		$this->load->view('changerequest', $result);
 	}
 

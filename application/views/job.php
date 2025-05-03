@@ -41,13 +41,27 @@ include "include/topnavbar.php";
                                     <label class="small font-weight-bold">Date*</label>
                                     <input type="date" class="form-control form-control-sm" name="date" id="date" required>
                                 </div>
-                                <div class="col-auto">
+                                <!-- <div class="col-auto">
                                     <label class="small font-weight-bold">Start time*</label>
                                     <input type="time" class="form-control form-control-sm" name="start_time" id="start_time" required>
-                                </div>
+                                </div> -->
                                 <div class="col-auto">
+                                    <label class="small font-weight-bold">Start time*</label>
+                                    <select class="form-control form-control-sm" name="start_time" id="start_time" required>
+                                        <option value="">-- Select Time --</option>
+                                        <?= $time;?>
+                                    </select>
+                                </div>
+                                <!-- <div class="col-auto">
                                     <label class="small font-weight-bold">End time*</label>
                                     <input type="time" class="form-control form-control-sm" name="end_time" id="end_time" required>
+                                </div> -->
+                                <div class="col-auto">
+                                    <label class="small font-weight-bold">End time*</label>
+                                    <select class="form-control form-control-sm" name="end_time" id="end_time" required>
+                                        <option value="">-- Select Time --</option>
+                                        <?= $time;?>
+                                    </select>
                                 </div>
                                 <div class="col-auto">
                                     <label class="small font-weight-bold">Itinerary Type*</label>
@@ -213,6 +227,8 @@ include "include/topnavbar.php";
         var statuscheck='<?php echo $statuscheck; ?>';
         var deletecheck='<?php echo $deletecheck; ?>';
 
+        // $("#start_time").select2();
+
         $('#dataTable').DataTable({
             "destroy": true,
             "processing": true,
@@ -361,6 +377,10 @@ include "include/topnavbar.php";
                 });
             }
         });
+        
+    //     $('#start_time').select2({
+    // });
+
     });
  
     $('#staticBackdrop').on('show.bs.modal', function (event) {
@@ -370,6 +390,7 @@ include "include/topnavbar.php";
 
     $('#modaltblJobListField').val(idtbl_job_list);
 });
+
 
     function pause_confirm() {
         return confirm("Are you sure you want to pause this?");

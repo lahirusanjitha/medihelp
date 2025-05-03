@@ -13,6 +13,8 @@ $primaryKey = 'idtbl_cancelation';
 $columns = array(
     array( 'db' => '`u`.`idtbl_job_list`', 'dt' => 'idtbl_job_list', 'field' => 'idtbl_job_list' ),
     array( 'db' => '`u`.`start_date`', 'dt' => 'start_date', 'field' => 'start_date' ),
+    array( 'db' => '`u`.`start_time`', 'dt' => 'start_time', 'field' => 'start_time' ),
+    array( 'db' => '`u`.`end_time`', 'dt' => 'end_time', 'field' => 'end_time' ),
     array( 'db' => '`u`.`task`', 'dt' => 'task', 'field' => 'task' ),
     array( 'db' => '`u`.`itenary`', 'dt' => 'itenary', 'field' => 'itenary' ),
     array( 'db' => '`u`.`meet_location`', 'dt' => 'location', 'field' => 'meet_location' ),

@@ -18,6 +18,7 @@ class Job extends CI_Controller {
         $result['iternarytype'] = $this->Itenarytypeinfo->GetIternarytype();  
         $result['locationdetails'] = $this->Locationinfo->getLocation(); 
         $result['feedbacktype'] = $this->FeedbackTypeinfo->getFeedbackType(); 
+        $result['time'] = $this->Jobinfo->generateFullDayTimeOptions(); 
 		$this->load->view('job', $result);
 	}
     public function Jobinsertupdate(){

@@ -74,6 +74,8 @@ include "include/topnavbar.php";
                                         <tr>
                                             <th>#</th>
                                             <th>Date</th>
+                                            <th>Start Time</th>
+                                            <th>End Time</th>
                                             <th>Posponed Date</th>
                                             <th>Posponed Reason</th>
                                             <th>Itenary</th>
@@ -143,6 +145,8 @@ include "include/topnavbar.php";
                 } 
                  },                         
                 { "data": "start_date" },    
+                { "data": "start_time" },  
+                { "data": "end_time" }, 
                // { "data": "task"},
                 { "data": "postponed_date"},
                 { "data": "reason"},

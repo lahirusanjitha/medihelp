@@ -124,7 +124,6 @@ include "include/topnavbar.php";
                         var confirm = full['confirmation'];
                         var editrequest = full['edit_request'];
 
-
                         button+='<a href="<?php echo base_url() ?>ChangeRequest/Editrequest/'+full['idtbl_job_list']+'/2" onclick="return confirm_request()" target="_self" class="btn btn-primary btn-sm mr-1 ';
                             if(statuscheck!=1 || request!=1)
                             {
@@ -141,32 +140,34 @@ include "include/topnavbar.php";
             }
         });
         $('#dataTable tbody').on('click', '.btnEdit', function() {
-            var r = confirm("Are you sure, You want to Edit this ? ");
-            if (r == true) {
-                var id = $(this).attr('id');
-                $.ajax({
-                    type: "POST",
-                    data: {
-                        recordID: id
-                    },
-                    url: '<?php echo base_url() ?>Job/Jobedit',
-                    success: function(result) { //alert(result);
-                        var obj = JSON.parse(result);
-                        $('#recordID').val(obj.id);
-                        $('#start_date').val(obj.start_date);
-                        $('#end_date').val(obj.end_date); 
-                        $('#category').val(obj.itenary_category);
-                        $('#sub_category').val(obj.sub_category);                        
-                        $('#group').val(obj.group);
-                        $('#task').val(obj.task);  
-                        $('#location').val(obj.location);                     
+            var id = $(this).data('id');
+            $.ajax({
+                url: '<?php echo base_url() ?>Job/Jobedit',
+                type: 'POST',
+                data: { recordID: id },
+                success: function(response) {
+                    var obj = JSON.parse(response);
+                    $('#recordID').val(obj.id);
+                    $('#month').val(obj.month);
+                    $('#date').val(obj.start_date);
+                    $('#start_time').val(obj.start_time);
+                    $('#end_time').val(obj.end_time);
+                    $('#type').val(obj.itenary_type);
+                    $('#category').val(obj.itenary_category);
+                    $('#group').val(obj.group);
+                    $('#task').val(obj.task);
+                    $('#itenary').val(obj.itenary);
+                    $('#location').val(obj.location);
+                    $('#meet_location').val(obj.meet_location);
 
-                        $('#recordOption').val('2');
-                        $('#submitBtn').html('<i class="far fa-save"></i>&nbsp;Update');
-                    }
-                });
-            }
+                    $('#recordOption').val('2');
+                    $('#submitBtn').html('<i class="far fa-save"></i>&nbsp;Update');
+
+                    $('#editModal').modal('show');
+                }
+            });
         });
+
         $('#yearSelect,#monthSelect, #bdm').change(function() {
             table.draw(); 
         });

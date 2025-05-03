@@ -120,7 +120,7 @@ class Jobinfo extends CI_Model{
                 $actionJSON=json_encode($actionObj);
                 
                 $this->session->set_flashdata('msg', $actionJSON);
-                redirect('Job');                
+                redirect('ChangeRequest');                
             } else {
                 $this->db->trans_rollback();
 
@@ -308,8 +308,21 @@ class Jobinfo extends CI_Model{
 
         echo json_encode($obj);
 
+    }
 
-
+    public function generateFullDayTimeOptions($interval = 1) {
+        $startTime = strtotime('00:00');
+        $endTime = strtotime('23:59');
+        $options = '';
+    
+        while ($startTime <= $endTime) {
+            $value = date("H:i", $startTime);           
+            $label = date("h:i A", $startTime);         
+            $options .= "<option value=\"$value\">$label</option>\n";
+            $startTime = strtotime("+$interval minutes", $startTime);
+        }
+    
+        return $options;
     }
     
     

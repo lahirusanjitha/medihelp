@@ -15,10 +15,6 @@ class EditApproval extends CI_Controller {
 		$this->load->view('editapproval', $result);
 	}
 
-    // public function Jobstatus($x, $y){
-	// 	$this->load->model('ChangeRequestinfo');
-    //     $result=$this->ChangeRequestinfo->Jobstatus($x, $y);
-	// }
     public function Editrequest($x, $y){
         $this->load->model('ChangeRequestinfo');
         $result=$this->ChangeRequestinfo->Editrequest($x, $y);

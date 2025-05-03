@@ -74,8 +74,15 @@ include "include/topnavbar.php";
                                         <tr>
                                             <th>#</th>
                                             <th>Date</th>
-                                            <th>Task</th>
-                                            <th>Itenary</th>
+                                            <th>Start Time</th>
+                                            <th>End Time</th>
+                                            <!-- <th>Itinerary Type</th>
+                                            <th>Itinerary Category</th> -->
+                                            <th>Itinerary Status</th>
+                                            <!-- <th>Task</th>
+                                            <th>Location</th> -->
+                                            <th>Itinerary</th>
+                                            <!-- <th>Meet Location</th> -->
                                         </tr>
                                     </thead>
                                 </table>
@@ -142,8 +149,15 @@ include "include/topnavbar.php";
                 } 
                  },                          
                 { "data": "start_date" },    
-                { "data": "task"},
+                { "data": "start_time" }, 
+                { "data": "end_time"},
+                // { "data": "itenary_type"},
+                // { "data": "itenary_category" },                    
+                { "data": "group" },
+                // { "data": "task"},
+                // { "data": "location"},
                 { "data": "itenary"},
+                // { "data": "meet_location"},
                    
             ],
             drawCallback: function(settings) {

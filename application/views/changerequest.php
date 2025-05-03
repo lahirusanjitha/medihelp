@@ -54,6 +54,112 @@ include "include/topnavbar.php";
 </div>
 </div>
 
+<!-- Edit Job Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <form action="<?php echo base_url() ?>Job/Jobinsertupdate" method="post" autocomplete="off">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel">Edit Job</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row align-items-end">
+            <div class="col-auto">
+              <label class="small font-weight-bold">Month*</label>
+              <input type="month" class="form-control form-control-sm" name="month" id="month" required>
+            </div>
+            <div class="col-auto">
+              <label class="small font-weight-bold">Date*</label>
+              <input type="date" class="form-control form-control-sm" name="date" id="date" required>
+            </div>
+            <div class="col-auto">
+              <label class="small font-weight-bold">Start time*</label>
+               <select class="form-control form-control-sm" name="start_time" id="start_time" required>
+              <option value=""></option>
+              <?= $time;?>
+              </select>
+            </div>
+            <div class="col-auto">
+              <label class="small font-weight-bold">End time*</label>
+                <select class="form-control form-control-sm" name="end_time" id="end_time" required>
+                 <option value="">-- Select Time --</option>
+                <?= $time;?>
+               </select>
+            </div>
+            <div class="col-auto">
+              <label class="small font-weight-bold">Itinerary Type*</label>
+              <select class="form-control form-control-sm" name="type" id="type" required>
+                <option value="">Select</option>
+                <?php foreach ($iternarytype->result() as $type) { ?>
+                  <option value="<?php echo $type->idtbl_itenary_type ?>">
+                    <?php echo $type->itenary_type ?>
+                  </option>
+                <?php } ?>
+              </select>
+            </div>
+            <div class="col-auto">
+              <label class="small font-weight-bold">Itinerary Category*</label>
+              <select class="form-control form-control-sm" name="category" id="category" required>
+                <option value="">Select</option>
+                <?php foreach ($itenarycategory->result() as $category) { ?>
+                  <option value="<?php echo $category->idtbl_itenary_category ?>">
+                    <?php echo $category->itenary_category ?>
+                  </option>
+                <?php } ?>
+              </select>
+            </div>
+            <div class="col-auto">
+              <label class="small font-weight-bold">Itinerary Status*</label>
+              <select class="form-control form-control-sm" name="group" id="group" required>
+                <option value="">Select</option>
+                <?php foreach ($Itenarygroup->result() as $group) { ?>
+                  <option value="<?php echo $group->tblid_itenary_group ?>">
+                    <?php echo $group->group ?>
+                  </option>
+                <?php } ?>
+              </select>
+            </div>
+            <div class="col-4">
+              <label class="small font-weight-bold">Itinerary*</label>
+              <textarea class="form-control form-control-sm" name="itenary" id="itenary" rows="4" maxlength="320" required></textarea>
+            </div>
+            <div class="col-auto">
+              <label class="small font-weight-bold">Task*</label>
+              <input type="number" class="form-control form-control-sm" name="task" id="task" required>
+            </div>
+            <div class="col-auto">
+              <label class="small font-weight-bold">Location*</label>
+              <select class="form-control form-control-sm" name="location" id="location" required>
+                <option value="">Select</option>
+                <?php foreach ($locationdetails->result() as $location) { ?>
+                  <option value="<?php echo $location->idtbl_location ?>">
+                    <?php echo $location->name ?>
+                  </option>
+                <?php } ?>
+              </select>
+            </div>
+            <div class="col-auto">
+              <label class="small font-weight-bold">Meet Location*</label>
+              <input type="text" class="form-control form-control-sm" name="meet_location" id="meet_location" required>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <input type="hidden" name="recordOption" id="recordOption" value="2">
+          <input type="hidden" name="recordID" id="recordID" value="">
+          <button type="submit" id="submitBtn" class="btn btn-primary btn-sm px-4" <?php if ($addcheck == 0) echo 'disabled'; ?>>
+            <i class="far fa-save"></i>&nbsp;Update
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
 <div class="modal fade" id="pospondModal" tabindex="-1" role="dialog" aria-labelledby="dateInputModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -120,6 +226,7 @@ include "include/topnavbar.php";
             </form>
         </div>
     </div>
+
 <?php include "include/footerscripts.php"; ?>
 <script>
     $(document).ready(function() {
@@ -194,21 +301,14 @@ include "include/topnavbar.php";
                         if (!((confirm == 2) || (editcheck == 1 && editrequest == 2))) {
                             button += 'd-none';
                         }
-                        button += '" id="' + full['idtbl_job_list'] + '"><i class="fas fa-pen"></i></button>';
+                        button += '" data-id="'+full['idtbl_job_list']+'"><i class="fa fa-pen"></i></button>';
+
 
                         button += '<a href="<?php echo base_url() ?>ChangeRequest/Editrequest/' + full['idtbl_job_list'] + '/1" onclick="return confirm_request()" target="_self" class="btn btn-primary btn-sm mr-1 '
                         if (confirm != 1 || editrequest != 0) {
                             button += 'd-none';
                         }
                         button += '" id="' + full['idtbl_job_list'] + '"><i class="fa fa-paper-plane"></i></a>';
-
-
-                        button+='<a href="<?php echo base_url() ?>ChangeRequest/Editrequest/'+full['idtbl_job_list']+'/2" onclick="return confirm_request()" target="_self" class="btn btn-primary btn-sm mr-1 ';
-                            if(statuscheck!=1 || request!=1)
-                            {
-                                button+='d-none';
-                            }
-                                button+='"><i class="fa fa-check""></i></a>';
                         
                         button += '<button type="button" class="btn btn-info btn-sm mr-1" data-toggle="modal" data-target="#pospondModal" data-idtbl_job_list="' + full['idtbl_job_list'] + '"><i class="fas fa-pause"></i></button>';
 
@@ -217,12 +317,7 @@ include "include/topnavbar.php";
                             } else if (full['confirmation'] == 3) {
                                 button += '<button type="button" class="btn btn-danger btn-sm mr-1"><i class="fas fa-times"></i></button>';
                             }
-                        // button+='<a href="<?php echo base_url() ?>ChangeRequest/Jobstatus/'+full['idtbl_job_list']+'/3" onclick="return delete_confirm()" target="_self" class="btn btn-danger btn-sm ';
-                        // if(deletecheck!=1){
-                        //     button+='d-none';
-                        // }
-                        // button+='"><i class="fas fa-trash-alt"></i></a>';
-                        
+
                         return button;
                     }
                 }
@@ -232,47 +327,50 @@ include "include/topnavbar.php";
             }
         });
         $('#dataTable tbody').on('click', '.btnEdit', function() {
-            var r = confirm("Are you sure, You want to Edit this ? ");
-            if (r == true) {
-                var id = $(this).attr('id');
-                $.ajax({
-                    type: "POST",
-                    data: {
-                        recordID: id
-                    },
-                    url: '<?php echo base_url() ?>Job/Jobedit',
-                    success: function(result) { //alert(result);
-                        var obj = JSON.parse(result);
-                        $('#recordID').val(obj.id);
-                        $('#start_date').val(obj.start_date);
-                        $('#end_date').val(obj.end_date); 
-                        $('#category').val(obj.itenary_category);
-                        $('#sub_category').val(obj.sub_category);                        
-                        $('#group').val(obj.group);
-                        $('#task').val(obj.task);  
-                        $('#location').val(obj.location);                     
+            var id = $(this).data('id');
+            $.ajax({
+                url: '<?php echo base_url() ?>Job/Jobedit',
+                type: 'POST',
+                data: { recordID: id },
+                success: function(response) {
+                    var obj = JSON.parse(response);
+                    $('#recordID').val(obj.id);
+                    $('#month').val(obj.month);
+                    $('#date').val(obj.start_date);
+                    $('#start_time').val(obj.start_time);
+                    $('#end_time').val(obj.end_time);
+                    $('#type').val(obj.itenary_type);
+                    $('#category').val(obj.itenary_category);
+                    $('#group').val(obj.group);
+                    $('#task').val(obj.task);
+                    $('#itenary').val(obj.itenary);
+                    $('#location').val(obj.location);
+                    $('#meet_location').val(obj.meet_location);
 
-                        $('#recordOption').val('2');
-                        $('#submitBtn').html('<i class="far fa-save"></i>&nbsp;Update');
-                    }
-                });
-            }
+                    $('#recordOption').val('2');
+                    $('#submitBtn').html('<i class="far fa-save"></i>&nbsp;Update');
+
+                    $('#editModal').modal('show');
+                }
+            });
         });
-        $('#yearSelect,#monthSelect, #bdm').change(function() {
-            table.draw(); 
-        });
+
+
+        // $('#yearSelect,#monthSelect, #bdm').change(function() {
+        //     table.draw(); 
+        // });
     });
-//     $('#staticBackdrop').on('show.bs.modal', function (event) {
-//     var button = $(event.relatedTarget);
-//     var idtbl_job_list = button.data('idtbl_job_list');
-//     $('#modalIdTbljoblistField').val(idtbl_job_list);
-// });
+    $('#staticBackdrop').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    var idtbl_job_list = button.data('idtbl_job_list');
+    $('#modalIdTbljoblistField').val(idtbl_job_list);
+});
 
-//     $('#pospondModal').on('show.bs.modal', function(event) {
-//         var button = $(event.relatedTarget);
-//         var idtbl_job_list = button.data('idtbl_job_list');
-//         $('#modalDateId').val(idtbl_job_list);
-//     });
+    $('#pospondModal').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget);
+        var idtbl_job_list = button.data('idtbl_job_list');
+        $('#modalDateId').val(idtbl_job_list);
+    });
 
 
 

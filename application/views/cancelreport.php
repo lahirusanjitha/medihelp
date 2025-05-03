@@ -74,6 +74,8 @@ include "include/topnavbar.php";
                                         <tr>
                                             <th>#</th>
                                             <th>Date</th>
+                                            <th>Start Time</th>
+                                            <th>End Time</th>
                                            <!-- <th>Task</th> -->
                                             <th>Itenary</th>
                                             <th>Reason Type</th>
@@ -143,7 +145,9 @@ include "include/topnavbar.php";
                     return meta.row + 1 + meta.settings._iDisplayStart;
                 } 
                  },         
-                { "data": "start_date" },    
+                { "data": "start_date" },   
+                { "data": "start_time" },  
+                { "data": "end_time" },  
                // { "data": "task"},
                 { "data": "itenary"},
                 { "data": "cancel_reason"},
