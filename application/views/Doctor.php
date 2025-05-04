@@ -120,13 +120,14 @@ include "include/topnavbar.php";
                 // data: function(d) {}
             },
             "order": [[ 0, "desc" ]],
-            "columns": [    
-                {  
-                "data": null,
-                "render": function(data, type, row, meta) {
-                    return meta.row + 1 + meta.settings._iDisplayStart;
-                } 
-                 },                    
+            "columns": [ 
+                { "data": "idtbl_doctor"},   
+                // {  
+                // "data": null,
+                // "render": function(data, type, row, meta) {
+                //     return meta.row + 1 + meta.settings._iDisplayStart;
+                // } 
+                //  },                    
                 { "data": "name" },    
                 { "data": "hospital" }, 
                 { "data": "subject" },              

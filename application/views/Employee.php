@@ -106,12 +106,13 @@ include "include/topnavbar.php";
             },
             "order": [[ 0, "desc" ]],
             "columns": [
-                {  
-                "data": null,
-                "render": function(data, type, row, meta) {
-                    return meta.row + 1 + meta.settings._iDisplayStart;
-                } 
-                 },  
+                { "data": "idtbl_employee"},
+                // {  
+                // "data": null,
+                // "render": function(data, type, row, meta) {
+                //     return meta.row + 1 + meta.settings._iDisplayStart;
+                // } 
+                //  },  
                 { 
                     "data": "name"
                  },                    

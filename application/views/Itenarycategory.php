@@ -95,12 +95,13 @@ include "include/topnavbar.php";
             },
             "order": [[ 0, "desc" ]],
             "columns": [
-                                {  
-                "data": null,
-                "render": function(data, type, row, meta) {
-                    return meta.row + 1 + meta.settings._iDisplayStart;
-                } 
-                 },                       
+                { "data": "idtbl_itenary_category"},
+                //                 {  
+                // "data": null,
+                // "render": function(data, type, row, meta) {
+                //     return meta.row + 1 + meta.settings._iDisplayStart;
+                // } 
+                //  },                       
                 { 
                     "data": "itenary_category" 
                 },                   
