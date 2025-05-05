@@ -198,7 +198,7 @@ $('#approveAllBtn').on('click', function () {
     }
 
     $.ajax({
-        url: "<?php echo site_url('ConfirmJob/ApprovalStatus'); ?>",
+        url: "<?php echo site_url('Confirmjob/ApprovalStatus'); ?>",
         type: "POST",
         data: { ids: selectedIds },
         success: function (response) {

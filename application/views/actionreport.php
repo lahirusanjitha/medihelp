@@ -85,8 +85,10 @@ include "include/topnavbar.php";
             ],
             ajax: {
                 url: "<?php echo base_url() ?>scripts/actionreport.php",
-                type: "POST", // you can use GET
-                // data: function(d) {}
+                type: "POST", 
+                data: {
+                    userid: <?php echo json_encode($_SESSION['userid']); ?>
+                }
             },
             "order": [[ 0, "desc" ]],
             "columns": [    

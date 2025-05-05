@@ -24,6 +24,10 @@ $table = 'tbl_job_list';
 // Table's primary key
 $primaryKey = 'idtbl_job_list';
 
+if (isset($_POST['userid'])) {
+    $userid = intval($_POST['userid']); 
+} 
+
 // Array of database columns which should be read and sent back to DataTables.
 // The `db` parameter represents the column name in the database, while the `dt`
 // parameter represents the DataTables column identifier. In this case simple
@@ -61,12 +65,11 @@ $columns = array(
 
             if ($completion == 1) {
                 return '<span class="badge badge-success">Completed</span>';
-            } elseif ($completion == 2) {
-                return '<span class="badge badge-warning">Not Completed</span>';
+            } elseif ($completion == 2 && $confirmation == 1) {
+                return '<span class="badge badge-primary">Approved</span> <span class="badge badge-warning">Not Completed</span>';
+            
             } elseif ($confirmation == 2) {
-                return '<span class="badge badge-secondary">Not Confirmed</span>';
-            } elseif ($confirmation == 1) {
-                return '<span class="badge badge-primary">Confirmed</span>';
+                return '<span class="badge badge-secondary">Not Approved</span>';
             } elseif ($confirmation == 3) {
                 return '<span class="badge badge-danger">Canceled</span>';
             } elseif ($status == 2) {
@@ -105,7 +108,7 @@ $joinQuery = "FROM `tbl_job_list` AS `u`
 	
 
 
-$extraWhere = "`u`.`status` IN (1,2) ";
+$extraWhere = "`u`.`status` IN (1,2)  AND `u`.`tbl_med_user_id` = " . intval($userid);
 
 echo json_encode(
 	SSP::simple( $_POST, $sql_details, $table, $primaryKey, $columns, $joinQuery, $extraWhere)
