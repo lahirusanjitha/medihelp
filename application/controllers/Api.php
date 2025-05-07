@@ -14,6 +14,7 @@ class Api extends REST_Controller {
     /**
 	 * login function.
 	 * 
+	 * @access public
 	 * @return void
 	 */
 	public function login_post() {
