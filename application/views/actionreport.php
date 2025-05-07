@@ -20,8 +20,56 @@ include "include/topnavbar.php";
             </div>
             <div class="container-fluid mt-2 p-0 p-2">
                 <div class="card">
+            <div class="card-body p-2">
+            <div class="row align-items-end">  
+            <div class="col-md-4 col-lg-3">
+                    <label for="yearSelect">Select Year</label>
+                            <select id="yearSelect" class="form-control form-control-sm">
+                                <option value="">All Years</option>
+                                    <?php
+                                        $currentYear = date("Y");
+                                        for ($i = $currentYear; $i >= $currentYear - 5; $i--) { 
+                                        echo "<option value='$i'>$i</option>";
+                                        }
+                                ?>
+                    </select>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <label for="monthSelect">Select Month</label>
+                    <select id="monthSelect" class="form-control form-control-sm">
+                        <option value="">All Months</option>
+                        <option value="01">January</option>
+                        <option value="02">February</option>
+                        <option value="03">March</option>
+                        <option value="04">April</option>
+                        <option value="05">May</option>
+                        <option value="06">June</option>
+                        <option value="07">July</option>
+                        <option value="08">August</option>
+                        <option value="09">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                <label for="bdm">Select BDM</label>
+                <select id="bdm" class="form-control form-control-sm" <?php if($statuscheck != 1) echo 'disabled'; ?>>
+                    <?php foreach ($user->result() as $users) { ?>
+                        <option value="<?php echo $_SESSION['userid'];?>" style="display:none;">
+                            <?php echo $_SESSION['name'];?>
+                        </option>
+                        <option value="<?php echo $users->idtbl_res_user; ?>">
+                            <?php echo $users->name; ?>
+                        </option>
+                    <?php } ?>
+                </select>
+                </div>
+
+            </div>
+            <hr>
                     <div class="card-body p-0 p-2">
-                        <div class="row">
+                        <div class="row">     
                             <div class="col-12">
                                 <table class="table table-bordered table-striped table-sm nowrap" id="dataTable" width="100%">
                                     <thead>
@@ -30,13 +78,10 @@ include "include/topnavbar.php";
                                             <th>Date</th>
                                             <th>Start Time</th>
                                             <th>End Time</th>
-                                            <th>Itenary Category</th>
-                                            <th>Itenary Sub Category</th>
-                                            <th>Itenary Group</th>
-                                            <th>Task</th>
+                                           <!-- <th>Task</th> -->
                                             <th>Itenary</th>
                                             <th>Meet Location</th>
-                                            <th class="text-right">Actions</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -49,6 +94,8 @@ include "include/topnavbar.php";
         <?php include "include/footerbar.php"; ?>
     </div>
 </div>
+</div>
+
 <?php include "include/footerscripts.php"; ?>
 <script>
     $(document).ready(function() {
@@ -57,7 +104,7 @@ include "include/topnavbar.php";
         var statuscheck='<?php echo $statuscheck; ?>';
         var deletecheck='<?php echo $deletecheck; ?>';
 
-        $('#dataTable').DataTable({
+       var table = $('#dataTable').DataTable({
             "destroy": true,
             "processing": true,
             "serverSide": true,
@@ -68,58 +115,101 @@ include "include/topnavbar.php";
                 [10, 25, 50, 'All'],
             ],
             "buttons": [
-                { extend: 'csv', className: 'btn btn-success btn-sm', title: 'Job Information', text: '<i class="fas fa-file-csv mr-2"></i> CSV', },
-                { extend: 'pdf', className: 'btn btn-danger btn-sm', title: 'Job Information', text: '<i class="fas fa-file-pdf mr-2"></i> PDF', },
-                { 
-                    extend: 'print', 
-                    title: 'Job Information',
-                    className: 'btn btn-primary btn-sm', 
-                    text: '<i class="fas fa-print mr-2"></i> Print',
-                    customize: function ( win ) {
-                        $(win.document.body).find( 'table' )
-                            .addClass( 'compact' )
-                            .css( 'font-size', 'inherit' );
-                    }, 
-                },
-                // 'copy', 'csv', 'excel', 'pdf', 'print'
+                {
+                    extend: 'pdf',
+                    className: 'btn btn-danger btn-sm',
+                    title: '',
+                    text: '<i class="fas fa-file-pdf mr-2"></i> PDF',
+                    exportOptions: {
+                        columns: [0,1,2,3,4,5,6]
+                    },
+                    customize: function (doc) {
+                        doc.pageSize = 'A4'; 
+                        doc.pageOrientation = 'landscape';
+                        
+                        doc.content.splice(0, 0, {
+                            text: 'MediHelp Hospital',
+                            fontSize: 18,
+                            bold: true,
+                            alignment: 'center',
+                            margin: [0, 0, 0, 5]
+                        });
+
+                        doc.content.splice(1, 0, {
+                            text: 'Action Status Information',
+                            fontSize: 12,
+                            bold: true,
+                            alignment: 'left',
+                            margin: [0, 0, 0, 10]
+                        });
+
+                        var table = doc.content[doc.content.length - 1].table;
+                        if (table && table.body && table.body.length > 0) {
+                            var colCount = table.body[0].length;
+                            table.widths = Array(colCount).fill('*');
+                        }
+
+                        doc.content[doc.content.length - 1].layout = {
+                            hLineWidth: function () { return 0.5; },
+                            vLineWidth: function () { return 0.5; },
+                            hLineColor: function () { return '#aaa'; },
+                            vLineColor: function () { return '#aaa'; }
+                        };
+
+                        doc.styles.tableHeader = {
+                            fillColor: '#4e73df',
+                            fontSize: 13,
+                            color: 'white',
+                            alignment: 'center',
+                            bold: true
+                        };
+                        doc.styles.tableBodyEven = {
+                            alignment: 'center'
+                        };
+                        doc.styles.tableBodyOdd = {
+                            alignment: 'center'
+                        };
+                 }
+                }
             ],
             ajax: {
                 url: "<?php echo base_url() ?>scripts/actionreport.php",
                 type: "POST", 
-                data: {
-                    userid: <?php echo json_encode($_SESSION['userid']); ?>
-                }
+                "data": function(d) {
+                d.year = $('#yearSelect').val();
+                d.bdm = $('#bdm').val();   
+                d.month = $('#monthSelect').val(); 
+               // d.userid = <?php //echo json_encode($_SESSION['userid']); ?>;
+            }
             },
             "order": [[ 0, "desc" ]],
-            "columns": [    
+            "columns": [
                 {  
-            "data": null,
-            "render": function(data, type, row, meta) {
-                return meta.row + 1 + meta.settings._iDisplayStart;
-            } 
-        },  
-            
-                { "data": "start_date" },    
-                { "data": "start_time" }, 
-                { "data": "end_time"},
-                { "data": "itenary_type"},
-                { "data": "itenary_category" },                    
-                { "data": "group" },
-                { "data": "task"},
+                "data": null,
+                "render": function(data, type, row, meta) {
+                    return meta.row + 1 + meta.settings._iDisplayStart;
+                } 
+                 },                
+                { "data": "start_date" },   
+                { "data": "start_time" },  
+                { "data": "end_time" },  
+               // { "data": "task"},
                 { "data": "itenary"},
-                { "data": "location"},
+                { "data": "meet_location"},
                 { "data": "actions"}
+                
+                
             ],
             drawCallback: function(settings) {
                 $('[data-toggle="tooltip"]').tooltip();
             }
         });
+        $('#yearSelect,#monthSelect, #bdm').change(function() {
+            table.draw(); 
+        });
     });
 
 
-    function complete_confirm() {
-        return confirm("Are you sure you want to complete this?");
-    }
 
 </script>
 <?php include "include/footer.php"; ?>

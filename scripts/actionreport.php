@@ -24,9 +24,9 @@ $table = 'tbl_job_list';
 // Table's primary key
 $primaryKey = 'idtbl_job_list';
 
-if (isset($_POST['userid'])) {
-    $userid = intval($_POST['userid']); 
-} 
+// if (isset($_POST['userid'])) {
+//     $userid = intval($_POST['userid']); 
+// } 
 
 // Array of database columns which should be read and sent back to DataTables.
 // The `db` parameter represents the column name in the database, while the `dt`
@@ -83,6 +83,23 @@ $columns = array(
 
 );
 
+$year = isset($_POST['year']) ? $_POST['year'] : '';  
+$month = isset($_POST['month']) ? $_POST['month'] : '';  
+$bdm = isset($_POST['bdm']) ? $_POST['bdm'] : '';  
+
+$extraWhere = "`u`.`idtbl_job_list` IS NOT NULL"; 
+
+if (!empty($year)) {
+    $extraWhere .= " AND YEAR(`u`.`start_date`) = '$year'";
+}
+if (!empty($month)) {
+    $extraWhere .= " AND MONTH(`u`.`start_date`) = '$month'";
+}
+
+if (!empty($bdm)) {
+    $extraWhere .= " AND `u`.`tbl_med_user_id` = '$bdm'";  
+}
+
 // SQL server connection information
 require('config.php');
 $sql_details = array(
@@ -99,7 +116,7 @@ $sql_details = array(
 
 // require( 'ssp.class.php' );
 require('ssp.customized.class.php' );
-
+error_log("ExtraWhere Clause: $extraWhere");
 $joinQuery = "FROM `tbl_job_list` AS `u`
 	LEFT JOIN `tbl_itenary_category` AS `ub` ON (`ub`.`idtbl_itenary_category` = `u`.`tbl_itenary_category_id`)
 	LEFT JOIN `tbl_itenary_group` AS `uc` ON (`uc`.`tblid_itenary_group` = `u`.`tbl_itenary_group_id`)
@@ -107,8 +124,6 @@ $joinQuery = "FROM `tbl_job_list` AS `u`
 	LEFT JOIN `tbl_location` AS `ud` ON (`ud`.`idtbl_location` = `u`.`tblid_location`)";
 	
 
-
-$extraWhere = "`u`.`status` IN (1,2)  AND `u`.`tbl_med_user_id` = " . intval($userid);
 
 echo json_encode(
 	SSP::simple( $_POST, $sql_details, $table, $primaryKey, $columns, $joinQuery, $extraWhere)

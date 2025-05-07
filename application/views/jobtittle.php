@@ -72,20 +72,60 @@ include "include/topnavbar.php";
                 [10, 25, 50, 'All'],
             ],
             "buttons": [
-                { extend: 'csv', className: 'btn btn-success btn-sm', title: 'Job Tittle Information', text: '<i class="fas fa-file-csv mr-2"></i> CSV', },
-                { extend: 'pdf', className: 'btn btn-danger btn-sm', title: 'Job Tittle Information', text: '<i class="fas fa-file-pdf mr-2"></i> PDF', },
-                { 
-                    extend: 'print', 
-                    title: 'Job Tittle Information',
-                    className: 'btn btn-primary btn-sm', 
-                    text: '<i class="fas fa-print mr-2"></i> Print',
-                    customize: function ( win ) {
-                        $(win.document.body).find( 'table' )
-                            .addClass( 'compact' )
-                            .css( 'font-size', 'inherit' );
-                    }, 
-                },
-                // 'copy', 'csv', 'excel', 'pdf', 'print'
+                {
+                    extend: 'pdf',
+                    className: 'btn btn-danger btn-sm',
+                    title: '',
+                    text: '<i class="fas fa-file-pdf mr-2"></i> PDF',
+                    exportOptions: {
+                        columns: [0, 1]
+                    },
+                    customize: function (doc) {
+
+                        doc.content.splice(0, 0, {
+                            text: 'MediHelp Hospital',
+                            fontSize: 18,
+                            bold: true,
+                            alignment: 'center',
+                            margin: [0, 0, 0, 5]
+                        });
+
+                        doc.content.splice(1, 0, {
+                            text: 'Job Tittle Information',
+                            fontSize: 12,
+                            bold: true,
+                            alignment: 'left',
+                            margin: [0, 0, 0, 10]
+                        });
+
+                        var table = doc.content[doc.content.length - 1].table;
+                        if (table && table.body && table.body.length > 0) {
+                            var colCount = table.body[0].length;
+                            table.widths = Array(colCount).fill('*');
+                        }
+
+                        doc.content[doc.content.length - 1].layout = {
+                            hLineWidth: function () { return 0.5; },
+                            vLineWidth: function () { return 0.5; },
+                            hLineColor: function () { return '#aaa'; },
+                            vLineColor: function () { return '#aaa'; }
+                        };
+
+                        doc.styles.tableHeader = {
+                            fillColor: '#4e73df',
+                            fontSize: 13,
+                            color: 'white',
+                            alignment: 'center',
+                            bold: true
+                        };
+                        doc.styles.tableBodyEven = {
+                            alignment: 'center'
+                        };
+                        doc.styles.tableBodyOdd = {
+                            alignment: 'center'
+                        };
+                 }
+                }
             ],
             ajax: {
                 url: "<?php echo base_url() ?>scripts/jobtittle.php",
