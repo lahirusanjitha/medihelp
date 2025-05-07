@@ -125,7 +125,7 @@ include "include/topnavbar.php";
                         <a class="nav-link active" id="feedback-tab" data-toggle="tab" href="#feedbackDetails" role="tab" aria-controls="feedbackDetails" aria-selected="true">Feedback</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="manage-tab" data-toggle="tab" href="#manageFeedbackDetails" role="tab" aria-controls="manageFeedbackDetails" aria-selected="false">Manage Feedback</a>
+                        <a class="nav-link" id="manage-tab" data-toggle="tab" href="#manageFeedbackDetails" role="tab" aria-controls="manageFeedbackDetails" aria-selected="false">Manager Feedback</a>
                     </li>
                 </ul>
 
@@ -137,7 +137,7 @@ include "include/topnavbar.php";
                     </div>
                     <div class="tab-pane fade" id="manageFeedbackDetails" role="tabpanel" aria-labelledby="manage-tab">
                         <div id="manageTableContainer">
-                            <p class="text-muted text-center">Loading manage feedback...</p>
+                            <p class="text-muted text-center">Loading manager feedback...</p>
                         </div>
                     </div>
                 </div>
