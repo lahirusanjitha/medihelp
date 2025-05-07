@@ -37,7 +37,7 @@ include "include/topnavbar.php";
                                             <th>Task</th>
                                             <th>Itenary</th>
                                             <th>Meet Location</th>
-                                            <!-- <th class="text-right">Actions</th> -->
+                                            <th class="text-right">Actions</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -51,6 +51,35 @@ include "include/topnavbar.php";
             </div>
         </main>
         <?php include "include/footerbar.php"; ?>
+    </div>
+</div>
+<div class="modal fade" id="staticBackdrop" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Add Feed back</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <form action="<?php echo base_url('ItinaryCompletion/Insertfeedback'); ?>" method="post" autocomplete="off">
+                <div class="modal-body">
+                    <input type="hidden" id="modaltblJobListField" name="idtbl_job_list">
+
+                    <div class="form-group">
+                        <label for="feedback" class="font-weight-bold">Comment</label>
+                        <input type="text" class="form-control" name="feedback" id="feedback" required>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                <input type="hidden" name="recordOption" id="recordOption" value="1">
+                <input type="hidden" name="recordID" id="recordID" value="">
+            </form>
+        </div>
     </div>
 </div>
 <?php include "include/footerscripts.php"; ?>
@@ -117,6 +146,19 @@ include "include/topnavbar.php";
                 { "data": "task"},
                 { "data": "itenary"},
                 { "data": "location"},
+                {
+                    "targets": -1,
+                    "className": 'text-right',
+                    "data": null,
+                    "render": function(data, type, full) {
+                        var button = '';
+                        
+                        button += '<button type="button" class="btn btn-success btn-sm mr-1" data-toggle="modal" data-target="#staticBackdrop" data-idtbl_job_list="' + full['idtbl_job_list'] + '"><i class="far fa-comment"></i></button>';
+
+                        return button;
+                    }
+
+                }
                 
             ],
             drawCallback: function(settings) {
@@ -165,6 +207,13 @@ include "include/topnavbar.php";
     function complete_confirm() {
         return confirm("Are you sure you want to complete this?");
     }
+    $('#staticBackdrop').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+
+    var idtbl_job_list = button.data('idtbl_job_list');
+
+    $('#modaltblJobListField').val(idtbl_job_list);
+});
 
 </script>
 <?php include "include/footer.php"; ?>

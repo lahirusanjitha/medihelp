@@ -105,23 +105,47 @@ include "include/topnavbar.php";
     </div>
 </div>
 
-<div class="modal fade" id="feedbackviewmodal" data-backdrop="static" data-keyboard="false" tabindex="-1"
-	aria-labelledby="staticBackdropLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="staticBackdropLabel">Feed Back</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div id="viewhtml"></div>
-			</div>
-		</div>
-	</div>
-</div>
 
+
+<div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog"
+     aria-labelledby="feedbackModalLabel" aria-hidden="true"
+     data-backdrop="static" data-keyboard="false">
+     <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Feedback Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <ul class="nav nav-tabs" id="feedbackTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="feedback-tab" data-toggle="tab" href="#feedbackDetails" role="tab" aria-controls="feedbackDetails" aria-selected="true">Feedback</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="manage-tab" data-toggle="tab" href="#manageFeedbackDetails" role="tab" aria-controls="manageFeedbackDetails" aria-selected="false">Manage Feedback</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content mt-3" id="feedbackTabContent">
+                    <div class="tab-pane fade show active" id="feedbackDetails" role="tabpanel" aria-labelledby="feedback-tab">
+                        <div id="feedbackTableContainer">
+                            <p class="text-muted text-center">Loading feedback...</p>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="manageFeedbackDetails" role="tabpanel" aria-labelledby="manage-tab">
+                        <div id="manageTableContainer">
+                            <p class="text-muted text-center">Loading manage feedback...</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 <?php include "include/footerscripts.php"; ?>
 
@@ -194,18 +218,7 @@ include "include/topnavbar.php";
                         var editrequest = full['edit_request'];
                         var button = '';
 
-                        // button += '<button class="btn btn-primary btn-sm btnEdit mr-1 ';
-                        // if (!((confirm == 2) || (editcheck == 1 && editrequest == 2))) {
-                        //     button += 'd-none';
-                        // }
-                        // button += '" id="' + full['idtbl_job_list'] + '"><i class="fas fa-pen"></i></button>';
-
-                        // button += '<a href="<?php echo base_url() ?>ChangeRequest/Editrequest/' + full['idtbl_job_list'] + '/1" onclick="return confirm_request()" target="_self" class="btn btn-primary btn-sm mr-1 '
-                        // if (confirm != 1 || editrequest != 0) {
-                        //     button += 'd-none';
-                        // }
-                        // button += '" id="' + full['idtbl_job_list'] + '"><i class="fa fa-paper-plane"></i></a>';
-                        // button += '<button type="button" class="btn btn-info btn-sm mr-1" data-toggle="modal" data-target="#pospondModal" data-idtbl_job_list="' + full['idtbl_job_list'] + '"><i class="fas fa-pause"></i></button>';
+                      
                         button += '<button type="button" class="btn btn-success btn-sm mr-1" data-toggle="modal" data-target="#staticBackdrop" data-idtbl_job_list="' + full['idtbl_job_list'] + '"><i class="far fa-comment"></i></button>';
 
                         button += '<button class="btn btn-dark btn-sm btnview mr-1"  id="' + full['idtbl_job_list'] + '"><i class="fas fa-eye"></i></button>';
@@ -225,28 +238,50 @@ include "include/topnavbar.php";
     }
     
         });
-        $('#dataTable tbody').on('click', '.btnview', function () {
-            var id = $(this).attr('id');
-            $.ajax({
-                type: "POST",
-                url: '<?php echo base_url() ?>Feedback/feedbackdetails',
-                data: {
-                    recordID: id
-                },
-                dataType: 'json',
-                success: function (response) {
-                    if (response.status === 'nodata') {
-                        alert('No feedback data found.');
-                    } else {
-                        $('#feedbackviewmodal').modal('show');  
-                        $('#viewhtml').html(response.html);  
-                    }
-                },
-                error: function () {
-                    alert('Error occurred while loading feedback.');
+       
+
+    let feedbackRecordID = null;
+
+    $(document).on('click', '.btnview', function () {
+        feedbackRecordID = $(this).attr('id');
+        $('#feedbackModal').modal('show');
+
+        // Activate Feedback tab and load default
+        $('#feedback-tab').tab('show');
+        loadFeedbackTab('feedback');
+    });
+
+    $('#feedback-tab').on('shown.bs.tab', function () {
+        if (feedbackRecordID) loadFeedbackTab('feedback');
+    });
+
+    $('#manage-tab').on('shown.bs.tab', function () {
+        if (feedbackRecordID) loadFeedbackTab('manage');
+    });
+
+    function loadFeedbackTab(type) {
+        const isAdmin = (type === 'feedback') ? 0 : 1;
+        const container = (isAdmin === 0) ? '#feedbackTableContainer' : '#manageTableContainer';
+
+        $(container).html('<p class="text-muted text-center">Loading...</p>');
+
+        $.ajax({
+            url: 'Feedback/feedbackdetails', 
+            method: 'POST',
+            data: { recordID: feedbackRecordID, is_admin: isAdmin },
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    $(container).html(response.html);
+                } else {
+                    $(container).html('<p class="text-center text-muted">No feedback available.</p>');
                 }
-            });
+            },
+            error: function () {
+                $(container).html('<p class="text-danger text-center">Error loading feedback.</p>');
+            }
         });
+    }
 
         $('#dataTable tbody').on('click', '.btnEdit', function() {
             var r = confirm("Are you sure, You want to Edit this ? ");

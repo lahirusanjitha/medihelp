@@ -50,6 +50,7 @@ $columns = array(
 	array( 'db' => '`u`.`edit_request`', 'dt' => 'edit_request', 'field' => 'edit_request' ),
 	array( 'db' => '`u`.`tbl_med_user_id`', 'dt' => 'tbl_med_user_id', 'field' => 'tbl_med_user_id' ),
 	array( 'db' => '`u`.`feedback`', 'dt' => 'feedback', 'field' => 'feedback' ),
+    array( 'db' => '`u`.`posponed`', 'dt' => 'posponed', 'field' => 'posponed' ),
     array( 
         'db' => '`u`.`completion`', 
         'dt' => 'actions', 
@@ -57,28 +58,23 @@ $columns = array(
         'formatter' => function($completion, $row) {
             $confirmation = $row['confirmation'];
             $status = $row['status'];
+            $posponed = $row['posponed'];
     
             if ($status == 1 && $confirmation == 3 && $completion == 2) {
                 return '<span class="badge badge-danger">Canceled</span>';
             }
     
-            if ($confirmation == 1 && $status == 2) {
-                return '<span class="badge badge-info">Postponed</span>';
-            }
-    
-            if ($completion == 1) {
-                return '<span class="badge badge-success">Completed</span>';
+            if ($confirmation == 1 && $posponed == 1) {
+                return '<span class="badge badge-primary">Approved</span> <span class="badge badge-info">Postponed</span>';
             } elseif ($confirmation == 2) {
                 return '<span class="badge badge-secondary">Not Approved Yet</span>';
             } elseif ($confirmation == 1) {
                 return '<span class="badge badge-primary">Approved</span>';
             } elseif ($confirmation == 3) {
                 return '<span class="badge badge-danger">Canceled</span>';
-            } elseif ($status == 2) {
-                return '<span class="badge badge-info">Postponed</span>';
-            }
     
             return '<span class="badge badge-secondary">Unknown</span>';
+            }
         } 
     )
 	
@@ -109,7 +105,7 @@ $joinQuery = "FROM `tbl_job_list` AS `u`
 	LEFT JOIN `tbl_location` AS `ud` ON (`ud`.`idtbl_location` = `u`.`tblid_location`)";
 	
 
-	$extraWhere = "`u`.`status` IN (1, 2) AND `u`.`confirmation` IN(1) AND `u`.`tbl_med_user_id` = " . intval($userid);
+	$extraWhere = "`u`.`status` IN (1, 2) AND `u`.`completion` IN(2) AND `u`.`confirmation` IN(1) AND `u`.`tbl_med_user_id` = " . intval($userid);
 
 echo json_encode(
 	SSP::simple( $_POST, $sql_details, $table, $primaryKey, $columns, $joinQuery, $extraWhere)

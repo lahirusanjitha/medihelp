@@ -29,9 +29,9 @@ $primaryKey = 'idtbl_job_list';
 // parameter represents the DataTables column identifier. In this case simple
 // indexes
 
-if (isset($_POST['userid'])) {
-    $userid = intval($_POST['userid']); 
-} 
+// if (isset($_POST['userid'])) {
+//     $userid = intval($_POST['userid']); 
+// } 
 
 $columns = array(
 	array( 'db' => '`u`.`idtbl_job_list`', 'dt' => 'idtbl_job_list', 'field' => 'idtbl_job_list' ),
@@ -109,7 +109,7 @@ $joinQuery = "FROM `tbl_job_list` AS `u`
 	LEFT JOIN `tbl_location` AS `ud` ON (`ud`.`idtbl_location` = `u`.`tblid_location`)";
 	
 
-	$extraWhere = "`u`.`status` IN (1, 2) AND `u`.`approval_send` IN(3) AND `u`.`edit_request` IN(1)  AND `u`.`confirmation` IN(1) AND `u`.`tbl_med_user_id` = " . intval($userid);
+	$extraWhere = "`u`.`status` IN (1, 2) AND `u`.`approval_send` IN(3) AND `u`.`edit_request` IN(1)  AND `u`.`confirmation` IN(1)";
 
 echo json_encode(
 	SSP::simple( $_POST, $sql_details, $table, $primaryKey, $columns, $joinQuery, $extraWhere)

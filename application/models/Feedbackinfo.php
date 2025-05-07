@@ -61,46 +61,62 @@ class Feedbackinfo extends CI_Model{
     public function feedbackdetails()
     {
         $recordID = $this->input->post('recordID');  
+        $isAdmin = $this->input->post('is_admin');  
     
-        $this->db->select('*');
+        $this->db->select('tbl_feedback.insertdatetime, tbl_feedback.comment, tbl_feedback_type.feedback_type');
         $this->db->from('tbl_feedback');
         $this->db->join('tbl_feedback_type', 'tbl_feedback.tbl_feedback_type_idtbl_feedback_type = tbl_feedback_type.idtbl_feedback_type', 'left');
         $this->db->where('tbl_feedback.tbl_joblist_idtbl_joblist', $recordID);
+        $this->db->where('is_admin', $isAdmin);
         $responddetail = $this->db->get();
-        
-
+    
         if ($responddetail->num_rows() == 0) {
             echo json_encode(['status' => 'nodata']);
             return;
         }
-
-        $html = '
-        <div class="row">
-            <div class="col-12">
-                <table class="table table-striped table-bordered table-sm">
-                    <thead>
-                        <tr>
-                            <th>Feed Back Date</th>
-                            <th>Feed Back Type</th>
-                            <th>Feed Back</th>
-                        </tr>
-                    </thead>
-                    <tbody>';
-        
-                    foreach ($responddetail->result() as $rowdetail) {
-                        $html .= '<tr>
-                            <td>' . $rowdetail->insertdatetime . '</td>
-                            <td>' . $rowdetail->feedback_type . '</td>
-                            <td>' . $rowdetail->comment . '</td>
-                        </tr>';
-                    }
-                    
-        $html .= '</tbody>
-                </table>
-            </div>
-        </div>';
+        if ($isAdmin == 0) {
+            $html = '
+            <table class="table table-bordered table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th>Feedback Date</th>
+                        <th>Feedback Type</th>
+                        <th>Feedback</th>
+                    </tr>
+                </thead>
+                <tbody>';
     
+            foreach ($responddetail->result() as $rowdetail) {
+                $html .= '<tr>
+                    <td>' . $rowdetail->insertdatetime . '</td>
+                    <td>' . $rowdetail->feedback_type . '</td>
+                    <td>' . $rowdetail->comment . '</td>
+                </tr>';
+            }
+    
+        } elseif($isAdmin == 1) {
+            $html = '
+            <table class="table table-bordered table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th>Feedback Date</th>
+                        <th>Feedback</th>
+                    </tr>
+                </thead>
+                <tbody>';
+    
+            foreach ($responddetail->result() as $rowdetail) {
+                $html .= '<tr>
+                    <td>' . (isset($rowdetail->insertdatetime) ? $rowdetail->insertdatetime : 'Not loaded') . '</td>
+                    <td>' . $rowdetail->comment . '</td>
+                </tr>';
+            }
+        }
+    
+        $html .= '</tbody></table>';
         echo json_encode(['status' => 'success', 'html' => $html]);
     }
+    
+    
 
 }

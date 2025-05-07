@@ -17,6 +17,10 @@ class ItinaryCompletion extends CI_Controller {
 
 
 // }
+public function Insertfeedback(){
+    $this->load->model('ItinaryCompletioninfo');
+    $result=$this->ItinaryCompletioninfo->Insertfeedback(); 
+}
 public function ItinaryCmpletionStatus() {
     $this->load->model('ItinaryCompletioninfo');
 

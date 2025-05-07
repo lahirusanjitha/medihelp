@@ -25,6 +25,7 @@ include "include/topnavbar.php";
                     <div class="card-body p-0 p-2">
                         <div class="row">     
                             <div class="col-12">
+                            <div class="scrollbar pb-3" id="style-2">
                                 <table class="table table-bordered table-striped table-sm nowrap" id="dataTable" width="100%">
                                     <thead>
                                         <tr>
@@ -43,6 +44,7 @@ include "include/topnavbar.php";
                                         </tr>
                                     </thead>
                                 </table>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -90,10 +92,10 @@ include "include/topnavbar.php";
             ],
             ajax: {
                 url: "<?php echo base_url() ?>scripts/editapproval.php",
-                type: "POST", 
-                data: {
-                    userid: <?php echo json_encode($_SESSION['userid']); ?>
-                }
+                type: "POST"
+                // data: {
+                //     userid: <?php// echo json_encode($_SESSION['userid']); ?>
+                // }
             },
             "order": [[ 0, "desc" ]],
             "columns": [
