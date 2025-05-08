@@ -156,6 +156,7 @@ include "include/topnavbar.php";
                     extend: 'pdf',
                     className: 'btn btn-danger btn-sm',
                     title: '',
+                    filename: 'Location Information',
                     text: '<i class="fas fa-file-pdf mr-2"></i> PDF',
                     exportOptions: {
                         columns: [0, 1, 3]

@@ -14,6 +14,14 @@ $columns = array(
     array( 'db' => '`u`.`idtbl_job_list`', 'dt' => 'idtbl_job_list', 'field' => 'idtbl_job_list' ),
     array( 'db' => '`u`.`start_date`', 'dt' => 'start_date', 'field' => 'start_date' ),
     array( 'db' => '`u`.`start_time`', 'dt' => 'start_time', 'field' => 'start_time' ),
+    array(
+        'db' => '`u`.`start_time`', 
+        'dt' => 'time_range',
+        'field' => 'start_time',
+        'formatter' => function($start_time, $row) {
+            return $start_time . ' - ' . $row['end_time'];
+        }
+    ),
     array( 'db' => '`u`.`end_time`', 'dt' => 'end_time', 'field' => 'end_time' ),
     array( 'db' => '`u`.`task`', 'dt' => 'task', 'field' => 'task' ),
     array( 'db' => '`u`.`itenary`', 'dt' => 'itenary', 'field' => 'itenary' ),
@@ -23,7 +31,10 @@ $columns = array(
     array( 'db' => '`u`.`edit_request`', 'dt' => 'edit_request', 'field' => 'edit_request' ),
     array( 'db' => '`u`.`completion`', 'dt' => 'completion', 'field' => 'completion' ),
     array( 'db' => '`ue`.`comment`', 'dt' => 'comment', 'field' => 'comment' ),
-    array( 'db' => '`ud`.`reason_type`', 'dt' => 'cancel_reason', 'field' => 'reason_type' )
+    array( 'db' => '`ud`.`reason_type`', 'dt' => 'cancel_reason', 'field' => 'reason_type' ),  
+    array( 'db' => '`ua`.`itenary_type`', 'dt' => 'itenary_type', 'field' => 'itenary_type' ),
+    array( 'db' => '`ub`.`itenary_category`', 'dt' => 'itenary_category', 'field' => 'itenary_category' ),
+    array( 'db' => '`uc`.`group`', 'dt' => 'group', 'field' => 'group' )
 );
 
 // SQL server connection information
@@ -56,7 +67,10 @@ if (!empty($bdm)) {
 error_log("ExtraWhere Clause: $extraWhere");
 $joinQuery = "FROM `tbl_cancelation` AS `ue`
     LEFT JOIN `tbl_job_list` AS `u` ON (`u`.`idtbl_job_list` = `ue`.`tbl_joblist_idtbl_joblist`)
-    LEFT JOIN `tbl_reason_type` AS `ud` ON (`ud`.`idtbl_reason_type` = `ue`.`tbl_reason_type_idtbl_reason_type`)";
+    LEFT JOIN `tbl_reason_type` AS `ud` ON (`ud`.`idtbl_reason_type` = `ue`.`tbl_reason_type_idtbl_reason_type`)
+    LEFT JOIN `tbl_itenary_type` AS `ua` ON (`ua`.`idtbl_itenary_type` = `u`.`tbl_itenary_type_tblid_itenary_type`)
+    LEFT JOIN `tbl_itenary_group` AS `uc` ON (`uc`.`tblid_itenary_group` = `u`.`tbl_itenary_group_id`)
+	LEFT JOIN `tbl_itenary_category` AS `ub` ON (`ub`.`idtbl_itenary_category` = `u`.`tbl_itenary_category_id`)";
 
 require('ssp.customized.class.php');
 

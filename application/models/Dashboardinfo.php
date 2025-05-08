@@ -24,7 +24,7 @@ class Dashboardinfo extends CI_Model {
     }
     
     public function getPostponedRecords($year = null ,$month = null, $bdm = null) {
-        $query = $this->db->select('idtbl_job_list as id, start_date, task, tbl_itenary_type.itenary_type, tbl_itenary_category.itenary_category, tbl_itenary_group.group')
+        $query = $this->db->select('idtbl_job_list as id, start_date, start_time ,end_time, tbl_itenary_type.itenary_type, tbl_itenary_category.itenary_category, tbl_itenary_group.group')
                           ->from('tbl_job_list')
                           ->join('tbl_itenary_type', 'tbl_job_list.tbl_itenary_type_tblid_itenary_type = tbl_itenary_type.idtbl_itenary_type', 'left')
                           ->join('tbl_itenary_group', 'tbl_job_list.tbl_itenary_group_id = tbl_itenary_group.tblid_itenary_group', 'left')
@@ -36,7 +36,7 @@ class Dashboardinfo extends CI_Model {
     
 
     public function getCanceledRecords($year = null ,$month = null, $bdm = null) {
-        $query = $this->db->select('idtbl_job_list as id, start_date, task, tbl_itenary_type.itenary_type, tbl_itenary_category.itenary_category, tbl_itenary_group.group')
+        $query = $this->db->select('idtbl_job_list as id, start_date,  start_time ,end_time, tbl_itenary_type.itenary_type, tbl_itenary_category.itenary_category, tbl_itenary_group.group')
                           ->from('tbl_job_list')
                           ->join('tbl_itenary_type', 'tbl_job_list.tbl_itenary_type_tblid_itenary_type = tbl_itenary_type.idtbl_itenary_type', 'left')
                           ->join('tbl_itenary_group', 'tbl_job_list.tbl_itenary_group_id = tbl_itenary_group.tblid_itenary_group', 'left')
@@ -47,7 +47,7 @@ class Dashboardinfo extends CI_Model {
     }
 
     public function getCompletedRecords($year = null ,$month = null, $bdm = null) {
-        $query = $this->db->select('idtbl_job_list as id, start_date, task, tbl_itenary_type.itenary_type, tbl_itenary_category.itenary_category, tbl_itenary_group.group')
+        $query = $this->db->select('idtbl_job_list as id, start_date, start_time ,end_time, tbl_itenary_type.itenary_type, tbl_itenary_category.itenary_category, tbl_itenary_group.group')
                           ->from('tbl_job_list')
                           ->join('tbl_itenary_type', 'tbl_job_list.tbl_itenary_type_tblid_itenary_type = tbl_itenary_type.idtbl_itenary_type', 'left')
                           ->join('tbl_itenary_group', 'tbl_job_list.tbl_itenary_group_id = tbl_itenary_group.tblid_itenary_group', 'left')
@@ -58,7 +58,7 @@ class Dashboardinfo extends CI_Model {
     }
 
     public function getMissingRecords($year = null ,$month = null, $bdm = null) {
-        $query = $this->db->select('idtbl_job_list as id, start_date, task, tbl_itenary_type.itenary_type, tbl_itenary_category.itenary_category, tbl_itenary_group.group')
+        $query = $this->db->select('idtbl_job_list as id, start_date, start_time ,end_time, tbl_itenary_type.itenary_type, tbl_itenary_category.itenary_category, tbl_itenary_group.group')
                           ->from('tbl_job_list')
                           ->join('tbl_itenary_type', 'tbl_job_list.tbl_itenary_type_tblid_itenary_type = tbl_itenary_type.idtbl_itenary_type', 'left')
                           ->join('tbl_itenary_group', 'tbl_job_list.tbl_itenary_group_id = tbl_itenary_group.tblid_itenary_group', 'left')

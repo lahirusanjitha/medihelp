@@ -14,6 +14,14 @@ $columns = array(
     array( 'db' => '`u`.`idtbl_job_list`', 'dt' => 'idtbl_job_list', 'field' => 'idtbl_job_list' ),
     array( 'db' => '`u`.`start_date`', 'dt' => 'start_date', 'field' => 'start_date' ),
     array( 'db' => '`u`.`start_time`', 'dt' => 'start_time', 'field' => 'start_time' ),
+    array(
+        'db' => '`u`.`start_time`',
+        'dt' => 'time_range',
+        'field' => 'start_time',
+        'formatter' => function($start_time, $row) {
+            return $start_time . ' - ' . $row['end_time'];
+        }
+    ),
     array( 'db' => '`u`.`end_time`', 'dt' => 'end_time', 'field' => 'end_time' ),
     array( 'db' => '`ua`.`itenary_type`', 'dt' => 'itenary_type', 'field' => 'itenary_type' ),
     array( 'db' => '`u`.`task`', 'dt' => 'task', 'field' => 'task' ),

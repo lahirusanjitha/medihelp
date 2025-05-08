@@ -69,16 +69,21 @@ include "include/topnavbar.php";
                     <div class="card-body p-0 p-2">
                         <div class="row">     
                             <div class="col-12">
+                            <div class="scrollbar pb-3" id="style-2">
                                 <table class="table table-bordered table-striped table-sm nowrap" id="dataTable" width="100%">
                                     <thead>
                                         <tr>
                                             <th>#</th>
                                             <th>Date</th>
-                                            <th>Start Time</th>
-                                            <th>End Time</th>
+                                            <th>Time</th>
+                                            <!-- <th>End Time</th> -->
+                                            <th>Itinary Type</th>
+                                            <th>Itinary Category</th>
+                                            <th>Itinary Status</th>
+                                            <th>Itenary</th>
+                                            <th>Meet Location</th>
                                             <th>Posponed Date</th>
                                             <th>Posponed Reason</th>
-                                            <th>Itenary</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -116,9 +121,10 @@ include "include/topnavbar.php";
                     extend: 'pdf',
                     className: 'btn btn-danger btn-sm',
                     title: '',
+                    filename: 'Posponed Report Infomation',
                     text: '<i class="fas fa-file-pdf mr-2"></i> PDF',
                     exportOptions: {
-                        columns: [0,1,2,3,4,5,6]
+                        columns: [0,1,2,3,4,5,6,7,8,9]
                     },
                     customize: function (doc) {
                         doc.pageSize = 'A4'; 
@@ -187,12 +193,15 @@ include "include/topnavbar.php";
                 } 
                  },                         
                 { "data": "start_date" },    
-                { "data": "start_time" },  
-                { "data": "end_time" }, 
-               // { "data": "task"},
+                // { "data": "start_time" },  
+                { "data": "time_range" }, 
+                { "data": "itenary_type" }, 
+                { "data": "itenary_category" }, 
+                { "data": "group" }, 
+                { "data": "itenary"},
+                { "data": "location"},
                 { "data": "postponed_date"},
                 { "data": "reason"},
-                { "data": "itenary"},
 
                 
             ],

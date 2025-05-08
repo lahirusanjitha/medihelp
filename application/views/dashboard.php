@@ -135,7 +135,8 @@
                                                     <th>ID</th>
                                                     <th>Month</th>
                                                     <!-- <th>Start Date</th> -->
-                                                    <th>Task</th>
+                                                    <th>Start Time</th>
+                                                    <th>End Time</th>
                                                     <th>Itinerary Type</th>
                                                     <th>Itinerary Category</th>
                                                     <th>Itinerary Status</th>
@@ -151,7 +152,8 @@
                                                     <th>ID</th>
                                                     <th>Month</th>
                                                    <!-- <th>Start Date</th> -->
-                                                    <th>Task</th>
+                                                    <th>Start Time</th>
+                                                    <th>End Time</th>
                                                     <th>Itinerary Type</th>
                                                     <th>Itinerary Category</th>
                                                     <th>Itinerary Status</th>
@@ -167,7 +169,8 @@
                                                     <th>ID</th>
                                                     <th>Month</th>
                                                    <!-- <th>Start Date</th> -->
-                                                    <th>Task</th>
+                                                    <th>Start Time</th>
+                                                    <th>End Time</th>
                                                     <th>Itinerary Type</th>
                                                     <th>Itinerary Category</th>
                                                     <th>Itinerary Status</th>
@@ -183,7 +186,8 @@
                                                     <th>ID</th>
                                                     <th>Month</th>
                                                   <!--  <th>Start Date</th> -->
-                                                    <th>Task</th>
+                                                    <th>Start Time</th>
+                                                    <th>End Time</th>
                                                     <th>Itinerary Type</th>
                                                     <th>Itinerary Category</th>
                                                     <th>Itinerary Status</th>
@@ -268,7 +272,8 @@
                         var row = '<tr>' +
                             '<td>' + record.id + '</td>' +
                             '<td>' + record.start_date + '</td>' +
-                            '<td>' + record.task + '</td>' +
+                            '<td>' + record.start_time + '</td>' +
+                            '<td>' + record.end_time + '</td>' +
                             '<td>' + record.itenary_type + '</td>' +
                             '<td>' + record.itenary_category + '</td>' +
                             '<td>' + record.group + '</td>' +

@@ -244,6 +244,7 @@ include "include/topnavbar.php";
                     extend: 'pdf',
                     className: 'btn btn-danger btn-sm',
                     title: '',
+                    filename: 'Monthly Itinary Information',
                     text: '<i class="fas fa-file-pdf mr-2"></i> PDF',
                     exportOptions: {
                         columns: [0,1,2,3,4,5,6,7,8,9,10]

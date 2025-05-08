@@ -130,6 +130,7 @@ include "include/topnavbar.php";
                     extend: 'pdf',
                     className: 'btn btn-danger btn-sm',
                     title: '',
+                    filename: 'Approval Level Information',
                     text: '<i class="fas fa-file-pdf mr-2"></i> PDF',
                     exportOptions: {
                         columns: [1,2,3,4,5,6,7,8,9,10,11]

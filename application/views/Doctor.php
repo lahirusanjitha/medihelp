@@ -33,7 +33,7 @@ include "include/topnavbar.php";
                                         <input type="text" class="form-control form-control-sm" name="basehospital" id="basehospital" required>
                                     </div>
                                     <div class="form-group mb-1">
-                                        <label class="small font-weight-bold">Subject*</label>
+                                        <label class="small font-weight-bold">Speciality*</label>
                                         <select class="form-control form-control-sm" name="subject" id="subject" required>
                                             <option value="">Select</option>
                                             <?php foreach ($subject->result() as $subjects) { ?>
@@ -64,7 +64,7 @@ include "include/topnavbar.php";
                                             <th>#</th>
                                             <th>Doctor name</th>
                                             <th>Base Hospital</th>
-                                            <th>Subject</th>
+                                            <th>Speciality</th>
                                             <th>Contact</th>
                                             <th>Area</th>
                                             <th class="text-right">Actions</th>
@@ -103,6 +103,7 @@ include "include/topnavbar.php";
                     extend: 'pdf',
                     className: 'btn btn-danger btn-sm',
                     title: '',
+                    filename: 'Doctors Information',
                     text: '<i class="fas fa-file-pdf mr-2"></i> PDF',
                     exportOptions: {
                         columns: [0,1,2,3,4]
