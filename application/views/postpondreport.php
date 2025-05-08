@@ -66,7 +66,9 @@ include "include/topnavbar.php";
                     <?php } ?>
                 </select>
                 </div>
+               
                     <div class="card-body p-0 p-2">
+                        <hr>
                         <div class="row">     
                             <div class="col-12">
                             <div class="scrollbar pb-3" id="style-2">
