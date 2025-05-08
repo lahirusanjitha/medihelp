@@ -142,8 +142,26 @@ class ApiInfo extends CI_Model{
             return ['status' => false, 'message' => 'No data found'];
         }
     }
-    
 
+    public function getItenariesToInsertFeedback($userid) {
+        $this->db->select('
+            u.idtbl_job_list, u.start_date, u.start_time, u.end_time, ua.itenary_type, u.task,ud.name as location,
+            ub.itenary_category, uc.group,u.itenary, u.meet_location, u.status, u.confirmation, u.edit_request,
+            u.tbl_med_user_id,u.feedback
+        ');
+        $this->db->from('tbl_job_list u');
+        $this->db->join('tbl_itenary_category ub', 'ub.idtbl_itenary_category = u.tbl_itenary_category_id', 'left');
+        $this->db->join('tbl_itenary_group uc', 'uc.tblid_itenary_group = u.tbl_itenary_group_id', 'left');
+        $this->db->join('tbl_itenary_type ua', 'ua.idtbl_itenary_type = u.tbl_itenary_type_tblid_itenary_type', 'left');
+        $this->db->join('tbl_location ud', 'ud.idtbl_location = u.tblid_location', 'left');
+        $this->db->where_in('u.status', [1, 2]);
+        $this->db->where_in('u.confirmation', [1, 2]);
+        $this->db->where('u.tbl_med_user_id', $userid);
+    
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    
     public function editPlan($recordID, $data) {
         $data = array(
             'start_date' => $data['date'],
