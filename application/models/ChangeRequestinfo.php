@@ -195,8 +195,8 @@ public function Editrequest($x, $y){
     else if($type==2){
         
         $data = array(
-            'edit_request' => '2',
-            'updatedatetime'=> $updatedatetime
+            'confirmation' => '2',
+            'approval_send'=> '0'
         );
 
         $this->db->where('idtbl_job_list', $recordID);
@@ -218,7 +218,7 @@ public function Editrequest($x, $y){
             $actionJSON=json_encode($actionObj);
             
             $this->session->set_flashdata('msg', $actionJSON);
-            redirect('ChangeRequest');                
+            redirect('EditApproval');                
         } else {
             $this->db->trans_rollback();
 
@@ -233,7 +233,7 @@ public function Editrequest($x, $y){
             $actionJSON=json_encode($actionObj);
             
             $this->session->set_flashdata('msg', $actionJSON);
-            redirect('ChangeRequest');
+            redirect('EditApproval');
         }
     }
 }

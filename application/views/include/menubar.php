@@ -159,11 +159,16 @@ else if($functionmenu=='Locationtrack'){
     $editcheck=checkprivilege($menuprivilegearray, 29, 2);
     $statuscheck=checkprivilege($menuprivilegearray, 29, 3);
     $deletecheck=checkprivilege($menuprivilegearray, 29, 4);
-}else if($functionmenu=='Editapproval'){
+}else if($functionmenu=='EditApproval'){
     $addcheck=checkprivilege($menuprivilegearray, 30, 1);
     $editcheck=checkprivilege($menuprivilegearray, 30, 2);
     $statuscheck=checkprivilege($menuprivilegearray, 30, 3);
     $deletecheck=checkprivilege($menuprivilegearray, 30, 4);
+}else if($functionmenu=='Dashboard'){
+    $addcheck=checkprivilege($menuprivilegearray, 31, 1);
+    $editcheck=checkprivilege($menuprivilegearray, 31, 2);
+    $statuscheck=checkprivilege($menuprivilegearray, 31, 3);
+    $deletecheck=checkprivilege($menuprivilegearray, 31, 4);
 }
 
 
@@ -193,10 +198,13 @@ function checkprivilege($arraymenu, $menuID, $type){
     <div class="sidenav-menu">
         <div class="nav accordion" id="accordionSidenav">
             <div class="sidenav-menu-heading">Core</div>
-            <a class="nav-link p-0 px-3 py-2 text-dark" href="<?php echo base_url().'Dashboard/index'; ?>">
+            <?php if(menucheck($menuprivilegearray, 31)==1){ ?>
+            <a class="nav-link p-0 px-3 py-2 text-dark" href="<?php echo base_url().'Dashboard/'; ?>">
                 <div class="nav-link-icon"><i class="fas fa-desktop"></i></div>
                 Dashboard
             </a>
+            <?php }?>
+           
         <?php if(menucheck($menuprivilegearray, 17) == 1 | menucheck($menuprivilegearray, 18) == 1 | menucheck($menuprivilegearray, 27) == 1 | menucheck($menuprivilegearray, 28) == 1 | menucheck($menuprivilegearray, 13) == 1) { ?>
     <a class="nav-link p-0 px-3 py-2 collapsed text-dark" href="javascript:void(0);" data-toggle="collapse" data-target="#collapsematerialinfo" aria-expanded="false" aria-controls="collapsematerialinfo">
         <div class="nav-link-icon"><i class="fas fa-shopping-basket"></i></div>

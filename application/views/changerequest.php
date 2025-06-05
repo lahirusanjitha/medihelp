@@ -55,111 +55,6 @@ include "include/topnavbar.php";
 </div>
 </div>
 
-<!-- Edit Job Modal -->
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
-    <div class="modal-content">
-      <form action="<?php echo base_url() ?>Job/Jobinsertupdate" method="post" autocomplete="off">
-        <div class="modal-header">
-          <h5 class="modal-title" id="editModalLabel">Edit Job</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="row align-items-end">
-            <div class="col-auto">
-              <label class="small font-weight-bold">Month*</label>
-              <input type="month" class="form-control form-control-sm" name="month" id="month" required>
-            </div>
-            <div class="col-auto">
-              <label class="small font-weight-bold">Date*</label>
-              <input type="date" class="form-control form-control-sm" name="date" id="date" required>
-            </div>
-            <div class="col-auto">
-              <label class="small font-weight-bold">Start time*</label>
-               <select class="form-control form-control-sm" name="start_time" id="start_time" required>
-              <option value=""></option>
-              <?= $time;?>
-              </select>
-            </div>
-            <div class="col-auto">
-              <label class="small font-weight-bold">End time*</label>
-                <select class="form-control form-control-sm" name="end_time" id="end_time" required>
-                 <option value="">-- Select Time --</option>
-                <?= $time;?>
-               </select>
-            </div>
-            <div class="col-auto">
-              <label class="small font-weight-bold">Itinerary Type*</label>
-              <select class="form-control form-control-sm" name="type" id="type" required>
-                <option value="">Select</option>
-                <?php foreach ($iternarytype->result() as $type) { ?>
-                  <option value="<?php echo $type->idtbl_itenary_type ?>">
-                    <?php echo $type->itenary_type ?>
-                  </option>
-                <?php } ?>
-              </select>
-            </div>
-            <div class="col-auto">
-              <label class="small font-weight-bold">Itinerary Category*</label>
-              <select class="form-control form-control-sm" name="category" id="category" required>
-                <option value="">Select</option>
-                <?php foreach ($itenarycategory->result() as $category) { ?>
-                  <option value="<?php echo $category->idtbl_itenary_category ?>">
-                    <?php echo $category->itenary_category ?>
-                  </option>
-                <?php } ?>
-              </select>
-            </div>
-            <div class="col-auto">
-              <label class="small font-weight-bold">Itinerary Status*</label>
-              <select class="form-control form-control-sm" name="group" id="group" required>
-                <option value="">Select</option>
-                <?php foreach ($Itenarygroup->result() as $group) { ?>
-                  <option value="<?php echo $group->tblid_itenary_group ?>">
-                    <?php echo $group->group ?>
-                  </option>
-                <?php } ?>
-              </select>
-            </div>
-            <div class="col-4">
-              <label class="small font-weight-bold">Itinerary*</label>
-              <textarea class="form-control form-control-sm" name="itenary" id="itenary" rows="4" maxlength="320" required></textarea>
-            </div>
-            <div class="col-auto">
-              <label class="small font-weight-bold">Task*</label>
-              <input type="number" class="form-control form-control-sm" name="task" id="task" required>
-            </div>
-            <div class="col-auto">
-              <label class="small font-weight-bold">Location*</label>
-              <select class="form-control form-control-sm" name="location" id="location" required>
-                <option value="">Select</option>
-                <?php foreach ($locationdetails->result() as $location) { ?>
-                  <option value="<?php echo $location->idtbl_location ?>">
-                    <?php echo $location->name ?>
-                  </option>
-                <?php } ?>
-              </select>
-            </div>
-            <div class="col-auto">
-              <label class="small font-weight-bold">Meet Location*</label>
-              <input type="text" class="form-control form-control-sm" name="meet_location" id="meet_location" required>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <input type="hidden" name="recordOption" id="recordOption" value="2">
-          <input type="hidden" name="recordID" id="recordID" value="">
-          <button type="submit" id="submitBtn" class="btn btn-primary btn-sm px-4" <?php if ($addcheck == 0) echo 'disabled'; ?>>
-            <i class="far fa-save"></i>&nbsp;Update
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
 
 <div class="modal fade" id="pospondModal" tabindex="-1" role="dialog" aria-labelledby="dateInputModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -341,11 +236,11 @@ include "include/topnavbar.php";
                         var confirm = full['confirmation'];
                         var editrequest = full['edit_request'];
 
-                        button += '<button class="btn btn-primary btn-sm btnEdit mr-1 ';
-                        if (!((confirm == 2) || (editcheck == 1 && editrequest == 2))) {
-                            button += 'd-none';
-                        }
-                        button += '" data-id="'+full['idtbl_job_list']+'"><i class="fa fa-pen"></i></button>';
+                        // button += '<button class="btn btn-primary btn-sm btnEdit mr-1 ';
+                        // if (!((confirm == 2) || (editcheck == 1 && editrequest == 2))) {
+                        //     button += 'd-none';
+                        // }
+                        // button += '" data-id="'+full['idtbl_job_list']+'"><i class="fa fa-pen"></i></button>';
 
 
                         button += '<a href="<?php echo base_url() ?>ChangeRequest/Editrequest/' + full['idtbl_job_list'] + '/1" onclick="return confirm_request()" target="_self" class="btn btn-primary btn-sm mr-1 '

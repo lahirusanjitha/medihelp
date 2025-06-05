@@ -96,7 +96,7 @@
 
                         <div class="col-md-6 col-lg-3">
                             <label for="bdm">Select Bdm</label>
-                            <select name="bdm" id="bdm" class="form-control form-control-sm" >
+                            <select name="bdm" id="bdm" class="form-control form-control-sm" <?php if($statuscheck != 1) echo 'disabled';?>>
                                 <option value="<?php echo $_SESSION['userid'];?>" style="display:none;">
                                     <?php echo $_SESSION['name'];?>
                                 </option>
@@ -221,7 +221,14 @@
 
 
 <script>
+    $(document).ready(function(){
+        var addcheck='<?php echo $addcheck; ?>';
+        var editcheck='<?php echo $editcheck; ?>';
+        var statuscheck='<?php echo $statuscheck; ?>';
+        var deletecheck='<?php echo $deletecheck; ?>';
+    });
         function updatePieChart(postponedCount, canceledCount, completedCount, missingCount) {
+
             if (postponedCount === 0 && canceledCount === 0 && completedCount === 0 && missingCount === 0) {
                 $('#summaryPieChart').hide(); 
                 $('#noDataMessage').show(); 

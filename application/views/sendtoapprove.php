@@ -58,7 +58,7 @@ include "include/topnavbar.php";
 
                                     <div class="col-md-4 col-lg-3">
                                         <label for="bdm">Select BDM</label>
-                                        <select id="bdm" class="form-control form-control-sm" >
+                                        <select id="bdm" class="form-control form-control-sm" <?php if($statuscheck != 1) echo 'disabled'; ?> >
                                             <option value="<?php echo $_SESSION['userid'];?>" style="display:none;">
                                                 <?php echo $_SESSION['name'];?>
                                             </option>
