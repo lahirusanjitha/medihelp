@@ -91,9 +91,12 @@ $columns = array(
 
 );
 
+
+
 $year = isset($_POST['year']) ? $_POST['year'] : '';  
 $month = isset($_POST['month']) ? $_POST['month'] : '';  
 $bdm = isset($_POST['bdm']) ? $_POST['bdm'] : '';  
+$status = isset($_POST['status']) ? $_POST['status'] : '';
 
 $extraWhere = "`u`.`idtbl_job_list` IS NOT NULL"; 
 
@@ -106,6 +109,26 @@ if (!empty($month)) {
 
 if (!empty($bdm)) {
     $extraWhere .= " AND `u`.`tbl_med_user_id` = '$bdm'";  
+}
+
+if (!empty($status)) {
+    switch ($status) {
+        case '1': 
+            $extraWhere .= " AND `u`.`completion` = 1";
+            break;
+        case '2': 
+            $extraWhere .= " AND `u`.`confirmation` = 2";
+            break;
+        case '3': 
+            $extraWhere .= " AND `u`.`confirmation` = 3 AND `u`.`status` = 1 AND `u`.`completion` = 2";
+            break;
+        case '4': 
+            $extraWhere .= " AND `u`.`confirmation` = 1 AND `u`.`completion` = 2";
+            break;
+        case '5': 
+            $extraWhere .= " AND `u`.`status` = 2";
+            break;
+    }
 }
 
 // SQL server connection information

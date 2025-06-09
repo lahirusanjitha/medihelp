@@ -72,7 +72,12 @@ include "include/topnavbar.php";
                 [10, 25, 50, -1],
                 [10, 25, 50, 'All'],
             ],
-             "buttons": [
+             "buttons": [{
+					extend: 'csv',
+					className: 'btn btn-success btn-sm',
+					title: 'Location Type  Information',
+					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
+				},
                 {
                     extend: 'pdf',
                     className: 'btn btn-danger btn-sm',
@@ -85,23 +90,23 @@ include "include/topnavbar.php";
                     customize: function (doc) {
 
                         doc.pageSize = 'A4'; 
-                        doc.pageOrientation = 'landscape';
+                        doc.pageOrientation = 'portrait';
 
                         doc.content.splice(0, 0, {
-                            text: 'MediHelp Hospital',
-                            fontSize: 18,
+                            text: 'Location Type info - MediHelp Hospital',
+                            fontSize: 13,
                             bold: true,
                             alignment: 'center',
                             margin: [0, 0, 0, 5]
                         });
 
-                        doc.content.splice(1, 0, {
-                            text: 'Location Type Information',
-                            fontSize: 12,
-                            bold: true,
-                            alignment: 'left',
-                            margin: [0, 0, 0, 10]
-                        });
+                        // doc.content.splice(1, 0, {
+                        //     text: 'Location Type Information',
+                        //     fontSize: 12,
+                        //     bold: true,
+                        //     alignment: 'left',
+                        //     margin: [0, 0, 0, 10]
+                        // });
 
                         var table = doc.content[doc.content.length - 1].table;
                         if (table && table.body && table.body.length > 0) {
@@ -110,14 +115,14 @@ include "include/topnavbar.php";
                         }
 
                         doc.content[doc.content.length - 1].layout = {
-                            hLineWidth: function () { return 0.5; },
-                            vLineWidth: function () { return 0.5; },
-                            hLineColor: function () { return '#aaa'; },
-                            vLineColor: function () { return '#aaa'; }
+                            hLineWidth: function () { return 0; },
+                            vLineWidth: function () { return 0; },
+                            hLineColor: function () { return 'white'; },
+                            vLineColor: function () { return 'white'; }
                         };
 
                         doc.styles.tableHeader = {
-                            fillColor: '#4e73df',
+                            fillColor: '#34495e',
                             fontSize: 13,
                             color: 'white',
                             alignment: 'center',

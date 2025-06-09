@@ -120,7 +120,7 @@ class Jobinfo extends CI_Model{
                 $actionJSON=json_encode($actionObj);
                 
                 $this->session->set_flashdata('msg', $actionJSON);
-                redirect('ChangeRequest');                
+                redirect('Job');                
             } else {
                 $this->db->trans_rollback();
 
@@ -295,8 +295,8 @@ class Jobinfo extends CI_Model{
         $obj->month = date('Y-m', strtotime($fullDate));
         $obj->id=$respond->row(0)->idtbl_job_list;
         $obj->start_date=$respond->row(0)->start_date;
-        $obj->start_time=$respond->row(0)->start_time;
-        $obj->end_time=$respond->row(0)->end_time;
+        $obj->start_time = date('H:i', strtotime($respond->row(0)->start_time));
+        $obj->end_time = date('H:i', strtotime($respond->row(0)->end_time));
         $obj->itenary_type=$respond->row(0)->tbl_itenary_type_tblid_itenary_type;
         $obj->itenary_category=$respond->row(0)->tbl_itenary_category_id;
         $obj->task=$respond->row(0)->task;
@@ -310,7 +310,7 @@ class Jobinfo extends CI_Model{
 
     }
 
-    public function generateFullDayTimeOptions($interval = 1) {
+    public function generateFullDayTimeOptions($interval = 30) {
         $startTime = strtotime('00:00');
         $endTime = strtotime('23:59');
         $options = '';
@@ -325,6 +325,25 @@ class Jobinfo extends CI_Model{
         return $options;
     }
     
+public function Getloginfo($id)
+{
+    $this->db->select('
+        sa.datetime AS sd, 
+        r.rejecteddatetime AS rd, 
+        a.approvedatetime AS ad
+    ');
+    $this->db->from('tbl_job_list AS j'); 
+
+    $this->db->join('tbl_sendtoapproval AS sa', 'sa.tbl_joblist_idtbl_joblist = j.idtbl_job_list', 'left'); 
+    $this->db->join('tbl_approval_list AS a', 'a.tbl_joblist_idtbl_joblist = j.idtbl_job_list', 'left');
+    $this->db->join('tbl_rejected_itinary AS r', 'r.tbl_joblist_idtbl_joblist = j.idtbl_job_list', 'left');
+
+    $this->db->where('j.idtbl_job_list', $id);
+
+    $query = $this->db->get();
+    return $query->row_array(); 
+}
+
     
     
         

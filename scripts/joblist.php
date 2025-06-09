@@ -49,10 +49,43 @@ $columns = array(
 	array( 'db' => '`u`.`confirmation`', 'dt' => 'confirmation', 'field' => 'confirmation' ),
 	array( 'db' => '`u`.`edit_request`', 'dt' => 'edit_request', 'field' => 'edit_request' ),
 	array( 'db' => '`u`.`tbl_med_user_id`', 'dt' => 'tbl_med_user_id', 'field' => 'tbl_med_user_id' ),
-	array( 'db' => '`u`.`feedback`', 'dt' => 'feedback', 'field' => 'feedback' )
-	
+	array( 'db' => '`u`.`feedback`', 'dt' => 'feedback', 'field' => 'feedback' ),
+	array( 'db' => '`u`.`reject_status`', 'dt' => 'reject_status', 'field' => 'reject_status' ), 
+	array( 'db' => '`u`.`approval_send`', 'dt' => 'approval_send', 'field' => 'approval_send' ), 
+	array( 'db' => '`u`.`completion`', 'dt' => 'completion', 'field' => 'completion' ), 
+	array( 
+        'db' => '`u`.`reject_status`', 
+        'dt' => 'actions', 
+        'field' => 'reject_status', 
+        'formatter' => function($reject_status, $row) {
+            $confirmation = $row['confirmation'];
+            $status = $row['status'];
+			$approval_send = $row['approval_send'];
+			$completion = $row['completion'];
+			$edit_request = $row['edit_request'];
 
+			if($status == 1 && $approval_send == 1 && $reject_status == 1){
+				return '<span class="badge badge-danger">Rejected</span> ';
+			}
+            elseif($status == 1 && $reject_status == 1) {
+                return '<span class="badge badge-danger">Rejected</span>';
+            }
+			elseif($status == 1 && $approval_send == 1){
+				return '<span class="badge badge-secondary">Send to Approve</span>';
+			}
+			elseif($status == 1 && $reject_status == 0 && $confirmation == 2 && $completion == 2 && $edit_request == 1){
+				return '<span class="badge badge-primary">Edit Request</span>';
+			}
+			elseif($status == 1 && $reject_status == 0 && $confirmation == 2 && $completion == 2){
+				return '<span class="badge badge-warning">New</span>';
+			}
+
+
+            return '<span class="badge badge-secondary">Unknown</span>';
+        } 
+    )
 );
+
 
 // SQL server connection information
 require('config.php');

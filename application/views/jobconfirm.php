@@ -13,7 +13,7 @@ include "include/topnavbar.php";
                     <div class="page-header-content py-3">
                         <h1 class="page-header-title font-weight-light">
                             <div class="page-header-icon"><i data-feather="list"></i></div>
-                            <span>Approval Level</span>
+                            <span>Approval</span>
                         </h1>
                     </div>
                 </div>
@@ -93,7 +93,8 @@ include "include/topnavbar.php";
                         <tbody></tbody>
                     </table>
                     <div class="mt-3">
-                    <button style="float: right;" id="approveAllBtn" class="btn btn-primary btn-sm">Approve</button>
+                        <button style="float: right; margin-left: 5px;" id="rejectAllBtn" class="btn btn-danger btn-sm">Reject</button>
+                        <button style="float: right;" id="approveAllBtn" class="btn btn-primary btn-sm">Approve</button>
                     </div>
                 </div>
             </div>
@@ -125,7 +126,12 @@ include "include/topnavbar.php";
                 [10, 25, 50, -1],
                 [10, 25, 50, 'All'],
             ],
-            "buttons": [
+            "buttons": [{
+					extend: 'csv',
+					className: 'btn btn-success btn-sm',
+					title: 'Approval Information',
+					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
+				},
                 {
                     extend: 'pdf',
                     className: 'btn btn-danger btn-sm',
@@ -141,20 +147,14 @@ include "include/topnavbar.php";
                         doc.pageOrientation = 'landscape';
 
                         doc.content.splice(0, 0, {
-                            text: 'MediHelp Hospital',
-                            fontSize: 18,
+                            text: 'Approval Information Report - MediHelp Hospital',
+                            fontSize: 13,
                             bold: true,
                             alignment: 'center',
                             margin: [0, 0, 0, 5]
                         });
 
-                        doc.content.splice(1, 0, {
-                            text: 'Approval Level Information',
-                            fontSize: 12,
-                            bold: true,
-                            alignment: 'left',
-                            margin: [0, 0, 0, 10]
-                        });
+
 
                         var table = doc.content[doc.content.length - 1].table;
                         if (table && table.body && table.body.length > 0) {
@@ -163,14 +163,14 @@ include "include/topnavbar.php";
                         }
 
                         doc.content[doc.content.length - 1].layout = {
-                            hLineWidth: function () { return 0.5; },
-                            vLineWidth: function () { return 0.5; },
-                            hLineColor: function () { return '#aaa'; },
-                            vLineColor: function () { return '#aaa'; }
+                            hLineWidth: function () { return 0; },
+                            vLineWidth: function () { return 0; },
+                            hLineColor: function () { return 'white'; },
+                            vLineColor: function () { return 'white'; }
                         };
 
                         doc.styles.tableHeader = {
-                            fillColor: '#4e73df',
+                            fillColor: '#34495e',
                             fontSize: 13,
                             color: 'white',
                             alignment: 'center',
@@ -237,7 +237,13 @@ $('#approveAllBtn').on('click', function () {
     });
 
     if (selectedIds.length === 0) {
-        alert('Please select at least one row for approval.');
+            Swal.fire({
+            icon: "warning",
+            title: "Please Selecet atleast one",
+            showConfirmButton: false,
+            timer: 2000
+            });
+        return;
         return;
     }
 
@@ -248,7 +254,55 @@ $('#approveAllBtn').on('click', function () {
         success: function (response) {
             let result = JSON.parse(response);
             if (result.status === 'success') {
-                alert('Data apporoved successfully.');
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Itinary Approved Successfully",
+                    showConfirmButton: false,
+                    timer: 2000
+                    });
+                $('#dataTable').DataTable().ajax.reload();
+            } else {
+                alert('Failed to update data: ' + result.message);
+            }
+        },
+        error: function (xhr, status, error) {
+            alert('An error occurred: ' + error);
+        }
+    });
+});
+
+$('#rejectAllBtn').on('click', function () {
+    let selectedIds = [];
+
+    $('.rowCheckbox:checked').each(function () {
+        selectedIds.push($(this).val());
+    });
+
+    if (selectedIds.length === 0) {
+            Swal.fire({
+            icon: "warning",
+            title: "Please Selecet atleast one",
+            showConfirmButton: false,
+            timer: 2000
+            });
+        return;
+    }
+
+    $.ajax({
+        url: "<?php echo site_url('Confirmjob/rejectApproval'); ?>",
+        type: "POST",
+        data: { ids: selectedIds },
+        success: function (response) {
+            let result = JSON.parse(response);
+            if (result.status === 'success') {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Itinary Reject Successfully",
+                    showConfirmButton: false,
+                    timer: 2000
+                    });
                 $('#dataTable').DataTable().ajax.reload();
             } else {
                 alert('Failed to update data: ' + result.message);

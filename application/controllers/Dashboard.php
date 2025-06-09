@@ -46,6 +46,18 @@ class Dashboard extends CI_Controller {
         $records = $this->Dashboardinfo->getMissingRecords($year,$month,$bdm);
         echo json_encode($records);
     }
+    public function getItineraryToApproveCount()
+{
+    $count = $this->Dashboardinfo->getItineraryToApproveCount();
+    echo json_encode($count);
+}
+
+//     public function getItineraryToCompleteCount()
+// {
+//     $count = $this->Dashboardinfo->countItinerariesByStatus('to_complete');
+//     echo json_encode($count);
+
+
 }
 
 

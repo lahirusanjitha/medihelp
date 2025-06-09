@@ -33,6 +33,14 @@ class Job extends CI_Controller {
 		$this->load->model('Jobinfo');
         $result=$this->Jobinfo->Jobedit();
 	}
+  public function loginfo() {
+    $id = $this->input->post('id');
+    
+    $this->load->model('Jobinfo');
+    $result = $this->Jobinfo->Getloginfo($id);
+    echo json_encode($result);
+}
+
 
 
 }

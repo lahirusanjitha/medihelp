@@ -68,5 +68,14 @@ class Dashboardinfo extends CI_Model {
         $query = $this->applyFilter($query, $year, $month, $bdm); 
         return $query->get()->result_array();
     }
+
+ public function getItineraryToApproveCount()
+    {
+        return $this->db
+            ->from('tbl_job_list')
+            ->where('approval_send', 1)
+            ->count_all_results();
+    }
+
 }
 ?>

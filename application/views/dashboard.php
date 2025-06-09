@@ -60,7 +60,24 @@
                 </div>
 
                 <div class="dashboard-container">
-                    <h3 class="mb-4">Itinerary Status</h3>
+                    <!-- <h3 class="mb-4">Itinerary Status</h3> -->
+                                         <!-- count -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card shadow-sm border border-primary">
+                    <div class="card-body d-flex align-items-center bg-white text-primary rounded">
+                        <div class="me-3">
+                            <i class="fas fa-user-check fa-2x"></i>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center w-100">
+                            <h6 class="mb-0 me-2">Itineraries to Approve:</h6>
+                            <h4 class="mb-0" id="toApproveCount">0</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
                     <div class="row mb-4">
 
                     <div class="col-md-6 col-lg-3">
@@ -93,7 +110,7 @@
                                 <option value="12">December</option>
                             </select>
                         </div>
-
+                        
                         <div class="col-md-6 col-lg-3">
                             <label for="bdm">Select Bdm</label>
                             <select name="bdm" id="bdm" class="form-control form-control-sm" <?php if($statuscheck != 1) echo 'disabled';?>>
@@ -108,6 +125,24 @@
                             </select>
                         </div>
                     </div>
+            
+
+
+<!-- 
+                        <div class="col-md-6">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-body d-flex align-items-center bg-success text-white rounded">
+                                    <div class="me-3">
+                                        <i class="fas fa-tasks fa-2x"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-1">Itineraries to Complete</h6>
+                                        <h4 class="mb-0" id="toCompleteCount">0</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
 
                     <div class="row">
                         <div class="col-lg-9">
@@ -324,4 +359,26 @@
                 loadRecords('getMissingRecords', '#missingTable', 'Missing');
             });
         });
+        function loadItineraryCounts() {
+            $.ajax({
+                url: "<?php echo base_url(); ?>Dashboard/getItineraryToApproveCount",
+                method: "GET",
+                success: function(data) {
+                    $('#toApproveCount').text(data);
+                }
+            });
+
+            // $.ajax({
+            //     url: "<?php echo base_url(); ?>Dashboard/getItineraryToCompleteCount",
+            //     method: "GET",
+            //     success: function(data) {
+            //         $('#toCompleteCount').text(data);
+            //     }
+            // });
+        
+        }
+        $(document).ready(function(){
+            loadItineraryCounts();
+        })
+
     </script>

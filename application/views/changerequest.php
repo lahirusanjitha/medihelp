@@ -13,7 +13,7 @@ include "include/topnavbar.php";
                     <div class="page-header-content py-3">
                         <h1 class="page-header-title font-weight-light">
                             <div class="page-header-icon"><i data-feather="list"></i></div>
-                            <span>Approve Change List</span>
+                            <span>Itinary Actions</span>
                         </h1>
                     </div>
                 </div>
@@ -141,7 +141,12 @@ include "include/topnavbar.php";
                 [10, 25, 50, -1],
                 [10, 25, 50, 'All'],
             ],
-            "buttons": [
+            "buttons": [{
+					extend: 'csv',
+					className: 'btn btn-success btn-sm',
+					title: 'Itinary Actions Information',
+					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
+				},
                 {
                     extend: 'pdf',
                     className: 'btn btn-danger btn-sm',
@@ -156,19 +161,11 @@ include "include/topnavbar.php";
                         doc.pageOrientation = 'landscape';
                         
                         doc.content.splice(0, 0, {
-                            text: 'MediHelp Hospital',
-                            fontSize: 18,
+                            text: 'Aprrove Change Information Report - MediHelp Hospital',
+                            fontSize: 13,
                             bold: true,
                             alignment: 'center',
                             margin: [0, 0, 0, 5]
-                        });
-
-                        doc.content.splice(1, 0, {
-                            text: 'Aprrove Change Information',
-                            fontSize: 12,
-                            bold: true,
-                            alignment: 'left',
-                            margin: [0, 0, 0, 10]
                         });
 
                         var table = doc.content[doc.content.length - 1].table;
@@ -178,15 +175,15 @@ include "include/topnavbar.php";
                         }
 
                         doc.content[doc.content.length - 1].layout = {
-                            hLineWidth: function () { return 0.5; },
-                            vLineWidth: function () { return 0.5; },
-                            hLineColor: function () { return '#aaa'; },
-                            vLineColor: function () { return '#aaa'; }
+                            hLineWidth: function () { return 0; },
+                            vLineWidth: function () { return 0; },
+                            hLineColor: function () { return 'white'; },
+                            vLineColor: function () { return 'white'; }
                         };
 
                         doc.styles.tableHeader = {
-                            fillColor: '#4e73df',
-                            fontSize: 13,
+                            fillColor: '#34495e',
+                            fontSize: 12,
                             color: 'white',
                             alignment: 'center',
                             bold: true

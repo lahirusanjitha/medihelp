@@ -42,7 +42,7 @@ $year = isset($_POST['year']) ? $_POST['year'] : '';
 $month = isset($_POST['month']) ? $_POST['month'] : '';  
 $bdm = isset($_POST['bdm']) ? $_POST['bdm'] : '';  
 
-$extraWhere = "`u`.`status` IN (1, 2) AND `u`.`confirmation` IN (2) AND `u`.`approval_send` IN (1)"; 
+$extraWhere = "`u`.`status` IN (1, 2) AND `u`.`confirmation` IN (2,3) AND `u`.`approval_send` IN (1)"; 
 
 if (!empty($year)) {
     $extraWhere .= " AND YEAR(`u`.`start_date`) = '$year'";

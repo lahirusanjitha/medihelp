@@ -42,7 +42,7 @@ class Welcome extends CI_Controller {
 
 			$this->session->set_userdata($user_data);
 			
-			redirect('Dashboard/index');            
+			redirect('Dashboard/');            
         }
         else{
             $this->session->set_flashdata('msg', 'Invalid Username or password');

@@ -100,7 +100,12 @@ include "include/topnavbar.php";
                 [10, 25, 50, -1],
                 [10, 25, 50, 'All'],
             ],
-            "buttons": [
+            "buttons": [{
+					extend: 'csv',
+					className: 'btn btn-success btn-sm',
+					title: 'Itinary Completion Information',
+					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
+				},
                 {
                     extend: 'pdf',
                     className: 'btn btn-danger btn-sm',
@@ -115,19 +120,11 @@ include "include/topnavbar.php";
                         doc.pageOrientation = 'landscape';
                         
                         doc.content.splice(0, 0, {
-                            text: 'MediHelp Hospital',
-                            fontSize: 18,
+                            text: 'Itinary Completion Information - MediHelp Hospital',
+                            fontSize: 13,
                             bold: true,
                             alignment: 'center',
                             margin: [0, 0, 0, 5]
-                        });
-
-                        doc.content.splice(1, 0, {
-                            text: 'Itinary Completion List Information',
-                            fontSize: 12,
-                            bold: true,
-                            alignment: 'left',
-                            margin: [0, 0, 0, 10]
                         });
 
                         var table = doc.content[doc.content.length - 1].table;
@@ -137,14 +134,14 @@ include "include/topnavbar.php";
                         }
 
                         doc.content[doc.content.length - 1].layout = {
-                            hLineWidth: function () { return 0.5; },
-                            vLineWidth: function () { return 0.5; },
-                            hLineColor: function () { return '#aaa'; },
-                            vLineColor: function () { return '#aaa'; }
+                            hLineWidth: function () { return 0; },
+                            vLineWidth: function () { return 0; },
+                            hLineColor: function () { return 'white'; },
+                            vLineColor: function () { return 'white'; }
                         };
 
                         doc.styles.tableHeader = {
-                            fillColor: '#4e73df',
+                            fillColor: '#34495e',
                             fontSize: 13,
                             color: 'white',
                             alignment: 'center',
@@ -216,7 +213,11 @@ include "include/topnavbar.php";
             });
 
             if (selectedIds.length === 0) {
-                alert('Please select at least one row to send for Complete.');
+               Swal.fire({
+                    icon: "info",
+                    title: "Oops...",
+                    text: "Select atleast one Itinary!",
+                    });
                 return;
             }
 
@@ -227,10 +228,20 @@ include "include/topnavbar.php";
                 success: function (response) {
                     let result = JSON.parse(response);
                     if (result.status === 'success') {
-                        alert('Itinary Mark As Completed Succesfully.');
+                        Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Itinary Mark As Completed Successfully!",
+                        showConfirmButton: false,
+                        timer: 2000
+                        });
                         $('#dataTable').DataTable().ajax.reload();
                     } else {
-                        alert('Failed to update data: ' + result.message);
+                        Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "Something went wrong!"+result.message,
+                                });
                     }
                 },
                 error: function (xhr, status, error) {

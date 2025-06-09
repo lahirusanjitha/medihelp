@@ -37,6 +37,7 @@ function menucheck($arraymenu, $menuID){
         <link rel="stylesheet" href="<?php echo base_url() ?>assets/slick/slick.css">
         <link rel="stylesheet" href="<?php echo base_url() ?>assets/icofont/icofont.min.css">
         <link rel="stylesheet" href="<?php echo base_url() ?>assets/flaticon/flaticon.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <style>
             .table tr {
                 cursor: pointer;

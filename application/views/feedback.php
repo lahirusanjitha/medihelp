@@ -8,6 +8,7 @@ include "include/topnavbar.php";
   background-color: #d4edda;  
   font-weight: bold;
 }
+
 </style>
 </head>
 <div id="layoutSidenav">
@@ -166,7 +167,12 @@ include "include/topnavbar.php";
                 [10, 25, 50, -1],
                 [10, 25, 50, 'All'],
             ],
-            "buttons": [
+            "buttons": [{
+					extend: 'csv',
+					className: 'btn btn-success btn-sm',
+					title: 'FeedBack Information',
+					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
+				},
                 {
                     extend: 'pdf',
                     className: 'btn btn-danger btn-sm',
@@ -174,7 +180,7 @@ include "include/topnavbar.php";
                     filename: 'Feedback information',
                     text: '<i class="fas fa-file-pdf mr-2"></i> PDF',
                     exportOptions: {
-                        columns: [0,1,2,3,4,5,6,7,8,9,10,11]
+                        columns: [0,1,2,3,4,5,6,7,8,9,10]
                     },
                     customize: function (doc) {
 
@@ -182,36 +188,25 @@ include "include/topnavbar.php";
                         doc.pageOrientation = 'landscape';
 
                         doc.content.splice(0, 0, {
-                            text: 'MediHelp Hospital',
-                            fontSize: 18,
+                            text: 'Feedback information Report - MediHelp Hospital',
+                            fontSize: 13,
                             bold: true,
                             alignment: 'center',
                             margin: [0, 0, 0, 5]
                         });
 
-                        doc.content.splice(1, 0, {
-                            text: 'Feedback information',
-                            fontSize: 12,
-                            bold: true,
-                            alignment: 'left',
-                            margin: [0, 0, 0, 10]
-                        });
 
-                        // var table = doc.content[doc.content.length - 1].table;
-                        // if (table && table.body && table.body.length > 0) {
-                        //     var colCount = table.body[0].length;
-                        //     table.widths = Array(colCount).fill('*');
-                        // }
+
 
                         doc.content[doc.content.length - 1].layout = {
-                            hLineWidth: function () { return 0.5; },
-                            vLineWidth: function () { return 0.5; },
-                            hLineColor: function () { return '#aaa'; },
-                            vLineColor: function () { return '#aaa'; }
+                            hLineWidth: function () { return 0; },
+                            vLineWidth: function () { return 0; },
+                            hLineColor: function () { return 'white'; },
+                            vLineColor: function () { return 'white'; }
                         };
 
                         doc.styles.tableHeader = {
-                            fillColor: '#4e73df',
+                            fillColor: '#34495e',
                             fontSize: 13,
                             color: 'white',
                             alignment: 'center',

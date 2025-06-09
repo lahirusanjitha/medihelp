@@ -4,8 +4,8 @@ include "include/topnavbar.php";
 ?>
 <head>
 <style>
-    .highlighted {
-  background-color: #d4edda;  
+    .rejectHighlight {
+  background-color:rgb(224, 79, 11);  
   font-weight: bold;
 }
 </style>
@@ -145,6 +145,7 @@ include "include/topnavbar.php";
                                             <th>Location</th>
                                             <th>Itinerary</th>
                                             <th>Meet Location</th>
+                                            <th>Status</th>
                                             <th class="text-right">Actions</th>
                                         </tr>
                                     </thead>
@@ -201,22 +202,36 @@ include "include/topnavbar.php";
     </div>
 </div>
 
-<div class="modal fade" id="feedbackviewmodal" data-backdrop="static" data-keyboard="false" tabindex="-1"
-	aria-labelledby="staticBackdropLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="staticBackdropLabel">Feed Back</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div id="viewhtml"></div>
-			</div>
-		</div>
-	</div>
+<!-- Modal -->
+<div class="modal fade" id="logModal" tabindex="-1" role="dialog" aria-labelledby="logModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Log Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Status</th>
+              <th>Timestamp</th>
+              <th>Comment</th>
+            </tr>
+          </thead>
+          <tbody id="logTableBody">
+            <tr><td colspan="4" class="text-center">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
+
+
 
 <?php include "include/footerscripts.php"; ?>
 
@@ -239,7 +254,12 @@ include "include/topnavbar.php";
                 [10, 25, 50, -1],
                 [10, 25, 50, 'All'],
             ],
-            "buttons": [
+            "buttons": [{
+					extend: 'csv',
+					className: 'btn btn-success btn-sm',
+					title: 'Monthly Itinary Information',
+					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
+				},
                 {
                     extend: 'pdf',
                     className: 'btn btn-danger btn-sm',
@@ -255,20 +275,14 @@ include "include/topnavbar.php";
                         doc.pageOrientation = 'landscape';
 
                         doc.content.splice(0, 0, {
-                            text: 'MediHelp Hospital',
-                            fontSize: 18,
+                            text: 'Monthly Itinary Report - MediHelp Hospital',
+                            fontSize: 13,
                             bold: true,
                             alignment: 'center',
                             margin: [0, 0, 0, 5]
                         });
 
-                        doc.content.splice(1, 0, {
-                            text: 'Monthly Itinary Information',
-                            fontSize: 12,
-                            bold: true,
-                            alignment: 'left',
-                            margin: [0, 0, 0, 10]
-                        });
+
 
                         var table = doc.content[doc.content.length - 1].table;
                         if (table && table.body && table.body.length > 0) {
@@ -277,14 +291,14 @@ include "include/topnavbar.php";
                         }
 
                         doc.content[doc.content.length - 1].layout = {
-                            hLineWidth: function () { return 0.5; },
-                            vLineWidth: function () { return 0.5; },
-                            hLineColor: function () { return '#aaa'; },
-                            vLineColor: function () { return '#aaa'; }
+                            hLineWidth: function () { return 0; },
+                            vLineWidth: function () { return 0; },
+                            hLineColor: function () { return 'white'; },
+                            vLineColor: function () { return 'white'; }
                         };
 
                         doc.styles.tableHeader = {
-                            fillColor: '#4e73df',
+                            fillColor: '#34495e',
                             fontSize: 13,
                             color: 'white',
                             alignment: 'center',
@@ -328,7 +342,7 @@ include "include/topnavbar.php";
                 { "data": "location"},
                 { "data": "itenary"},
                 { "data": "meet_location"},
-
+                { "data": "actions"},
                 
                 {
                     "targets": -1,
@@ -340,17 +354,19 @@ include "include/topnavbar.php";
                         var editrequest = full['edit_request'];
                         var button = '';
 
+                        button += '<button class="btn btn-dark btn-sm btnview mr-1"  id="' + full['idtbl_job_list'] + '" data-toggle="tooltip" title="View log"><i class="fas fa-eye"></i></button>';
+
                         button += '<button class="btn btn-primary btn-sm btnEdit mr-1 ';
                         if (!((confirm == 2) || (editcheck == 1 && editrequest == 2))) {
                             button += 'd-none';
                         }
-                        button += '" id="' + full['idtbl_job_list'] + '"><i class="fas fa-pen"></i></button>';
+                        button += '" id="' + full['idtbl_job_list'] + '" data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></button>';
 
-                        button += '<a href="<?php echo base_url() ?>ChangeRequest/Editrequest/' + full['idtbl_job_list'] + '/1" onclick="return confirm_request()" target="_self" class="btn btn-primary btn-sm mr-1 '
-                        if (confirm != 1 || editrequest != 0) {
-                            button += 'd-none';
-                        }
-                        button += '" id="' + full['idtbl_job_list'] + '"><i class="fa fa-paper-plane"></i></a>';
+                        // button += '<a href="<?php echo base_url() ?>ChangeRequest/Editrequest/' + full['idtbl_job_list'] + '/1" onclick="return confirm_request()" target="_self" class="btn btn-primary btn-sm mr-1 '
+                        // if (confirm != 1 || editrequest != 0) {
+                        //     button += 'd-none';
+                        // }
+                        // button += '" id="' + full['idtbl_job_list'] + '"><i class="fa fa-paper-plane"></i></a>';
 
                         return button;
                     }
@@ -362,66 +378,84 @@ include "include/topnavbar.php";
             },
          "rowCallback": function(row, data, index) {
         
-        if (data.feedback == 1) {
-            $(row).addClass('highlighted');  
-        }
+        // if (data.reject_status == 1) {
+        //     $(row).addClass('rejectHighlight');  
+        // }
     }
     
         });
-        $('#dataTable tbody').on('click', '.btnview', function () {
-            var id = $(this).attr('id');
+        // $('#dataTable tbody').on('click', '.btnview', function () {
+        //     var id = $(this).attr('id');
+        //     $.ajax({
+        //         type: "POST",
+        //         url: '<?php echo base_url() ?>Job/feedbackdetails',
+        //         data: {
+        //             recordID: id
+        //         },
+        //         dataType: 'json',
+        //         success: function (response) {
+        //             if (response.status === 'nodata') {
+        //                 alert('No feedback data found.');
+        //             } else {
+        //                 $('#feedbackviewmodal').modal('show');  
+        //                 $('#viewhtml').html(response.html);  
+        //             }
+        //         },
+        //         error: function () {
+        //             alert('Error occurred while loading feedback.');
+        //         }
+        //     });
+        // });
+
+$('#dataTable tbody').on('click', '.btnEdit', function () {
+    var id = $(this).attr('id');
+
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "Do you want to edit this record?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, edit it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
             $.ajax({
                 type: "POST",
-                url: '<?php echo base_url() ?>Job/feedbackdetails',
                 data: {
                     recordID: id
                 },
-                dataType: 'json',
-                success: function (response) {
-                    if (response.status === 'nodata') {
-                        alert('No feedback data found.');
-                    } else {
-                        $('#feedbackviewmodal').modal('show');  
-                        $('#viewhtml').html(response.html);  
-                    }
+                url: '<?php echo base_url() ?>Job/Jobedit',
+                success: function (result) {
+                    var obj = JSON.parse(result);
+                    $('#recordID').val(obj.id);
+                    $('#month').val(obj.month);
+                    $('#date').val(obj.start_date);
+                    $('#start_time').val(obj.start_time);
+                    $('#end_time').val(obj.end_time);
+                    $('#type').val(obj.itenary_type);
+                    $('#category').val(obj.itenary_category);
+                    $('#group').val(obj.group);
+                    $('#task').val(obj.task);
+                    $('#itenary').val(obj.itenary);
+                    $('#meet_location').val(obj.meet_location);
+                    $('#location').val(obj.location);
+                    $('#recordOption').val('2');
+                    $('#submitBtn').html('<i class="far fa-save"></i>&nbsp;Update');
+                    
                 },
                 error: function () {
-                    alert('Error occurred while loading feedback.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong while loading data!'
+                    });
                 }
             });
-        });
+        }
+    });
+});
 
-        $('#dataTable tbody').on('click', '.btnEdit', function() {
-            var r = confirm("Are you sure, You want to Edit this ? ");
-            if (r == true) {
-                var id = $(this).attr('id');
-                $.ajax({
-                    type: "POST",
-                    data: {
-                        recordID: id
-                    },
-                    url: '<?php echo base_url() ?>Job/Jobedit',
-                    success: function(result) { 
-                        var obj = JSON.parse(result);
-                        $('#recordID').val(obj.id);
-                        $('#month').val(obj.month);
-                        $('#date').val(obj.start_date);
-                        $('#start_time').val(obj.start_time); 
-                        $('#end_time').val(obj.end_time);
-                        $('#type').val(obj.itenary_type);
-                        $('#category').val(obj.itenary_category);                       
-                        $('#group').val(obj.group);
-                        $('#task').val(obj.task);  
-                        $('#itenary').val(obj.itenary);
-                        $('#meet_location').val(obj.meet_location);                     
-                        $('#location').val(obj.location);
-                        $('#recordOption').val('2');
-                        $('#submitBtn').html('<i class="far fa-save"></i>&nbsp;Update');
-                    }
-                });
-            }
-        });
-        
     //     $('#start_time').select2({
     // });
 
@@ -434,6 +468,36 @@ include "include/topnavbar.php";
 
     $('#modaltblJobListField').val(idtbl_job_list);
 });
+$(document).on('click', '.btnview', function () {
+    var id = $(this).attr('id'); // use `attr('id')` if you use `id="..."` in the button
+    var $tbody = $('#logTableBody');
+    $tbody.html('<tr><td colspan="2" class="text-center">Loading...</td></tr>');
+
+    $.ajax({
+        url: '<?php echo base_url('Job/loginfo'); ?>',
+        type: 'POST',
+        data: { id: id },
+        dataType: 'json',
+        success: function (log) {
+            if (log) {
+                var rows = '';
+                rows += `<tr><td>Send to Approval</td><td>${log.sd ?? 'N/A'}</td></tr>`;
+                rows += `<tr><td>Approval Time</td><td>${log.ad ?? 'N/A'}</td></tr>`;
+                rows += `<tr><td>Rejected Time</td><td>${log.rd ?? 'N/A'}</td></tr>`;
+
+                $tbody.html(rows);
+            } else {
+                $tbody.html('<tr><td colspan="2" class="text-center">No log data found.</td></tr>');
+            }
+
+            $('#logModal').modal('show');
+        },
+        error: function () {
+            $tbody.html('<tr><td colspan="2" class="text-center text-danger">Error loading data.</td></tr>');
+        }
+    });
+});
+
 
 
     function pause_confirm() {

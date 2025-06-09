@@ -66,6 +66,19 @@ include "include/topnavbar.php";
                 </select>
                 </div>
 
+                <div class="col-md-6 col-lg-3">
+                    <label for="statusSelect">Select Status</label>
+                    <select id="statusSelect" class="form-control form-control-sm">
+                        <option value="">All Statuses</option>
+                        <option value="1">Completed</option>
+                        <option value="2">Not Approved</option>
+                        <option value="3">Canceled</option>
+                        <option value="4">Approved - Not Completed</option>
+                        <option value="5">Postponed</option>
+                    </select>
+                </div>
+
+
             </div>
             <hr>
                     <div class="card-body p-0 p-2">
@@ -121,6 +134,12 @@ include "include/topnavbar.php";
             ],
             "buttons": [
                 {
+					extend: 'csv',
+					className: 'btn btn-success btn-sm',
+					title: 'Action Report Information',
+					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
+				},
+                {
                     extend: 'pdf',
                     className: 'btn btn-danger btn-sm',
                     title: '',
@@ -134,19 +153,11 @@ include "include/topnavbar.php";
                         doc.pageOrientation = 'landscape';
                         
                         doc.content.splice(0, 0, {
-                            text: 'MediHelp Hospital',
-                            fontSize: 18,
+                            text: 'Action Status Information Report - MediHelp Hospital',
+                            fontSize: 13,
                             bold: true,
                             alignment: 'center',
                             margin: [0, 0, 0, 5]
-                        });
-
-                        doc.content.splice(1, 0, {
-                            text: 'Action Status Information',
-                            fontSize: 12,
-                            bold: true,
-                            alignment: 'left',
-                            margin: [0, 0, 0, 10]
                         });
 
                         var table = doc.content[doc.content.length - 1].table;
@@ -156,15 +167,15 @@ include "include/topnavbar.php";
                         }
 
                         doc.content[doc.content.length - 1].layout = {
-                            hLineWidth: function () { return 0.5; },
-                            vLineWidth: function () { return 0.5; },
-                            hLineColor: function () { return '#aaa'; },
-                            vLineColor: function () { return '#aaa'; }
+                            hLineWidth: function () { return 0; },
+                            vLineWidth: function () { return 0; },
+                            hLineColor: function () { return 'white'; },
+                            vLineColor: function () { return 'white'; }
                         };
 
                         doc.styles.tableHeader = {
-                            fillColor: '#4e73df',
-                            fontSize: 13,
+                            fillColor: '#34495e',
+                            fontSize: 12,
                             color: 'white',
                             alignment: 'center',
                             bold: true
@@ -185,6 +196,7 @@ include "include/topnavbar.php";
                 d.year = $('#yearSelect').val();
                 d.bdm = $('#bdm').val();   
                 d.month = $('#monthSelect').val(); 
+                d.status = $('#statusSelect').val();
                // d.userid = <?php //echo json_encode($_SESSION['userid']); ?>;
             }
             },
@@ -214,7 +226,7 @@ include "include/topnavbar.php";
                 $('[data-toggle="tooltip"]').tooltip();
             }
         });
-        $('#yearSelect,#monthSelect, #bdm').change(function() {
+        $('#yearSelect,#monthSelect, #bdm, #statusSelect').change(function() {
             table.draw(); 
         });
     });
