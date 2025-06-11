@@ -106,6 +106,27 @@ include "include/topnavbar.php";
     </div>
 </div>
 
+<!-- Reject Reason Modal -->
+<div class="modal fade" id="rejectReasonModal" tabindex="-1" role="dialog" aria-labelledby="rejectReasonModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Enter Reject Reason</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <textarea id="rejectReasonInput" class="form-control" rows="4" placeholder="Type reason here..."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="submitRejectBtn" class="btn btn-danger">Submit</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <?php include "include/footerscripts.php"; ?>
 
@@ -272,37 +293,62 @@ $('#approveAllBtn').on('click', function () {
     });
 });
 
+let selectedIds = [];
+
 $('#rejectAllBtn').on('click', function () {
-    let selectedIds = [];
+    selectedIds = [];
 
     $('.rowCheckbox:checked').each(function () {
         selectedIds.push($(this).val());
     });
 
     if (selectedIds.length === 0) {
-            Swal.fire({
+        Swal.fire({
             icon: "warning",
-            title: "Please Selecet atleast one",
+            title: "Please select at least one",
             showConfirmButton: false,
             timer: 2000
-            });
+        });
         return;
     }
 
+    // Show the modal to enter reject reason
+    $('#rejectReasonInput').val(''); // Clear previous input
+    $('#rejectReasonModal').modal('show');
+});
+
+$('#submitRejectBtn').on('click', function () {
+    let reason = $('#rejectReasonInput').val().trim();
+
+    if (reason === '') {
+        Swal.fire({
+            icon: "warning",
+            title: "Reject reason is required",
+            showConfirmButton: false,
+            timer: 2000
+        });
+        return;
+    }
+
+    // Send AJAX request with selected IDs and reason
     $.ajax({
         url: "<?php echo site_url('Confirmjob/rejectApproval'); ?>",
         type: "POST",
-        data: { ids: selectedIds },
+        data: {
+            ids: selectedIds,
+            reason: reason
+        },
         success: function (response) {
             let result = JSON.parse(response);
             if (result.status === 'success') {
                 Swal.fire({
                     position: "top-end",
                     icon: "success",
-                    title: "Itinary Reject Successfully",
+                    title: "Itinerary rejected successfully",
                     showConfirmButton: false,
                     timer: 2000
-                    });
+                });
+                $('#rejectReasonModal').modal('hide');
                 $('#dataTable').DataTable().ajax.reload();
             } else {
                 alert('Failed to update data: ' + result.message);
@@ -313,6 +359,8 @@ $('#rejectAllBtn').on('click', function () {
         }
     });
 });
+
+
 
 });
 

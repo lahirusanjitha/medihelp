@@ -202,34 +202,34 @@ include "include/topnavbar.php";
     </div>
 </div>
 
-<!-- Modal -->
 <div class="modal fade" id="logModal" tabindex="-1" role="dialog" aria-labelledby="logModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Log Details</h5>
+        <h5 class="modal-title" id="logModalLabel">Log Info</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span>&times;</span>
+          <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Status</th>
-              <th>Timestamp</th>
-              <th>Comment</th>
-            </tr>
-          </thead>
-          <tbody id="logTableBody">
-            <tr><td colspan="4" class="text-center">Loading...</td></tr>
-          </tbody>
+        <table id="logTable" class="table table-bordered display nowrap" style="width:100%">
+            <thead>
+                <tr>
+                <th>Send to Approval</th>
+                <th>Rejected DateTime</th>
+                <th>Rejected Reason</th>
+                </tr>
+            </thead>
+            <tbody id="logTableBody">
+                <tr><td colspan="3" class="text-center">Loading...</td></tr>
+            </tbody>
         </table>
+
       </div>
     </div>
   </div>
 </div>
+
 
 
 
@@ -255,10 +255,10 @@ include "include/topnavbar.php";
                 [10, 25, 50, 'All'],
             ],
             "buttons": [{
-					extend: 'csv',
+					extend: 'excel',
 					className: 'btn btn-success btn-sm',
 					title: 'Monthly Itinary Information',
-					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
+					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
 				},
                 {
                     extend: 'pdf',
@@ -384,28 +384,6 @@ include "include/topnavbar.php";
     }
     
         });
-        // $('#dataTable tbody').on('click', '.btnview', function () {
-        //     var id = $(this).attr('id');
-        //     $.ajax({
-        //         type: "POST",
-        //         url: '<?php echo base_url() ?>Job/feedbackdetails',
-        //         data: {
-        //             recordID: id
-        //         },
-        //         dataType: 'json',
-        //         success: function (response) {
-        //             if (response.status === 'nodata') {
-        //                 alert('No feedback data found.');
-        //             } else {
-        //                 $('#feedbackviewmodal').modal('show');  
-        //                 $('#viewhtml').html(response.html);  
-        //             }
-        //         },
-        //         error: function () {
-        //             alert('Error occurred while loading feedback.');
-        //         }
-        //     });
-        // });
 
 $('#dataTable tbody').on('click', '.btnEdit', function () {
     var id = $(this).attr('id');
@@ -469,31 +447,93 @@ $('#dataTable tbody').on('click', '.btnEdit', function () {
     $('#modaltblJobListField').val(idtbl_job_list);
 });
 $(document).on('click', '.btnview', function () {
-    var id = $(this).attr('id'); // use `attr('id')` if you use `id="..."` in the button
-    var $tbody = $('#logTableBody');
-    $tbody.html('<tr><td colspan="2" class="text-center">Loading...</td></tr>');
+    var id = $(this).attr('id');
+
+    // Destroy DataTable if already initialized
+    if ($.fn.DataTable.isDataTable('#logTable')) {
+        $('#logTable').DataTable().clear().destroy();
+    }
+
+    // Reset the table before AJAX
+    $('#logTable thead').html('<tr><td colspan="3">Loading headers...</td></tr>');
+    $('#logTableBody').html('<tr><td colspan="3" class="text-center">Loading...</td></tr>');
 
     $.ajax({
-        url: '<?php echo base_url('Job/loginfo'); ?>',
+        url: '<?php echo base_url("Job/loginfo"); ?>',
         type: 'POST',
         data: { id: id },
         dataType: 'json',
-        success: function (log) {
-            if (log) {
-                var rows = '';
-                rows += `<tr><td>Send to Approval</td><td>${log.sd ?? 'N/A'}</td></tr>`;
-                rows += `<tr><td>Approval Time</td><td>${log.ad ?? 'N/A'}</td></tr>`;
-                rows += `<tr><td>Rejected Time</td><td>${log.rd ?? 'N/A'}</td></tr>`;
+        success: function (response) {
+            let sendList = response.send || [];
+            let rejectList = response.reject || [];
 
-                $tbody.html(rows);
-            } else {
-                $tbody.html('<tr><td colspan="2" class="text-center">No log data found.</td></tr>');
+            // ✅ Show SweetAlert if no log data
+            if (sendList.length === 0 && rejectList.length === 0) {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'No Log Info',
+                    text: 'There is no log information to view.',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'OK'
+                });
+                return;
             }
+
+            let maxLen = Math.max(sendList.length, rejectList.length);
+            let rows = '';
+
+            for (let i = 0; i < maxLen; i++) {
+                let sendDate = sendList[i] ? sendList[i].sd : '--';
+                let rejectDate = rejectList[i] ? rejectList[i].rd : '--';
+                let reason = rejectList[i] ? rejectList[i].reason : '--';
+
+                rows += `<tr>
+                    <td>${sendDate}</td>
+                    <td>${rejectDate}</td>
+                    <td>${reason}</td>
+                </tr>`;
+            }
+
+            // Update headers
+            $('#logTable thead').html(`
+                <tr>
+                    <th>Send to Approval</th>
+                    <th>Rejected DateTime</th>
+                    <th>Rejected Reason</th>
+                </tr>
+            `);
+
+            // Update body
+            $('#logTableBody').html(rows);
+
+            // Reinitialize DataTable
+            $('#logTable').DataTable({
+                paging: true,
+                pageLength: 5,
+                ordering: false,
+                searching: false,
+                destroy: true,
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'excel',
+                        className: 'btn btn-success btn-sm',
+                        title: 'Log Report',
+                        text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
+                    },
+                    {
+                        extend: 'pdf',
+                        className: 'btn btn-danger btn-sm',
+                        title: 'Log Report',
+                        text: '<i class="fas fa-file-pdf mr-2"></i> PDF',
+                    }
+                ]
+            });
 
             $('#logModal').modal('show');
         },
         error: function () {
-            $tbody.html('<tr><td colspan="2" class="text-center text-danger">Error loading data.</td></tr>');
+            $('#logTableBody').html('<tr><td colspan="3" class="text-danger text-center">Error loading data.</td></tr>');
         }
     });
 });

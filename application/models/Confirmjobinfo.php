@@ -34,7 +34,7 @@ public function updateApprovalStatus($ids) {
 }
 
 
-    public function rejectApproval($ids)
+    public function rejectApproval($ids, $reason)
 {
     $updatedatetime = date('Y-m-d H:i:s');
 
@@ -56,7 +56,8 @@ public function updateApprovalStatus($ids) {
     foreach ($ids as $id) {
         $rejectedData[] = [
             'tbl_joblist_idtbl_joblist' => $id,
-            'rejecteddatetime' => $updatedatetime
+            'rejecteddatetime' => $updatedatetime,
+            'reason' => $reason
         ];
     }
 

@@ -36,12 +36,13 @@ class Confirmjob extends CI_Controller {
         $this->load->model('Confirmjobinfo');
     
         $ids = $this->input->post('ids');
+        $reason = $this->input->post('reason');
     
-        if (empty($ids)) {
+        if (empty($ids || $reason)) {
             echo json_encode(['status' => 'error', 'message' => 'No data provided.']);
             return;
         }
-            $result = $this->Confirmjobinfo->rejectApproval($ids);
+            $result = $this->Confirmjobinfo->rejectApproval($ids, $reason);
     
             if ($result) {
                 echo json_encode(['status' => 'success', 'message' => 'Approval Rejected Successfully.']);

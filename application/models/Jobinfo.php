@@ -327,21 +327,21 @@ class Jobinfo extends CI_Model{
     
 public function Getloginfo($id)
 {
-    $this->db->select('
-        sa.datetime AS sd, 
-        r.rejecteddatetime AS rd, 
-        a.approvedatetime AS ad
-    ');
-    $this->db->from('tbl_job_list AS j'); 
+    $data = [];
 
-    $this->db->join('tbl_sendtoapproval AS sa', 'sa.tbl_joblist_idtbl_joblist = j.idtbl_job_list', 'left'); 
-    $this->db->join('tbl_approval_list AS a', 'a.tbl_joblist_idtbl_joblist = j.idtbl_job_list', 'left');
-    $this->db->join('tbl_rejected_itinary AS r', 'r.tbl_joblist_idtbl_joblist = j.idtbl_job_list', 'left');
+    // Get all send to approval rows
+    $this->db->select('datetime AS sd');
+    $this->db->from('tbl_sendtoapproval');
+    $this->db->where('tbl_joblist_idtbl_joblist', $id);
+    $data['send'] = $this->db->get()->result_array();
 
-    $this->db->where('j.idtbl_job_list', $id);
+    // Get all rejection rows
+    $this->db->select('rejecteddatetime AS rd, reason');
+    $this->db->from('tbl_rejected_itinary');
+    $this->db->where('tbl_joblist_idtbl_joblist', $id);
+    $data['reject'] = $this->db->get()->result_array();
 
-    $query = $this->db->get();
-    return $query->row_array(); 
+    return $data;
 }
 
     

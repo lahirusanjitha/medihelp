@@ -170,6 +170,12 @@ else if($functionmenu=='Locationtrack'){
     $statuscheck=checkprivilege($menuprivilegearray, 31, 3);
     $deletecheck=checkprivilege($menuprivilegearray, 31, 4);
 }
+else if($functionmenu=='Logreport'){
+    $addcheck=checkprivilege($menuprivilegearray, 32, 1);
+    $editcheck=checkprivilege($menuprivilegearray, 32, 2);
+    $statuscheck=checkprivilege($menuprivilegearray, 32, 3);
+    $deletecheck=checkprivilege($menuprivilegearray, 32, 4);
+}
 
 
 
@@ -284,14 +290,14 @@ function checkprivilege($arraymenu, $menuID, $type){
                 </nav>
             </div>
 
-            <?php if(menucheck($menuprivilegearray, 23) == 1 | menucheck($menuprivilegearray, 24) == 1 | menucheck($menuprivilegearray, 25) == 1 | menucheck($menuprivilegearray, 26) == 1 | menucheck($menuprivilegearray, 27) == 1 | menucheck($menuprivilegearray, 28) == 1) { ?>
+            <?php if(menucheck($menuprivilegearray, 23) == 1 | menucheck($menuprivilegearray, 24) == 1 | menucheck($menuprivilegearray, 25) == 1 | menucheck($menuprivilegearray, 26) == 1 | menucheck($menuprivilegearray, 27) == 1 | menucheck($menuprivilegearray, 28) == 1 | menucheck($menuprivilegearray, 32) == 1) { ?>
     <a class="nav-link p-0 px-3 py-2 collapsed text-dark" href="javascript:void(0);" data-toggle="collapse" data-target="#reportsinfo" aria-expanded="false" aria-controls="reportsinfo">
         <div class="nav-link-icon"><i class="fas fa-sticky-note"></i></div>
         Reports
         <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
     </a>
 
-            <div class="collapse <?php if( $controllermenu=="Feedbackreport" | $controllermenu=="Cancelreport" | $controllermenu=="Postponedreport" | $controllermenu=="Missingereport" | $controllermenu=="Actionreport" | $controllermenu=="Locationtrack"){echo 'show';} ?>" id="reportsinfo" data-parent="#accordionSidenav">
+            <div class="collapse <?php if( $controllermenu=="Feedbackreport" | $controllermenu=="Cancelreport" | $controllermenu=="Postponedreport" | $controllermenu=="Missingereport" | $controllermenu=="Actionreport" | $controllermenu=="Locationtrack" | $controllermenu=="Logreport"){echo 'show';} ?>" id="reportsinfo" data-parent="#accordionSidenav">
                 <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
 
                 <?php } if(menucheck($menuprivilegearray, 23)==1){ ?>
@@ -304,6 +310,8 @@ function checkprivilege($arraymenu, $menuID, $type){
                     <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Missingereport'; ?>">Missing Report </a>
                     <?php } if(menucheck($menuprivilegearray, 27)==1){ ?>
                     <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Actionreport'; ?>">Action Report </a>
+                    <?php } if(menucheck($menuprivilegearray, 32)==1){ ?>
+                        <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Logreport'; ?>">Log report</a> 
                     <?php } if(menucheck($menuprivilegearray, 28)==1){ ?>
                         <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Locationtrack'; ?>">Track Location</a> 
                 <?php } ?>
