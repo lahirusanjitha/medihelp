@@ -158,6 +158,14 @@ public function Editrequest($x, $y){
         $this->db->where('idtbl_job_list', $recordID);
         $this->db->update('tbl_job_list', $data);
 
+        $logData[] = [
+            'tbl_joblist_idtbl_joblist' => $recordID,
+            'action' => 'editrequested',
+            'datetime' => $updatedatetime
+        ];
+
+        $this->db->insert_batch('tbl_itinerary_log', $logData);
+        
         $this->db->trans_complete();
 
         if ($this->db->trans_status() === TRUE) {

@@ -118,10 +118,10 @@ include "include/topnavbar.php";
                 [10, 25, 50, 'All'],
             ],
             "buttons": [{
-					extend: 'csv',
+					extend: 'excel',
 					className: 'btn btn-success btn-sm',
 					title: 'Feedback Report Information',
-					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
+					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
 				},
                 {
                     extend: 'pdf',

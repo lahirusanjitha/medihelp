@@ -13,7 +13,7 @@ include "include/topnavbar.php";
                     <div class="page-header-content py-3">
                         <h1 class="page-header-title font-weight-light">
                             <div class="page-header-icon"><i data-feather="list"></i></div>
-                            <span>Feedback Report</span>
+                            <span>Log Report</span>
                         </h1>
                     </div>
                 </div>
@@ -83,9 +83,8 @@ include "include/topnavbar.php";
                                             <th>Itinary Status</th>
                                             <th>Itenary</th>
                                             <th>Insert time</th>
-                                            <th>Send to approval time</th>
-                                            <th>Approval time</th>
-                                            <th>Reject time</th>
+                                            <th>Action</th>
+                                            <th>Action Date Time</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -185,7 +184,7 @@ include "include/topnavbar.php";
                // d.userid = <?php //echo json_encode($_SESSION['userid']); ?>;
             }
             },
-            "order": [[ 0, "desc" ]],
+            "order": [[0, 'asc'], [6, 'asc']],
             "columns": [
                 {  
                 "data": null,
@@ -201,25 +200,13 @@ include "include/topnavbar.php";
                 { "data": "group"},
                 { "data": "itenary"},
                 { "data": "instertdatetime"},
+                { "data": "action"},
                 {
-                    data: "datetime",
+                    data: "action_time",
                     render: function(data) {
                         return data ? data : '-';
                     }
                 },
-                {
-                    data: "approvedatetime",
-                    render: function(data) {
-                        return data ? data : '-';
-                    }
-                },
-                {
-                    data: "rejecteddatetime",
-                    render: function(data) {
-                        return data ? data : '-';
-                    }
-                }
-                
             ],
             drawCallback: function(settings) {
                 $('[data-toggle="tooltip"]').tooltip();

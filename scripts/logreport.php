@@ -1,15 +1,21 @@
 <?php
 
 // DB table to use
-$table = 'tbl_sendtoapproval';
+$table = 'tbl_itinerary_log';
 
 // Table's primary key
-$primaryKey = 'idtbl_sendtoapproval';
+$primaryKey = 'id';
+
 
 $columns = array(
-    array( 'db' => '`sa`.`idtbl_sendtoapproval`', 'dt' => 'idtbl_sendtoapproval', 'field' => 'idtbl_sendtoapproval' ),
+    array( 'db' => '`log`.`id`', 'dt' => 'log_id', 'field' => 'id' ),
     array( 'db' => '`u`.`start_date`', 'dt' => 'start_date', 'field' => 'start_date' ),
     array( 'db' => '`u`.`start_time`', 'dt' => 'start_time', 'field' => 'start_time' ),
+    array( 'db' => '`u`.`end_time`', 'dt' => 'end_time', 'field' => 'end_time' ),
+    array( 'db' => '`u`.`itenary`', 'dt' => 'itenary', 'field' => 'itenary' ),
+    array( 'db' => '`log`.`action`', 'dt' => 'action', 'field' => 'action' ),
+    array( 'db' => '`log`.`datetime`', 'dt' => 'action_time', 'field' => 'datetime' ),
+    array( 'db' => '`u`.`instertdatetime`', 'dt' => 'instertdatetime', 'field' => 'instertdatetime' ),
     array(
         'db' => '`u`.`start_time`',
         'dt' => 'time_range',
@@ -21,11 +27,6 @@ $columns = array(
     array( 'db' => '`ua`.`itenary_type`', 'dt' => 'itenary_type', 'field' => 'itenary_type' ),
     array( 'db' => '`ub`.`itenary_category`', 'dt' => 'itenary_category', 'field' => 'itenary_category' ),
     array( 'db' => '`uc`.`group`', 'dt' => 'group', 'field' => 'group' ),
-    array( 'db' => '`u`.`itenary`', 'dt' => 'itenary', 'field' => 'itenary' ),
-    array( 'db' => '`u`.`instertdatetime`', 'dt' => 'instertdatetime', 'field' => 'instertdatetime' ),
-    array( 'db' => '`sa`.`datetime`', 'dt' => 'datetime', 'field' => 'datetime' ), // send to approval time
-    array( 'db' => '`ap`.`approvedatetime`', 'dt' => 'approvedatetime', 'field' => 'approvedatetime' ),
-    array( 'db' => '`rd`.`rejecteddatetime`', 'dt' => 'rejecteddatetime', 'field' => 'rejecteddatetime' ),
 );
 
 
@@ -56,13 +57,11 @@ if (!empty($bdm)) {
 
 
 error_log("ExtraWhere Clause: $extraWhere");
-$joinQuery = "FROM `tbl_sendtoapproval` AS `sa`
-    LEFT JOIN `tbl_job_list` AS `u` ON `sa`.`tbl_joblist_idtbl_joblist` = `u`.`idtbl_job_list`
-    LEFT JOIN `tbl_approval_list` AS `ap` ON `ap`.`tbl_sendtoapproval_id` = `sa`.`idtbl_sendtoapproval`
-    LEFT JOIN `tbl_rejected_itinary` AS `rd` ON `rd`.`tbl_sendtoapproval_id` = `sa`.`idtbl_sendtoapproval`
-    LEFT JOIN `tbl_itenary_type` AS `ua` ON `ua`.`idtbl_itenary_type` = `u`.`tbl_itenary_type_tblid_itenary_type`
-    LEFT JOIN `tbl_itenary_group` AS `uc` ON `uc`.`tblid_itenary_group` = `u`.`tbl_itenary_group_id`
-    LEFT JOIN `tbl_itenary_category` AS `ub` ON `ub`.`idtbl_itenary_category` = `u`.`tbl_itenary_category_id`";
+$joinQuery = "FROM tbl_itinerary_log AS log
+LEFT JOIN tbl_job_list AS u ON u.idtbl_job_list = log.tbl_joblist_idtbl_joblist
+LEFT JOIN `tbl_itenary_category` AS `ub` ON (`ub`.`idtbl_itenary_category` = `u`.`tbl_itenary_category_id`)
+LEFT JOIN `tbl_itenary_group` AS `uc` ON (`uc`.`tblid_itenary_group` = `u`.`tbl_itenary_group_id`)
+LEFT JOIN `tbl_itenary_type` AS `ua` ON (`ua`.`idtbl_itenary_type` = `u`.`tbl_itenary_type_tblid_itenary_type`)";
 
 
 require('ssp.customized.class.php');

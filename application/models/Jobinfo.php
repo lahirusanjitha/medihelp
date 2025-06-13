@@ -1,4 +1,7 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+date_default_timezone_set('Asia/Colombo');
 class Jobinfo extends CI_Model{
     public function Jobinsertupdate(){
         $this->db->trans_begin();

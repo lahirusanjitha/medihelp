@@ -1,4 +1,7 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+date_default_timezone_set('Asia/Colombo');
 class Confirmjobinfo extends CI_Model {
 
 public function updateApprovalStatus($ids) {
@@ -18,15 +21,23 @@ public function updateApprovalStatus($ids) {
         'reject_status' => 0
     ]);
 
+    $logData = [];
     $approvedData = [];
     foreach ($ids as $id) {
         $approvedData[] = [
             'tbl_joblist_idtbl_joblist' => $id,
             'approvedatetime' => $updatedatetime
         ];
+        $logData[] = [
+            'tbl_joblist_idtbl_joblist' => $id,
+            'action' => 'approved',
+            'datetime' => $updatedatetime
+        ];
     }
 
     $this->db->insert_batch('tbl_approval_list', $approvedData);
+
+    $this->db->insert_batch('tbl_itinerary_log', $logData);
 
     $this->db->trans_complete();
 
@@ -52,6 +63,7 @@ public function updateApprovalStatus($ids) {
         'reject_status' => 1
     ]);
 
+    $logData = [];
     $rejectedData = [];
     foreach ($ids as $id) {
         $rejectedData[] = [
@@ -59,9 +71,16 @@ public function updateApprovalStatus($ids) {
             'rejecteddatetime' => $updatedatetime,
             'reason' => $reason
         ];
+        $logData[] = [
+            'tbl_joblist_idtbl_joblist' => $id,
+            'action' => 'rejected',
+            'datetime' => $updatedatetime
+        ];
     }
 
     $this->db->insert_batch('tbl_rejected_itinary', $rejectedData);
+
+    $this->db->insert_batch('tbl_itinerary_log', $logData);
 
     $this->db->trans_complete();
 
