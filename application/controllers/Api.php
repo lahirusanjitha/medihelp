@@ -300,7 +300,28 @@ class Api extends REST_Controller {
         }
     }
     
-    
+    public function getAllCompletedRecords_post() {
+        $headers = $this->input->request_headers(); 
+
+        if (isset($headers['Authorization'])) {
+            $decodedToken = $this->authorization_token->validateToken($headers['Authorization']);
+            
+            if ($decodedToken['status']) {
+                // No user-specific filtering is needed
+                $result = $this->ApiInfo->getAllCompletedRecords();
+                $this->response($result, REST_Controller::HTTP_OK);
+            } else {
+                if (isset($decodedToken['message']) && $decodedToken['message'] === 'Token Time expire') {
+                    $this->response(['error' => 'Token has expired'], REST_Controller::HTTP_UNAUTHORIZED);
+                } else {
+                    $this->response(['error' => 'Invalid token or access denied'], REST_Controller::HTTP_FORBIDDEN);
+                }
+            }
+        } else {
+            $this->response(['error' => 'Authentication failed'], REST_Controller::HTTP_UNAUTHORIZED);
+        }
+    }
+
     
     public function editPlan_post() {
         $headers = $this->input->request_headers(); 
