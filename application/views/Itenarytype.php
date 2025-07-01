@@ -25,7 +25,7 @@ include "include/topnavbar.php";
                             <div class="col-3">
                                 <form action="<?php echo base_url() ?>Itenarytype/Itenarytypeinsertupdate" method="post" autocomplete="off">
                                     <div class="form-group mb-1">
-                                        <label class="small font-weight-bold">Itenary Type*</label>
+                                        <label class="small font-weight-bold">Itinerary Type*</label>
                                         <input type="text" class="form-control form-control-sm" name="itenary_type" id="itenary_type" required>
                                     </div>
                                     <div class="form-group mt-2 text-right">
@@ -40,7 +40,7 @@ include "include/topnavbar.php";
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Itinery Type</th>
+                                            <th>Itinerary Type</th>
                                             <th class="text-right">Actions</th>
                                         </tr>
                                     </thead>
@@ -96,13 +96,19 @@ include "include/topnavbar.php";
                     customize: function (doc) {
                         doc.pageSize = 'A4'; 
                         doc.pageOrientation = 'portrait';
-                        
+
                         doc.content.splice(0, 0, {
-                            text: 'Itinary Type Infomation Report - MediHelp Hospital',
-                            fontSize: 13,
-                            bold: true,
+                            image: base64,
+                            width: 100, 
                             alignment: 'center',
                             margin: [0, 0, 0, 5]
+                        });
+                        doc.content.splice(1, 0, {
+                            text: 'Itinary Type Infomation Report',
+                            fontSize: 12,
+                            bold: true,
+                            alignment: 'left',
+                            margin: [0, 0, 0, 10]
                         });
 
                         var table = doc.content[doc.content.length - 1].table;
@@ -119,7 +125,7 @@ include "include/topnavbar.php";
                         };
 
                         doc.styles.tableHeader = {
-                            fillColor: '#34495e',
+                            fillColor: '#202ba8',
                             fontSize: 13,
                             color: 'white',
                             alignment: 'center',
@@ -208,4 +214,5 @@ include "include/topnavbar.php";
         return confirm("Are you sure you want to remove this?");
     }
 </script>
+<?php include "include/base64.php";?>
 <?php include "include/footer.php"; ?>

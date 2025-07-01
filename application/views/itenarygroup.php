@@ -25,7 +25,7 @@ include "include/topnavbar.php";
                             <div class="col-3">
                                 <form action="<?php echo base_url() ?>Itenarygroup/Itenarygroupinsertupdate" method="post" autocomplete="off">
                                     <div class="form-group mb-1">
-                                        <label class="small font-weight-bold">ItinaryStatus*</label>
+                                        <label class="small font-weight-bold">Itinerary Status*</label>
                                         <input type="text" class="form-control form-control-sm" name="itenarygroup" id="itenarygroup" required>
                                     </div>
                                     <div class="form-group mt-2 text-right">
@@ -97,13 +97,18 @@ include "include/topnavbar.php";
                     customize: function (doc) {
                         doc.pageSize = 'A4'; 
                         doc.pageOrientation = 'portrait';
-                        
                         doc.content.splice(0, 0, {
-                            text: 'Itinary Status Information - MediHelp Hospital',
-                            fontSize: 13,
-                            bold: true,
+                            image: base64,
+                            width: 100, 
                             alignment: 'center',
                             margin: [0, 0, 0, 5]
+                        });
+                        doc.content.splice(1, 0, {
+                            text: 'Itinary Status Information',
+                            fontSize: 12,
+                            bold: true,
+                            alignment: 'left',
+                            margin: [0, 0, 0, 10]
                         });
 
 
@@ -121,10 +126,10 @@ include "include/topnavbar.php";
                         };
 
                         doc.styles.tableHeader = {
-                            fillColor: '#34495e',
-                            fontSize: 13,
+                            fillColor: '#202ba8',
+                            fontSize: 12,
                             color: 'white',
-                            alignment: 'center',
+                            alignment: 'left',
                             bold: true
                         };
                         doc.styles.tableBodyEven = {
@@ -210,4 +215,5 @@ include "include/topnavbar.php";
         return confirm("Are you sure you want to remove this?");
     }
 </script>
+<?php include "include/base64.php";?>
 <?php include "include/footer.php"; ?>

@@ -177,11 +177,17 @@ include "include/topnavbar.php";
                         doc.pageOrientation = 'portrait';
                         
                         doc.content.splice(0, 0, {
-                            text: 'Location info Report - MediHelp Hospital',
-                            fontSize: 12,
-                            bold: true,
+                            image: base64,
+                            width: 100, 
                             alignment: 'center',
                             margin: [0, 0, 0, 5]
+                        });
+                        doc.content.splice(1, 0, {
+                            text: 'Location info Report',
+                            fontSize: 12,
+                            bold: true,
+                            alignment: 'left',
+                            margin: [0, 0, 0, 10]
                         });
 
                         var table = doc.content[doc.content.length - 1].table;
@@ -198,7 +204,7 @@ include "include/topnavbar.php";
                         };
 
                         doc.styles.tableHeader = {
-                            fillColor: '#34495e',
+                            fillColor: '#202ba8',
                             fontSize: 13,
                             color: 'white',
                             alignment: 'center',
@@ -349,4 +355,5 @@ $('#staticBackdrop').on('show.bs.modal', function (event) {
         return confirm("Are you sure you want to remove this?");
     }
 </script>
+<?php include "include/base64.php";?>
 <?php include "include/footer.php"; ?>

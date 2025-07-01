@@ -41,7 +41,7 @@ include "include/topnavbar.php";
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Itinery category</th>
+                                            <th>Itinerary category</th>
                                             <th class="text-right">Actions</th>
                                         </tr>
                                     </thead>
@@ -97,13 +97,19 @@ include "include/topnavbar.php";
                     customize: function (doc) {
                         doc.pageSize = 'A4'; 
                         doc.pageOrientation = 'portrait';
-                        
+
                         doc.content.splice(0, 0, {
-                            text: 'Itinary Category Information - MediHelp Hospital',
-                            fontSize: 13,
-                            bold: true,
+                            image: base64,
+                            width: 100, 
                             alignment: 'center',
                             margin: [0, 0, 0, 5]
+                        });
+                        doc.content.splice(1, 0, {
+                            text: 'Itinary Category Information',
+                            fontSize: 12,
+                            bold: true,
+                            alignment: 'left',
+                            margin: [0, 0, 0, 10]
                         });
 
 
@@ -121,10 +127,10 @@ include "include/topnavbar.php";
                         };
 
                         doc.styles.tableHeader = {
-                            fillColor: '#34495e',
+                            fillColor: '#202ba8',
                             fontSize: 13,
                             color: 'white',
-                            alignment: 'center',
+                            alignment: 'left',
                             bold: true
                         };
                         doc.styles.tableBodyEven = {
@@ -209,4 +215,5 @@ include "include/topnavbar.php";
         return confirm("Are you sure you want to remove this?");
     }
 </script>
+<?php include "include/base64.php";?>
 <?php include "include/footer.php"; ?>

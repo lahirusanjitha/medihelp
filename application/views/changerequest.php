@@ -13,7 +13,7 @@ include "include/topnavbar.php";
                     <div class="page-header-content py-3">
                         <h1 class="page-header-title font-weight-light">
                             <div class="page-header-icon"><i data-feather="list"></i></div>
-                            <span>Itinary Actions</span>
+                            <span>Itinerary Actions</span>
                         </h1>
                     </div>
                 </div>
@@ -33,11 +33,11 @@ include "include/topnavbar.php";
                                             <th>Date</th>
                                             <th>Start Time</th>
                                             <th>End Time</th>
-                                            <th>Itenary Category</th>
-                                            <th>Itenary Sub Category</th>
-                                            <th>Itenary Group</th>
+                                            <th>Itinerary Category</th>
+                                            <th>Itinerary Sub Category</th>
+                                            <th>Itinerary Group</th>
                                             <th>Task</th>
-                                            <th>Itenary</th>
+                                            <th>Itinerary</th>
                                             <th>Meet Location</th>
                                             <th>Status</th>
                                             <th class="text-right">Actions</th>
@@ -144,13 +144,13 @@ include "include/topnavbar.php";
             "buttons": [{
 					extend: 'excel',
 					className: 'btn btn-success btn-sm',
-					title: 'Itinary Actions Information',
+					title: 'Aprrove Change Information',
 					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
 				},
                 {
 					extend: 'csv',
 					className: 'btn btn-warning btn-sm',
-					title: 'Itinary Actions Information',
+					title: 'Aprrove Change Information',
 					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
 				},
                 {

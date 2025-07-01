@@ -31,11 +31,11 @@ include "include/topnavbar.php";
                                             <th>Date</th>
                                             <th>Start Time</th>
                                             <th>End Time</th>
-                                            <th>Itenary Category</th>
-                                            <th>Itenary Sub Category</th>
-                                            <th>Itenary Group</th>
+                                            <th>Itinerary Category</th>
+                                            <th>Itinerary Sub Category</th>
+                                            <th>Itinerary Group</th>
                                             <th>Task</th>
-                                            <th>Itenary</th>
+                                            <th>Itinerary</th>
                                             <th>Meet Location</th>
                                             <th class="text-right">Actions</th>
                                         </tr>
@@ -103,20 +103,20 @@ include "include/topnavbar.php";
             "buttons": [{
 					extend: 'excel',
 					className: 'btn btn-success btn-sm',
-					title: 'Itinary Completion Information',
+					title: 'Itinerary Completion Information',
 					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
 				},
                 {
 					extend: 'csv',
 					className: 'btn btn-warning btn-sm',
-					title: 'Itinary Completion Information',
+					title: 'Itinerary Completion Information',
 					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
 				},
                 {
                     extend: 'pdf',
                     className: 'btn btn-danger btn-sm',
                     title: '',
-                    filename: 'Itinary Completion Information',
+                    filename: 'Itinerary Completion Information',
                     text: '<i class="fas fa-file-pdf mr-2"></i> PDF',
                     exportOptions: {
                         columns: [1,2,3,4,5,6,7,8,9,10]
@@ -126,7 +126,7 @@ include "include/topnavbar.php";
                         doc.pageOrientation = 'landscape';
                         
                         doc.content.splice(0, 0, {
-                            text: 'Itinary Completion Information - MediHelp Hospital',
+                            text: 'Itinerary Completion Information - MediHelp Hospital',
                             fontSize: 13,
                             bold: true,
                             alignment: 'center',
