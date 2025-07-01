@@ -36,6 +36,11 @@
             max-width: 300px;
             max-height: 300px;
         }
+        th{
+                background-color:#d4edda;  
+                /* color: #fff; */
+        }
+
     </style>
 </head>
 
@@ -60,23 +65,44 @@
                 </div>
 
                 <div class="dashboard-container">
-                    <!-- <h3 class="mb-4">Itinerary Status</h3> -->
-                                         <!-- count -->
-        <div class="row mb-4">
-            <div class="col-md-6">
-                <div class="card shadow-sm border border-primary">
-                    <div class="card-body d-flex align-items-center bg-white text-primary rounded">
-                        <div class="me-3">
-                            <i class="fas fa-user-check fa-2x"></i>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center w-100">
-                            <h6 class="mb-0 me-2">Itineraries to Approve:</h6>
-                            <h4 class="mb-0" id="toApproveCount">0</h4>
+
+                <div class="row row-cols-1 row-cols-md-5">
+                    <div class="col">
+                        <div class="card border border-success mb-3 shadow-none h-100">
+                            <div class="row no-gutters h-100">
+                                <!-- Icon Column -->
+                                <div class="col-auto p-2 text-success">
+                                    <i class="fas fa-file-alt fa-3x"></i>
+                                </div>
+
+                                <!-- Text + Progress Column -->
+                                <div class="col">
+                                    <div class="card-body p-0 px-2 py-3 text-right">
+                                        <h3 class="card-title text-success m-0 font-weight-bold">
+                                            <a href="#" class="text-success">
+                                                Itineraries to Approve (<span id="toApproveCount">0</span>)
+                                            </a>
+                                        </h3>
+                                    </div>
+
+                                    <!-- Progress Bar -->
+                                    <div class="row no-gutters h-100">
+                                        <div class="col">
+                                            <div class="card-body p-0 p-2 text-right">
+                                                <div class="progress" style="height: 3px;">
+                                                    <div class="progress-bar bg-success" role="progressbar"
+                                                        style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End Progress Bar -->
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
                     <div class="row mb-4">
 

@@ -158,6 +158,12 @@ include "include/topnavbar.php";
 					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
 				},
                 {
+					extend: 'csv',
+					className: 'btn btn-warning btn-sm',
+					title: 'Location Information',
+					text: '<i class="fas fa-file-excel mr-2"></i> CSV',
+				},
+                {
                     extend: 'pdf',
                     className: 'btn btn-danger btn-sm',
                     title: '',

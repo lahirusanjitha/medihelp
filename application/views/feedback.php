@@ -92,7 +92,7 @@ include "include/topnavbar.php";
 
                     <div class="form-group">
                         <label for="feedback" class="font-weight-bold">Comment</label>
-                        <input type="text" class="form-control" name="feedback" id="feedback" required>
+                        <textarea class="form-control" name="feedback" id="feedback" rows="4" maxlength="500" required></textarea>
                     </div>
                     
                 </div>
@@ -174,6 +174,12 @@ include "include/topnavbar.php";
 					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
 				},
                 {
+					extend: 'csv',
+					className: 'btn btn-warning btn-sm',
+					title: 'FeedBack Information',
+					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
+				},
+                {
                     extend: 'pdf',
                     className: 'btn btn-danger btn-sm',
                     title: '',
@@ -252,17 +258,30 @@ include "include/topnavbar.php";
                     "className": 'text-right',
                     "data": null,
                     "render": function(data, type, full) {
-
-                        var confirm = full['confirmation'];
-                        var editrequest = full['edit_request'];
                         var button = '';
 
-                      
-                        button += '<button type="button" class="btn btn-success btn-sm mr-1" data-toggle="modal" data-target="#staticBackdrop" data-idtbl_job_list="' + full['idtbl_job_list'] + '"><i class="far fa-comment"></i></button>';
+                        // Use the approval datetime as-is (assumed to be in Sri Lanka time already)
+                        var approvedTime = new Date(full['approvedatetime']);
+                        var now = new Date();
 
-                        button += '<button class="btn btn-dark btn-sm btnview mr-1"  id="' + full['idtbl_job_list'] + '"><i class="fas fa-eye"></i></button>';
+                        var diffMs = now - approvedTime;
+                        var diffMinutes = diffMs / (1000 * 60);
+
+                        console.log("Approved At:", full['approvedatetime']);
+                        console.log("Now:", now.toISOString());
+                        console.log("Diff Minutes:", diffMinutes);
+                        // Show feedback button only if LESS than 100 minutes have passed
+                        // if (diffMinutes < 100) {
+                        //     button += '<button type="button" class="btn btn-success btn-sm mr-1" data-toggle="modal" data-target="#staticBackdrop" data-idtbl_job_list="' + full['idtbl_job_list'] + '"><i class="far fa-comment"></i></button>';
+                        // }
+                        button += '<button type="button" class="btn btn-success btn-sm mr-1 open-feedback-modal" data-idtbl_job_list="' + full['idtbl_job_list'] + '" data-diff-minutes="' + diffMinutes + '"><i class="far fa-comment"></i></button>';
+
+
+                        button += '<button class="btn btn-dark btn-sm btnview mr-1" id="' + full['idtbl_job_list'] + '"><i class="fas fa-eye"></i></button>';
                         return button;
                     }
+
+
 
                 }
             ],
@@ -354,13 +373,30 @@ include "include/topnavbar.php";
         });
     });
  
-    $('#staticBackdrop').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget);
+//     $('#staticBackdrop').on('show.bs.modal', function (event) {
+//     var button = $(event.relatedTarget);
 
-    var idtbl_job_list = button.data('idtbl_job_list');
+//     var idtbl_job_list = button.data('idtbl_job_list');
 
-    $('#modaltblJobListField').val(idtbl_job_list);
+//     $('#modaltblJobListField').val(idtbl_job_list);
+// });
+$(document).on('click', '.open-feedback-modal', function () {
+    var diffMinutes = parseInt($(this).data('diff-minutes'));
+    var jobId = $(this).data('idtbl_job_list');
+
+    if (diffMinutes > 100) {
+        Swal.fire({
+        icon: "info",
+        title: "Oops...",
+        text: "Time exceeded!",
+        });
+    } else {
+        $('#modaltblJobListField').val(jobId);
+        console.log("Hidden input value:", $('input[name="idtbl_job_list"]').val());
+        $('#staticBackdrop').modal('show');
+    }
 });
+
 
     function pause_confirm() {
         return confirm("Are you sure you want to pause this?");

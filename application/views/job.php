@@ -101,7 +101,7 @@ include "include/topnavbar.php";
                                     <textarea class="form-control form-control-sm" name="itenary" id="itenary" rows="4" maxlength="320" required></textarea>
                                 </div>
                                 <div class="col-auto">
-                                    <label class="small font-weight-bold">Task*</label>
+                                    <label class="small font-weight-bold">Revenue potental*</label>
                                     <input type="number" class="form-control form-control-sm" name="task" id="task" required>
                                 </div>
                                 <div class="col-auto">
@@ -141,7 +141,7 @@ include "include/topnavbar.php";
                                             <th>Itinerary Type</th>
                                             <th>Itinerary Category</th>
                                             <th>Itinerary Status</th>
-                                            <th>Task</th>
+                                            <th>Revenue potental</th>
                                             <th>Location</th>
                                             <th>Itinerary</th>
                                             <th>Meet Location</th>
@@ -259,6 +259,12 @@ include "include/topnavbar.php";
 					className: 'btn btn-success btn-sm',
 					title: 'Monthly Itinary Information',
 					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
+				},
+                {
+					extend: 'csv',
+					className: 'btn btn-warning btn-sm',
+					title: 'Monthly Itinary Information',
+					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
 				},
                 {
                     extend: 'pdf',

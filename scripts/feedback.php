@@ -49,7 +49,8 @@ $columns = array(
 	array( 'db' => '`u`.`confirmation`', 'dt' => 'confirmation', 'field' => 'confirmation' ),
 	array( 'db' => '`u`.`edit_request`', 'dt' => 'edit_request', 'field' => 'edit_request' ),
 	array( 'db' => '`u`.`tbl_med_user_id`', 'dt' => 'tbl_med_user_id', 'field' => 'tbl_med_user_id' ),
-	array( 'db' => '`u`.`feedback`', 'dt' => 'feedback', 'field' => 'feedback' )
+	array( 'db' => '`u`.`feedback`', 'dt' => 'feedback', 'field' => 'feedback' ),
+	array( 'db' => '`ap`.`approvedatetime`', 'dt' => 'approvedatetime', 'field' => 'approvedatetime' )
 
 );
 
@@ -71,11 +72,22 @@ $sql_details = array(
 require('ssp.customized.class.php' );
 
 $joinQuery = "FROM `tbl_job_list` AS `u`
-	LEFT JOIN `tbl_itenary_category` AS `ub` ON (`ub`.`idtbl_itenary_category` = `u`.`tbl_itenary_category_id`)
-	LEFT JOIN `tbl_itenary_group` AS `uc` ON (`uc`.`tblid_itenary_group` = `u`.`tbl_itenary_group_id`)
-	LEFT JOIN `tbl_itenary_type` AS `ua` ON (`ua`.`idtbl_itenary_type` = `u`.`tbl_itenary_type_tblid_itenary_type`)
-	LEFT JOIN `tbl_location` AS `ud` ON (`ud`.`idtbl_location` = `u`.`tblid_location`)";
-	
+    LEFT JOIN `tbl_itenary_category` AS `ub` ON (`ub`.`idtbl_itenary_category` = `u`.`tbl_itenary_category_id`)
+    LEFT JOIN `tbl_itenary_group` AS `uc` ON (`uc`.`tblid_itenary_group` = `u`.`tbl_itenary_group_id`)
+    LEFT JOIN `tbl_itenary_type` AS `ua` ON (`ua`.`idtbl_itenary_type` = `u`.`tbl_itenary_type_tblid_itenary_type`)
+    LEFT JOIN `tbl_location` AS `ud` ON (`ud`.`idtbl_location` = `u`.`tblid_location`)
+    LEFT JOIN (
+        SELECT a.*
+        FROM tbl_approval_list a
+        INNER JOIN (
+            SELECT tbl_joblist_idtbl_joblist, MAX(approvedatetime) AS max_approvedatetime
+            FROM tbl_approval_list
+            GROUP BY tbl_joblist_idtbl_joblist
+        ) AS latest
+        ON a.tbl_joblist_idtbl_joblist = latest.tbl_joblist_idtbl_joblist
+        AND a.approvedatetime = latest.max_approvedatetime
+    ) AS ap ON ap.tbl_joblist_idtbl_joblist = u.idtbl_job_list";
+
 
 	$extraWhere = "`u`.`status` IN (1, 2) AND `u`.`confirmation` IN (1) AND `u`.`tbl_med_user_id` = " . intval($userid);
 
