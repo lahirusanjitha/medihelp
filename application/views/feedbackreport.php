@@ -53,7 +53,7 @@ include "include/topnavbar.php";
                     </select>
                 </div>
                 <div class="col-md-6 col-lg-3">
-                <label for="bdm">Select BDM</label>
+                <label for="bdm">Select DB Team Member</label>
                 <select id="bdm" class="form-control form-control-sm" <?php if($statuscheck != 1) echo 'disabled'; ?>>
                     <?php foreach ($user->result() as $users) { ?>
                         <option value="<?php echo $_SESSION['userid'];?>" style="display:none;">
@@ -78,10 +78,11 @@ include "include/topnavbar.php";
                                             <th>Date</th>
                                             <th>Time</th>
                                             <!-- <th>End Time</th> -->
-                                            <th>Itinary Type</th>
-                                            <th>Itinary Category</th>
-                                            <th>Itinary Status</th>
-                                            <th>Itenary</th>
+                                            <!-- <th>Itinerary Type</th> -->
+                                            <th>Itinerary Category</th>
+                                            <th>Itinerary Status</th>
+                                            <th>Itinerary</th>
+                                            <th>Task</th>
                                             <th>Meet Location</th>
                                             <th>Feedback Type</th>
                                             <th>Comment</th>
@@ -139,17 +140,31 @@ include "include/topnavbar.php";
                         columns: [0,1,2,3,4,5,6,7,8,9]
                     },
                     customize: function (doc) {
+                        var bdmSelect = document.getElementById("bdm");
+                        var selectedUsername = bdmSelect.options[bdmSelect.selectedIndex].text;
+
                         doc.pageSize = 'A4'; 
                         doc.pageOrientation = 'landscape';
-                        
+
                         doc.content.splice(0, 0, {
-                            text: 'Feedback Report Information Report - MediHelp Hospital',
-                            fontSize: 13,
-                            bold: true,
+                            image: base64,
+                            width: 100, 
                             alignment: 'center',
                             margin: [0, 0, 0, 5]
                         });
-
+                        doc.content.splice(1, 0, {
+                            text: 'Feedback Report Information',
+                            fontSize: 13,
+                            bold: true,
+                            alignment: 'center',
+                            margin: [0, 10, 0, 10]
+                        });
+                        doc.content.splice(2, 0, {
+                            text: 'DB Team Member: ' + selectedUsername, 
+                            fontSize: 10,
+                            alignment: 'left',
+                            margin: [0, 0, 0, 10]
+                        });
 
                         var table = doc.content[doc.content.length - 1].table;
                         if (table && table.body && table.body.length > 0) {
@@ -165,7 +180,7 @@ include "include/topnavbar.php";
                         };
 
                         doc.styles.tableHeader = {
-                            fillColor: '#34495e',
+                            fillColor: '#202ba8',
                             fontSize: 12,
                             color: 'white',
                             alignment: 'center',
@@ -201,10 +216,11 @@ include "include/topnavbar.php";
                 { "data": "start_date" },    
                 { "data": "time_range" },  
                 // { "data": "end_time" },  
-                { "data": "itenary_type"},
+                // { "data": "itenary_type"},
                 { "data": "itenary_category"},
                 { "data": "group"},
                 { "data": "itenary"},
+                { "data": "task"},
                 { "data": "location"},
                 { "data": "feedback_type"},
                 { "data": "comment"},
@@ -223,4 +239,5 @@ include "include/topnavbar.php";
 
 
 </script>
+<?php include "include/base64.php"; ?>
 <?php include "include/footer.php"; ?>

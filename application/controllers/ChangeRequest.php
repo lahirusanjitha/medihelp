@@ -33,9 +33,13 @@ class ChangeRequest extends CI_Controller {
 		$this->load->model('ChangeRequestinfo');
         $result=$this->Confirmjobinfo->Jobconfirmstatus($x, $y);
 	}
-    public function Editrequest($x, $y){
+    // public function Editrequest($x, $y){
+    //     $this->load->model('ChangeRequestinfo');
+    //     $result=$this->ChangeRequestinfo->Editrequest($x, $y);
+    // }
+    public function editRequest(){
         $this->load->model('ChangeRequestinfo');
-        $result=$this->ChangeRequestinfo->Editrequest($x, $y);
+        $result=$this->ChangeRequestinfo->editRequest();
     }
     public function ApproveAllJob(){
         $this->load->model('ChangeRequestinfo');
@@ -49,4 +53,115 @@ class ChangeRequest extends CI_Controller {
         $this->load->model('ChangeRequestinfo');
         $result=$this->ChangeRequestinfo->pospondRecord();
     }
+    public function getPostponedData(){
+        $jobId = $this->input->post('job_id');
+
+        $this->load->model('ChangeRequestinfo');
+        $result=$this->ChangeRequestinfo->getPostponedData($jobId);
+
+        echo json_encode($result);
+    }
+    public function getEditData(){
+        $jobId = $this->input->post('job_id');
+
+        $this->load->model('ChangeRequestinfo');
+        $result=$this->ChangeRequestinfo->getEditData($jobId);
+
+        echo json_encode($result);
+    }
+    public function approvePostponedRequest(){
+        $jobId = $this->input->post('job_id');
+
+        $this->load->model('ChangeRequestinfo');
+
+        $success = $this->ChangeRequestinfo->approvePostponed($jobId);
+
+        if ($success) {
+            echo 'success';
+        } else {
+            echo 'error';
+        }
+
+    }
+        public function getCancelData(){
+        $jobId = $this->input->post('job_id');
+
+        $this->load->model('ChangeRequestinfo');
+        $result=$this->ChangeRequestinfo->getCancelData($jobId);
+
+        echo json_encode($result);
+    }
+
+        public function approveCancelRequest(){
+        $jobId = $this->input->post('job_id');
+
+        $this->load->model('ChangeRequestinfo');
+
+        $success = $this->ChangeRequestinfo->approveCancelRequest($jobId);
+
+        if ($success) {
+            echo 'success';
+        } else {
+            echo 'error';
+        }
+
+    }
+
+        public function approveEditRequest(){
+        $jobId = $this->input->post('job_id');
+
+        $this->load->model('ChangeRequestinfo');
+
+        $success = $this->ChangeRequestinfo->approveEditRequest($jobId);
+
+        if ($success) {
+            echo 'success';
+        } else {
+            echo 'error';
+        }
+
+    }
+
+    public function rejectCancelRequest(){
+        $jobId = $this->input->post('job_id');
+
+        $this->load->model('ChangeRequestinfo');
+
+        $success = $this->ChangeRequestinfo->rejectCancelRequest($jobId);
+
+        if ($success) {
+            echo 'success';
+        } else {
+            echo 'error';
+        }
+
+    }
+    public function rejectPostponedRequest(){
+        $jobId = $this->input->post('job_id');
+
+        $this->load->model('ChangeRequestinfo');
+
+        $success = $this->ChangeRequestinfo->rejectPostponedRequest($jobId);
+
+        if ($success) {
+            echo 'success';
+        } else {
+            echo 'error';
+        }
+
+    }
+
+        public function rejectEditRequest() {
+        $jobId = $this->input->post('job_id');
+
+        $this->load->model('ChangeRequestinfo');
+        $result = $this->ChangeRequestinfo->rejectEdit($jobId);
+
+        if ($result) {
+            echo 'success';
+        } else {
+            echo 'fail';
+        }
+    }
+
 }

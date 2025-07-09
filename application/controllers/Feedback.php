@@ -9,8 +9,10 @@ class Feedback extends CI_Controller {
         $this->load->model('Feedbackinfo');
         $this->load->model('FeedbackTypeinfo');
         $this->load->model('RejectReasoninfo');
+        $this->load->model('Dashboardinfo');
 		$result['menuaccess']=$this->Commeninfo->Getmenuprivilege();
         $result['feedbacktype'] = $this->FeedbackTypeinfo->getFeedbackType(); 
+        $result['user'] = $this->Dashboardinfo->getUser();
 		$this->load->view('feedback', $result);
 	}
 

@@ -57,7 +57,7 @@ include "include/topnavbar.php";
                                     </div>
 
                                     <div class="col-md-4 col-lg-3">
-                                        <label for="bdm">Select BDM</label>
+                                        <label for="bdm">Select DB Team Member</label>
                                         <select id="bdm" class="form-control form-control-sm" <?php if($statuscheck != 1) echo 'disabled'; ?> >
                                             <option value="<?php echo $_SESSION['userid'];?>" style="display:none;">
                                                 <?php echo $_SESSION['name'];?>
@@ -82,7 +82,7 @@ include "include/topnavbar.php";
                                                     <th>Date</th>
                                                     <th>Start Time</th>
                                                     <th>End Time</th>
-                                                    <th>Itinerary Type</th>
+                                                    <!-- <th>Itinerary Type</th> -->
                                                     <th>Itinerary Category</th>
                                                     <th>Itinerary Status</th>
                                                     <th>Task</th>
@@ -145,7 +145,7 @@ include "include/topnavbar.php";
                     filename: 'Send_to_approve_Information',
                     text: '<i class="fas fa-file-pdf mr-2"></i> PDF',
                     exportOptions: {
-                        columns: [1,2,3,4,5,6,7,8,9,10,11]
+                        columns: [1,2,3,4,5,6,7,8,9,10]
                     },
                     customize: function (doc) {
                         doc.pageSize = 'A4'; 
@@ -158,11 +158,11 @@ include "include/topnavbar.php";
                             margin: [0, 0, 0, 5]
                         });
                         doc.content.splice(1, 0, {
-                            text: 'Send to Approve Information Report',
+                            text: 'Send to Approve Information',
                             fontSize: 13,
                             bold: true,
-                            alignment: 'left',
-                            margin: [0, 0, 0, 10]
+                            alignment: 'center',
+                            margin: [0, 10, 0, 10]
                         });
 
                         var table = doc.content[doc.content.length - 1].table;
@@ -224,7 +224,7 @@ include "include/topnavbar.php";
         { "data": "start_date" },
         { "data": "start_time" },
         { "data": "end_time" },
-        { "data": "itenary_type" },
+        // { "data": "itenary_type" },
         { "data": "itenary_category" },
         { "data": "group" },
         { "data": "task" },

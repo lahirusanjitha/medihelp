@@ -34,8 +34,8 @@ include "include/topnavbar.php";
                                             <th>Start Time</th>
                                             <th>End Time</th>
                                             <th>Itinerary Category</th>
-                                            <th>Itinerary Sub Category</th>
-                                            <th>Itinerary Group</th>
+                                            <!-- <th>Itinerary Sub Category</th> -->
+                                            <th>Itinerary Status</th>
                                             <th>Task</th>
                                             <th>Itinerary</th>
                                             <th>Meet Location</th>
@@ -73,6 +73,20 @@ include "include/topnavbar.php";
                         <input type="date" class="form-control" name="inputDate" id="inputDate" required>
                     </div>
                     <div class="form-group">
+                        <label class="small font-weight-bold">Start time*</label>
+                            <select class="form-control" name="start_time" id="start_time" required>
+                                <option value="">-- Select Time --</option>
+                                 <?= $time;?>
+                            </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="small font-weight-bold">End time*</label>
+                            <select class="form-control" name="end_time" id="end_time" required>
+                                <option value="">-- Select Time --</option>
+                                <?= $time;?>
+                            </select>
+                    </div>
+                    <div class="form-group">
                         <label for="reason" class="font-weight-bold">Reason</label>
                         <input type="text" class="form-control" name="reason" id="reason" required>
                     </div>
@@ -84,6 +98,49 @@ include "include/topnavbar.php";
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form id="editForm" action="<?php echo base_url('ChangeRequest/editRequest'); ?>" method="post" autocomplete="off">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel">Edit Request</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        
+        <div class="modal-body">
+          <input type="hidden" id="jobId" name="jobId">
+          <input type="hidden" name="recordOption" id="recordOption" value="1">
+
+          <div class="form-group">
+            <label for="reson_type" class="font-weight-bold">Reject Reason Type</label>
+            <select class="form-control form-control-sm" name="reson_type" id="reson_type" required>
+              <option value="">Select</option>
+              <?php foreach ($RejectReason->result() as $reason) { ?>
+                <option value="<?php echo $reason->idtbl_reason_type; ?>">
+                  <?php echo $reason->reason_type; ?>
+                </option>
+              <?php } ?>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="reason">Reason</label>
+            <input type="text" class="form-control" id="reason" name="reason" required>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
 
 
 <div class="modal fade" id="staticBackdrop" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -123,6 +180,7 @@ include "include/topnavbar.php";
         </div>
     </div>
 
+
 <?php include "include/footerscripts.php"; ?>
 <script>
     $(document).ready(function() {
@@ -160,18 +218,24 @@ include "include/topnavbar.php";
                     filename: 'Aprrove Change Information',
                     text: '<i class="fas fa-file-pdf mr-2"></i> PDF',
                     exportOptions: {
-                        columns: [0,1,2,3,4,5,6,7,8,9,10]
+                        columns: [0,1,2,3,4,5,6,7,8,9]
                     },
                     customize: function (doc) {
                         doc.pageSize = 'A4'; 
                         doc.pageOrientation = 'landscape';
                         
                         doc.content.splice(0, 0, {
-                            text: 'Aprrove Change Information Report - MediHelp Hospital',
+                            image: base64,
+                            width: 100, 
+                            alignment: 'center',
+                            margin: [0, 0, 0, 5]
+                        });
+                        doc.content.splice(1, 0, {
+                            text: 'Aprrove Change Information',
                             fontSize: 13,
                             bold: true,
                             alignment: 'center',
-                            margin: [0, 0, 0, 5]
+                            margin: [0, 10, 0, 10]
                         });
 
                         var table = doc.content[doc.content.length - 1].table;
@@ -188,7 +252,7 @@ include "include/topnavbar.php";
                         };
 
                         doc.styles.tableHeader = {
-                            fillColor: '#34495e',
+                            fillColor: '#202ba8',
                             fontSize: 12,
                             color: 'white',
                             alignment: 'center',
@@ -221,7 +285,7 @@ include "include/topnavbar.php";
                 { "data": "start_date" },    
                 { "data": "start_time" }, 
                 { "data": "end_time"},
-                { "data": "itenary_type"},
+                // { "data": "itenary_type"},
                 { "data": "itenary_category" },                    
                 { "data": "group" },
                 { "data": "task"},
@@ -246,12 +310,22 @@ include "include/topnavbar.php";
                         // button += '" data-id="'+full['idtbl_job_list']+'"><i class="fa fa-pen"></i></button>';
 
 
-                        button += '<a href="<?php echo base_url() ?>ChangeRequest/Editrequest/' + full['idtbl_job_list'] + '/1" onclick="return confirm_request()" target="_self" class="btn btn-primary btn-sm mr-1 '
-                        if (confirm != 1 || editrequest != 0) {
-                            button += 'd-none';
-                        }
-                        button += '" id="' + full['idtbl_job_list'] + '"><i class="fa fa-paper-plane"></i></a>';
+                        // button += '<a href="<?php // echo base_url() ?>ChangeRequest/Editrequest/' + full['idtbl_job_list'] + '/1" onclick="return confirm_request()" target="_self" class="btn btn-primary btn-sm mr-1 '
+                        // if (confirm != 1 || editrequest != 0) {
+                        //     button += 'd-none';
+                        // }
+                        // button += '" id="' + full['idtbl_job_list'] + '"><i class="fa fa-paper-plane"></i></a>';
                         
+
+                        // button += '<a href="#" class="btn btn-sm btn-primary openEditModal" data-id="' + full['idtbl_job_list'] + '" data-toggle="modal" data-target="#editModal"><i class="fa fa-paper-plane"></i></a>';
+
+                        let buttonClass = 'btn btn-sm btn-primary openEditModal';
+                        if (confirm != 1 || editrequest != 0) {
+                            buttonClass += ' d-none'; 
+                        }
+
+                        button += '<a href="#" class="' + buttonClass + '" data-id="' + full['idtbl_job_list'] + '" data-toggle="modal" data-target="#editModal"><i class="fa fa-paper-plane"></i></a>';
+
                         button += '<button type="button" class="btn btn-info btn-sm mr-1" data-toggle="modal" data-target="#pospondModal" data-idtbl_job_list="' + full['idtbl_job_list'] + '"><i class="fas fa-pause"></i></button>';
 
                             if (full['confirmation'] == 1 || full['confirmation'] == 2) {
@@ -314,6 +388,14 @@ include "include/topnavbar.php";
         $('#modalDateId').val(idtbl_job_list);
     });
 
+$(document).on('click', '.openEditModal', function () {
+    const jobId = $(this).data('id');
+    $('#jobId').val(jobId);
+    $('#editModal').modal('show');
+});
+
+
+
 
 
 
@@ -333,4 +415,5 @@ include "include/topnavbar.php";
         return confirm("Are you sure want to cancel this?");
     }
 </script>
+<?php include "include/base64.php"; ?>
 <?php include "include/footer.php"; ?>

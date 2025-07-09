@@ -7,7 +7,9 @@ class ItinaryCompletion extends CI_Controller {
     public function index(){
         $this->load->model('Commeninfo');
         $this->load->model('ItinaryCompletioninfo');
+        $this->load->model('Dashboardinfo');
 		$result['menuaccess']=$this->Commeninfo->Getmenuprivilege();
+        $result['user'] = $this->Dashboardinfo->getUser();
 		$this->load->view('itinarycompletion', $result);
 	}
 

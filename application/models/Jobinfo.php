@@ -11,7 +11,7 @@ class Jobinfo extends CI_Model{
         $date= $this->input->post('date');
         $start_time= $this->input->post('start_time');
         $end_time= $this->input->post('end_time');
-        $itenary_type= $this->input->post('type');
+        // $itenary_type= $this->input->post('type');
         $category= $this->input->post('category');
         $group= $this->input->post('group');
         $task= $this->input->post('task');
@@ -31,7 +31,7 @@ class Jobinfo extends CI_Model{
                 'start_date'=>$date,
                 'start_time'=>$start_time,
                 'end_time'=>$end_time,
-                'tbl_itenary_type_tblid_itenary_type'=>$itenary_type,
+                // 'tbl_itenary_type_tblid_itenary_type'=>$itenary_type,
                 'tbl_itenary_category_id'=>$category,
                 'tbl_itenary_group_id'=>$group,
                 'task'=>$task,
@@ -64,8 +64,11 @@ class Jobinfo extends CI_Model{
 
                 $actionJSON=json_encode($actionObj);
                 
-                $this->session->set_flashdata('msg', $actionJSON);
-                redirect('Job');                
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => 'Record Added Successfully'
+                ]);
+                return;             
             } else {
                 $this->db->trans_rollback();
 
@@ -79,8 +82,12 @@ class Jobinfo extends CI_Model{
 
                 $actionJSON=json_encode($actionObj);
                 
-                $this->session->set_flashdata('msg', $actionJSON);
-                redirect('Job');
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Record Error'
+                ]);
+                return;
+
             }
         }
         else{
@@ -89,7 +96,7 @@ class Jobinfo extends CI_Model{
                 'start_date'=>$date,
                 'start_time'=>$start_time,
                 'end_time'=>$end_time,
-                'tbl_itenary_type_tblid_itenary_type'=>$itenary_type,
+                // 'tbl_itenary_type_tblid_itenary_type'=>$itenary_type,
                 'tbl_itenary_category_id'=>$category,
                 'tbl_itenary_group_id'=>$group,
                 'task'=>$task,
@@ -122,8 +129,11 @@ class Jobinfo extends CI_Model{
 
                 $actionJSON=json_encode($actionObj);
                 
-                $this->session->set_flashdata('msg', $actionJSON);
-                redirect('Job');                
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => 'Record Updated Successfully'
+                ]);
+                return;                
             } else {
                 $this->db->trans_rollback();
 
@@ -300,7 +310,7 @@ class Jobinfo extends CI_Model{
         $obj->start_date=$respond->row(0)->start_date;
         $obj->start_time = date('H:i', strtotime($respond->row(0)->start_time));
         $obj->end_time = date('H:i', strtotime($respond->row(0)->end_time));
-        $obj->itenary_type=$respond->row(0)->tbl_itenary_type_tblid_itenary_type;
+        // $obj->itenary_type=$respond->row(0)->tbl_itenary_type_tblid_itenary_type;
         $obj->itenary_category=$respond->row(0)->tbl_itenary_category_id;
         $obj->task=$respond->row(0)->task;
         $obj->itenary=$respond->row(0)->itenary;
@@ -314,8 +324,8 @@ class Jobinfo extends CI_Model{
     }
 
     public function generateFullDayTimeOptions($interval = 30) {
-        $startTime = strtotime('00:00');
-        $endTime = strtotime('23:59');
+        $startTime = strtotime('07:00');
+        $endTime = strtotime('22:00');
         $options = '';
     
         while ($startTime <= $endTime) {

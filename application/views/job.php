@@ -21,7 +21,7 @@ include "include/topnavbar.php";
                     <div class="page-header-content py-3">
                         <h1 class="page-header-title font-weight-light">
                             <div class="page-header-icon"><i data-feather="list"></i></div>
-                            <span>Monthly Itinary</span>
+                            <span>Monthly Itinerary</span>
                         </h1>
                     </div>
                 </div>
@@ -31,20 +31,17 @@ include "include/topnavbar.php";
                     <div class="card-body p-0 p-2">
                         <div class="row">
                             <div class="col-12">
-                        <form action="<?php echo base_url() ?>Job/Jobinsertupdate" method="post" autocomplete="off">
+                        <form id="jobForm" action="<?php echo base_url() ?>Job/Jobinsertupdate" method="post" autocomplete="off">
+                            <!-- First Row -->
                             <div class="row align-items-end">
                                 <div class="col-auto">
                                     <label class="small font-weight-bold">Month*</label>
-                                    <input type="month" class="form-control form-control-sm" name="month" id="month" required>
+                                    <input type="month" class="form-control form-control-sm" value="<?= $this->session->flashdata('form_month') ?? '' ?> name="month" id="month" required>
                                 </div>
                                 <div class="col-auto">
                                     <label class="small font-weight-bold">Date*</label>
                                     <input type="date" class="form-control form-control-sm" name="date" id="date" required>
                                 </div>
-                                <!-- <div class="col-auto">
-                                    <label class="small font-weight-bold">Start time*</label>
-                                    <input type="time" class="form-control form-control-sm" name="start_time" id="start_time" required>
-                                </div> -->
                                 <div class="col-auto">
                                     <label class="small font-weight-bold">Start time*</label>
                                     <select class="form-control form-control-sm" name="start_time" id="start_time" required>
@@ -52,26 +49,11 @@ include "include/topnavbar.php";
                                         <?= $time;?>
                                     </select>
                                 </div>
-                                <!-- <div class="col-auto">
-                                    <label class="small font-weight-bold">End time*</label>
-                                    <input type="time" class="form-control form-control-sm" name="end_time" id="end_time" required>
-                                </div> -->
                                 <div class="col-auto">
                                     <label class="small font-weight-bold">End time*</label>
                                     <select class="form-control form-control-sm" name="end_time" id="end_time" required>
                                         <option value="">-- Select Time --</option>
                                         <?= $time;?>
-                                    </select>
-                                </div>
-                                <div class="col-auto">
-                                    <label class="small font-weight-bold">Itinerary Type*</label>
-                                    <select class="form-control form-control-sm" name="type" id="type" required>
-                                        <option value="">Select</option>
-                                        <?php foreach ($iternarytype->result() as $type) { ?>
-                                            <option value="<?php echo $type->idtbl_itenary_type ?>">
-                                                <?php echo $type->itenary_type ?>
-                                            </option>
-                                        <?php } ?>
                                     </select>
                                 </div>
                                 <div class="col-auto">
@@ -96,12 +78,16 @@ include "include/topnavbar.php";
                                         <?php } ?>
                                     </select>
                                 </div>
+                            </div>
+
+                            <!-- Second Row -->
+                            <div class="row align-items-end mt-2">
                                 <div class="col-4">
                                     <label class="small font-weight-bold">Itinerary*</label>
                                     <textarea class="form-control form-control-sm" name="itenary" id="itenary" rows="4" maxlength="320" required></textarea>
                                 </div>
                                 <div class="col-auto">
-                                    <label class="small font-weight-bold">Revenue potental*</label>
+                                    <label class="small font-weight-bold">Revenue potential*</label>
                                     <input type="number" class="form-control form-control-sm" name="task" id="task" required>
                                 </div>
                                 <div class="col-auto">
@@ -119,15 +105,19 @@ include "include/topnavbar.php";
                                     <label class="small font-weight-bold">Meet Location*</label>
                                     <input type="text" class="form-control form-control-sm" name="meet_location" id="meet_location" required>
                                 </div>
-                                <div class="col-auto text-right">
-                                    <button type="submit" id="submitBtn" class="btn btn-primary btn-sm px-4" <?php if ($addcheck == 0) { echo 'disabled'; } ?>>
+                                <div class="col-auto text-right mt-4">
+                                    <button type="submit" id="submitBtn" class="btn btn-primary btn-sm px-4" <?php if ($addcheck == 0) echo 'disabled'; ?>>
                                         <i class="far fa-save"></i>&nbsp;Add
                                     </button>
                                 </div>
                             </div>
+
+                            <!-- Hidden Fields -->
+                            <input type="hidden" name="type" id="type" value="1">
                             <input type="hidden" name="recordOption" id="recordOption" value="1">
                             <input type="hidden" name="recordID" id="recordID" value="">
                             <hr>
+
                         </form>
                         <div class="col-12">
                             <div class="scrollbar pb-3" id="style-2">
@@ -138,7 +128,7 @@ include "include/topnavbar.php";
                                             <th>Date</th>
                                             <th>Start Time</th>
                                             <th>End Time</th>
-                                            <th>Itinerary Type</th>
+                                            <!-- <th>Itinerary Type</th> -->
                                             <th>Itinerary Category</th>
                                             <th>Itinerary Status</th>
                                             <th>Revenue potental</th>
@@ -287,11 +277,11 @@ include "include/topnavbar.php";
                             margin: [0, 0, 0, 5]
                         });
                         doc.content.splice(1, 0, {
-                            text: 'Monthly Itinary Report',
-                            fontSize: 12,
+                            text: 'Monthly Itinerary Report',
+                            fontSize: 13,
                             bold: true,
-                            alignment: 'left',
-                            margin: [0, 0, 0, 10]
+                            alignment: 'center',
+                            margin: [0, 10, 0, 10]
                         });
 
 
@@ -311,7 +301,7 @@ include "include/topnavbar.php";
 
                         doc.styles.tableHeader = {
                             fillColor: '#202ba8',
-                            fontSize: 13,
+                            fontSize: 12,
                             color: 'white',
                             alignment: 'center',
                             bold: true
@@ -347,7 +337,7 @@ include "include/topnavbar.php";
                 { "data": "start_date" },    
                 { "data": "start_time" }, 
                 { "data": "end_time"},
-                { "data": "itenary_type"},
+                // { "data": "itenary_type"},
                 { "data": "itenary_category" },                    
                 { "data": "group" },
                 { "data": "task"},
@@ -397,6 +387,55 @@ include "include/topnavbar.php";
     
         });
 
+$('#jobForm').on('submit', function(e) {
+    e.preventDefault(); 
+
+    var formData = $(this).serialize(); 
+
+    $.ajax({
+        type: 'POST',
+        url: $(this).attr('action'),
+        data: formData,
+        dataType: 'json',
+        success: function(response) {
+            if (response.status === 'success') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response.message
+                });
+
+                $('#start_time').val('');
+                $('#end_time').val('');
+                $('#category').val('');
+                $('#group').val('');
+                $('#task').val('');
+                $('#itenary').val('');
+                $('#meet_location').val('');
+                $('#recordOption').val('1');
+                $('#recordID').val('');
+                $('#submitBtn').html('<i class="far fa-save"></i>&nbsp;Add');
+
+                $('#dataTable').DataTable().ajax.reload();
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message || 'Something went wrong!'
+                });
+            }
+        },
+        error: function() {
+            Swal.fire({
+                icon: 'error',
+                title: 'Server Error',
+                text: 'Could not connect to the server.'
+            });
+        }
+    });
+});
+
+
 $('#dataTable tbody').on('click', '.btnEdit', function () {
     var id = $(this).attr('id');
 
@@ -423,7 +462,7 @@ $('#dataTable tbody').on('click', '.btnEdit', function () {
                     $('#date').val(obj.start_date);
                     $('#start_time').val(obj.start_time);
                     $('#end_time').val(obj.end_time);
-                    $('#type').val(obj.itenary_type);
+                    // $('#type').val(obj.itenary_type);
                     $('#category').val(obj.itenary_category);
                     $('#group').val(obj.group);
                     $('#task').val(obj.task);

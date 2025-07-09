@@ -76,6 +76,28 @@ class Dashboardinfo extends CI_Model {
             ->where('approval_send', 1)
             ->count_all_results();
     }
+ public function getPosponedToApproveCount()
+    {
+        return $this->db
+            ->from('tbl_job_list')
+            ->where('postponed_request', 1)
+            ->count_all_results();
+    }
+ public function getEditRequestToApproveCount()
+    {
+        return $this->db
+            ->from('tbl_job_list')
+            ->where('edit_request', 1)
+            ->count_all_results();
+    }
+ public function getECancelApproveCount()
+    {
+        return $this->db
+            ->from('tbl_job_list')
+            ->where('cancel_request', 1)
+            ->count_all_results();
+    }
+    
 
 }
 ?>

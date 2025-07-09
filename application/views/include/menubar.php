@@ -251,7 +251,7 @@ function checkprivilege($arraymenu, $menuID, $type){
                 <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
 
                 <?php } if(menucheck($menuprivilegearray, 9)==1){ ?>
-                    <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Itenarytype'; ?>">Itinerary Type</a>
+                    <!-- <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Itenarytype'; ?>">Itinerary Type</a> -->
                     <?php } if(menucheck($menuprivilegearray, 10)==1){ ?>
                     <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Itenarycategory'; ?>">Itinerary Category</a>
                     <?php } if(menucheck($menuprivilegearray, 12)==1){ ?>
@@ -285,7 +285,7 @@ function checkprivilege($arraymenu, $menuID, $type){
                 <?php } if(menucheck($menuprivilegearray, 19)==1){ ?>
                     <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'ChangeRequest'; ?>">Itinerary Actions</a> 
                 <?php } if(menucheck($menuprivilegearray, 30)==1){ ?>
-                    <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'EditApproval'; ?>">Edit Aproval</a> 
+                    <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'EditApproval'; ?>">Actions Aproval</a> 
                 <?php } ?> 
                 </nav>
             </div>

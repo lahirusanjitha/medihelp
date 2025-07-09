@@ -55,7 +55,7 @@ include "include/topnavbar.php";
                 </div>
 
                 <div class="col-md-6 col-lg-3">
-                    <label for="bdm">Select BDM</label>
+                    <label for="bdm">Select DB Team Member</label>
                     <select id="bdm" class="form-control form-control-sm">
                         <option value="<?php echo $_SESSION['userid'];?>" style="display:none;">
                             <?php echo $_SESSION['name'];?>
@@ -80,7 +80,7 @@ include "include/topnavbar.php";
                                 <th>Date</th>
                                 <th>Start Time</th>
                                 <th>End Time</th>
-                                <th>Itinerary Type</th>
+                                <!-- <th>Itinerary Type</th> -->
                                 <th>Itinerary Category</th>
                                 <th>Itinerary Status</th>
                                 <th>Task</th>
@@ -166,7 +166,7 @@ include "include/topnavbar.php";
                     filename: 'Approval Level Information',
                     text: '<i class="fas fa-file-pdf mr-2"></i> PDF',
                     exportOptions: {
-                        columns: [1,2,3,4,5,6,7,8,9,10,11]
+                        columns: [1,2,3,4,5,6,7,8,9,10]
                     },
                     customize: function (doc) {
                         
@@ -174,11 +174,17 @@ include "include/topnavbar.php";
                         doc.pageOrientation = 'landscape';
 
                         doc.content.splice(0, 0, {
-                            text: 'Approval Information Report - MediHelp Hospital',
+                            image: base64,
+                            width: 100, 
+                            alignment: 'center',
+                            margin: [0, 0, 0, 5]
+                        });
+                        doc.content.splice(1, 0, {
+                            text: 'Approval Information Report',
                             fontSize: 13,
                             bold: true,
                             alignment: 'center',
-                            margin: [0, 0, 0, 5]
+                            margin: [0, 10, 0, 10]
                         });
 
 
@@ -197,8 +203,8 @@ include "include/topnavbar.php";
                         };
 
                         doc.styles.tableHeader = {
-                            fillColor: '#34495e',
-                            fontSize: 13,
+                            fillColor: '#202ba8',
+                            fontSize: 12,
                             color: 'white',
                             alignment: 'center',
                             bold: true
@@ -240,7 +246,7 @@ include "include/topnavbar.php";
                 { "data": "start_date" },    
                 { "data": "start_time" }, 
                 { "data": "end_time"},
-                { "data": "itenary_type"},
+                // { "data": "itenary_type"},
                 { "data": "itenary_category" },                    
                 { "data": "group" },
                 { "data": "task"},
@@ -381,4 +387,5 @@ $('#dataTable').on('draw.dt', function() {
 
 
 </script>
+<?php include "include/base64.php";?>
 <?php include "include/footer.php"; ?>

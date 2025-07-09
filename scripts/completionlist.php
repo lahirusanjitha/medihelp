@@ -56,6 +56,24 @@ $sql_details = array(
 	'host' => $db_host
 );
 
+$year = isset($_POST['year']) ? $_POST['year'] : '';  
+$month = isset($_POST['month']) ? $_POST['month'] : '';  
+$bdm = isset($_POST['bdm']) ? $_POST['bdm'] : '';  
+
+$extraWhere = "`u`.`completion` IN (2) AND `confirmation` IN (1)";
+
+if (!empty($year)) {
+    $extraWhere .= " AND YEAR(`u`.`start_date`) = '$year'";
+}
+if (!empty($month)) {
+    $extraWhere .= " AND MONTH(`u`.`start_date`) = '$month'";
+}
+
+if (!empty($bdm)) {
+    $extraWhere .= " AND `u`.`tbl_med_user_id` = '$bdm'";  
+}
+
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * If you just want to use the basic configuration for DataTables with PHP
  * server-side, there is no need to edit below this line.
@@ -70,9 +88,6 @@ $joinQuery = "FROM `tbl_job_list` AS `u`
 	LEFT JOIN `tbl_itenary_type` AS `ua` ON (`ua`.`idtbl_itenary_type` = `u`.`tbl_itenary_type_tblid_itenary_type`)
 	LEFT JOIN `tbl_location` AS `ud` ON (`ud`.`idtbl_location` = `u`.`tblid_location`)";
 	
-
-
-$extraWhere = "`u`.`completion` IN (2) AND `confirmation` IN (1)";
 
 echo json_encode(
 	SSP::simple( $_POST, $sql_details, $table, $primaryKey, $columns, $joinQuery, $extraWhere)

@@ -27,6 +27,7 @@ $columns = array(
     array( 'db' => '`ua`.`itenary_type`', 'dt' => 'itenary_type', 'field' => 'itenary_type' ),
     array( 'db' => '`ub`.`itenary_category`', 'dt' => 'itenary_category', 'field' => 'itenary_category' ),
     array( 'db' => '`uc`.`group`', 'dt' => 'group', 'field' => 'group' ),
+        array( 'db' => '`u`.`task`', 'dt' => 'task', 'field' => 'task' ),
 );
 
 

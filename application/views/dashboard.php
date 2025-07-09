@@ -65,44 +65,127 @@
                 </div>
 
                 <div class="dashboard-container">
-
-                <div class="row row-cols-1 row-cols-md-5">
-                    <div class="col">
-                        <div class="card border border-success mb-3 shadow-none h-100">
-                            <div class="row no-gutters h-100">
-                                <!-- Icon Column -->
-                                <div class="col-auto p-2 text-success">
-                                    <i class="fas fa-file-alt fa-3x"></i>
-                                </div>
-
-                                <!-- Text + Progress Column -->
-                                <div class="col">
-                                    <div class="card-body p-0 px-2 py-3 text-right">
-                                        <h3 class="card-title text-success m-0 font-weight-bold">
-                                            <a href="#" class="text-success">
-                                                Itineraries to Approve (<span id="toApproveCount">0</span>)
-                                            </a>
-                                        </h3>
+                    <!-- itianaries to approve -->
+                                    <!-- Combined card row -->
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5">
+                        <!-- Card 1: Itineraries to Approve -->
+                        <div class="col mb-3">
+                            <div class="card border border-success shadow-none h-100">
+                                <div class="row no-gutters h-100">
+                                    <div class="col-auto p-2 text-success">
+                                        <i class="fas fa-file-alt fa-3x"></i>
                                     </div>
-
-                                    <!-- Progress Bar -->
-                                    <div class="row no-gutters h-100">
-                                        <div class="col">
-                                            <div class="card-body p-0 p-2 text-right">
-                                                <div class="progress" style="height: 3px;">
-                                                    <div class="progress-bar bg-success" role="progressbar"
-                                                        style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="col">
+                                        <div class="card-body p-0 px-2 py-3 text-right">
+                                            <h3 class="card-title text-success m-0 font-weight-bold">
+                                                <a href="<?php echo base_url('Confirmjob'); ?>" class="text-success">
+                                                    Itineraries to Approve (<span id="toApproveCount">0</span>)
+                                                </a>
+                                            </h3>
+                                        </div>
+                                        <div class="row no-gutters h-100">
+                                            <div class="col">
+                                                <div class="card-body p-0 p-2 text-right">
+                                                    <div class="progress" style="height: 3px;">
+                                                        <div class="progress-bar bg-success" style="width: 100%;"></div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- End Progress Bar -->
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Card 2: Approval Requested for Postponed -->
+                        <div class="col mb-3">
+                            <div class="card border border-info shadow-none h-100">
+                                <div class="row no-gutters h-100">
+                                    <div class="col-auto p-2 text-info">
+                                        <i class="fas fa-file-alt fa-3x"></i>
+                                    </div>
+                                    <div class="col">
+                                        <div class="card-body p-0 px-2 py-3 text-right">
+                                            <h3 class="card-title text-info m-0 font-weight-bold">
+                                                <a href="<?php echo base_url('EditApproval'); ?>" class="text-info">
+                                                    Approval Requested For Postponed (<span id="toPostponedCount">0</span>)
+                                                </a>
+                                            </h3>
+                                        </div>
+                                        <div class="row no-gutters h-100">
+                                            <div class="col">
+                                                <div class="card-body p-0 p-2 text-right">
+                                                    <div class="progress" style="height: 3px;">
+                                                        <div class="progress-bar bg-info" style="width: 100%;"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                                <div class="col mb-3">
+                                <div class="card border border-info shadow-none h-100">
+                                    <div class="row no-gutters h-100">
+                                        <div class="col-auto p-2 text-primary">
+                                            <i class="fas fa-file-alt fa-3x"></i>
+                                        </div>
+                                        <div class="col">
+                                            <div class="card-body p-0 px-2 py-3 text-right">
+                                                <h3 class="card-title text-primary m-0 font-weight-bold">
+                                                    <a href="<?php echo base_url('EditApproval'); ?>" class="text-primary">
+                                                        Approval Requested For Edit (<span id="toeditrequestcount">0</span>)
+                                                    </a>
+                                                </h3>
+                                            </div>
+                                            <div class="row no-gutters h-100">
+                                                <div class="col">
+                                                    <div class="card-body p-0 p-2 text-right">
+                                                        <div class="progress" style="height: 3px;">
+                                                            <div class="progress-bar bg-primary" style="width: 100%;"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col mb-3">
+                                <div class="card border border-info shadow-none h-100">
+                                    <div class="row no-gutters h-100">
+                                        <div class="col-auto p-2 text-success">
+                                            <i class="fas fa-file-alt fa-3x"></i>
+                                        </div>
+                                        <div class="col">
+                                            <div class="card-body p-0 px-2 py-3 text-right">
+                                                <h3 class="card-title text-success m-0 font-weight-bold">
+                                                    <a href="<?php echo base_url('EditApproval'); ?>" class="text-success">
+                                                        Approval Requested For Cancel (<span id="tocancelcount">0</span>)
+                                                    </a>
+                                                </h3>
+                                            </div>
+                                            <div class="row no-gutters h-100">
+                                                <div class="col">
+                                                    <div class="card-body p-0 p-2 text-right">
+                                                        <div class="progress" style="height: 3px;">
+                                                            <div class="progress-bar bg-success" style="width: 100%;"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+            
+            
                     </div>
-                </div>
+                    
+
 
                     <div class="row mb-4">
 
@@ -138,7 +221,7 @@
                         </div>
                         
                         <div class="col-md-6 col-lg-3">
-                            <label for="bdm">Select Bdm</label>
+                            <label for="bdm">Select DB Team Member</label>
                             <select name="bdm" id="bdm" class="form-control form-control-sm" <?php if($statuscheck != 1) echo 'disabled';?>>
                                 <option value="<?php echo $_SESSION['userid'];?>" style="display:none;">
                                     <?php echo $_SESSION['name'];?>
@@ -394,17 +477,43 @@
                 }
             });
 
-            // $.ajax({
-            //     url: "<?php echo base_url(); ?>Dashboard/getItineraryToCompleteCount",
-            //     method: "GET",
-            //     success: function(data) {
-            //         $('#toCompleteCount').text(data);
-            //     }
-            // });
+        
+        }
+        function loadPosponedAprroveCounts() {
+            $.ajax({
+                url: "<?php echo base_url(); ?>Dashboard/getPosponedToApproveCount",
+                method: "GET",
+                success: function(data) {
+                    $('#toPostponedCount').text(data);
+                }
+            });
+        
+        }
+        function loadEditAprroveCounts() {
+            $.ajax({
+                url: "<?php echo base_url(); ?>Dashboard/getEditRequestToApproveCount",
+                method: "GET",
+                success: function(data) {
+                    $('#toeditrequestcount').text(data);
+                }
+            });
+        
+        }
+        function loadCancelApproveCounts() {
+            $.ajax({
+                url: "<?php echo base_url(); ?>Dashboard/getECancelApproveCount",
+                method: "GET",
+                success: function(data) {
+                    $('#tocancelcount').text(data);
+                }
+            });
         
         }
         $(document).ready(function(){
             loadItineraryCounts();
+            loadPosponedAprroveCounts();
+            loadEditAprroveCounts();
+            loadCancelApproveCounts();
         })
 
     </script>

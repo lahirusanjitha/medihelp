@@ -53,7 +53,7 @@ include "include/topnavbar.php";
                     </select>
                 </div>
                 <div class="col-md-6 col-lg-3">
-                <label for="bdm">Select BDM</label>
+                <label for="bdm">Select DB Team Member</label>
                 <select id="bdm" class="form-control form-control-sm" <?php if($statuscheck != 1) echo 'disabled'; ?>>
                     <?php foreach ($user->result() as $users) { ?>
                         <option value="<?php echo $_SESSION['userid'];?>" style="display:none;">
@@ -95,7 +95,7 @@ include "include/topnavbar.php";
                                             <th>Itinerary Type</th>
                                             <th>Itinerary Category</th> 
                                             <th>Itinerary Status</th>
-                                             <!-- <th>Task</th> -->
+                                            <th>Task</th>
                                             <th>Location</th> 
                                             <th>Itinerary</th>
                                             <th>Meet Location</th>
@@ -152,18 +152,33 @@ include "include/topnavbar.php";
                     filename: 'Action Status Information',
                     text: '<i class="fas fa-file-pdf mr-2"></i> PDF',
                     exportOptions: {
-                        columns: [0,1,2,3,4,5,6]
+                        columns: [0,1,2,3,4,5,6,8,9,10]
                     },
                     customize: function (doc) {
                         doc.pageSize = 'A4'; 
                         doc.pageOrientation = 'landscape';
                         
+                        var bdmSelect = document.getElementById("bdm");
+                        var selectedUsername = bdmSelect.options[bdmSelect.selectedIndex].text;
+
                         doc.content.splice(0, 0, {
-                            text: 'Action Status Information Report - MediHelp Hospital',
+                            image: base64,
+                            width: 100, 
+                            alignment: 'center',
+                            margin: [0, 0, 0, 5]
+                        });
+                        doc.content.splice(1, 0, {
+                            text: 'Action Status Information',
                             fontSize: 13,
                             bold: true,
                             alignment: 'center',
-                            margin: [0, 0, 0, 5]
+                            margin: [0, 10, 0, 10]
+                        });
+                        doc.content.splice(2, 0, {
+                            text: 'DB Team Member: ' + selectedUsername, 
+                            fontSize: 10,
+                            alignment: 'left',
+                            margin: [0, 0, 0, 10]
                         });
 
                         var table = doc.content[doc.content.length - 1].table;
@@ -180,7 +195,7 @@ include "include/topnavbar.php";
                         };
 
                         doc.styles.tableHeader = {
-                            fillColor: '#34495e',
+                            fillColor: '#202ba8',
                             fontSize: 12,
                             color: 'white',
                             alignment: 'center',
@@ -220,7 +235,7 @@ include "include/topnavbar.php";
                 { "data": "itenary_type"},
                 { "data": "itenary_category" },                    
                 { "data": "group" },
-                // { "data": "task"},
+                { "data": "task"},
                 { "data": "location"},
                 { "data": "itenary"},
                 { "data": "meet_location"},
@@ -240,4 +255,5 @@ include "include/topnavbar.php";
 
 
 </script>
+<?php include "include/base64.php"; ?>
 <?php include "include/footer.php"; ?>

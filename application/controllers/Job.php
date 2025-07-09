@@ -15,13 +15,14 @@ class Job extends CI_Controller {
 		$result['menuaccess']=$this->Commeninfo->Getmenuprivilege();
         $result['itenarycategory']=$this->Itenarycategoryinfo->Getcategory(); 
         $result['Itenarygroup']=$this->Itenarygroupinfo->getGroup();
-        $result['iternarytype'] = $this->Itenarytypeinfo->GetIternarytype();  
+        // $result['iternarytype'] = $this->Itenarytypeinfo->GetIternarytype();  
         $result['locationdetails'] = $this->Locationinfo->getLocation(); 
         $result['feedbacktype'] = $this->FeedbackTypeinfo->getFeedbackType(); 
         $result['time'] = $this->Jobinfo->generateFullDayTimeOptions(); 
 		$this->load->view('job', $result);
 	}
     public function Jobinsertupdate(){
+
 		$this->load->model('Jobinfo');
         $result=$this->Jobinfo->Jobinsertupdate();
 	}

@@ -52,10 +52,25 @@ class Dashboard extends CI_Controller {
     echo json_encode($count);
 }
 
-//     public function getItineraryToCompleteCount()
-// {
-//     $count = $this->Dashboardinfo->countItinerariesByStatus('to_complete');
-//     echo json_encode($count);
+    public function getPosponedToApproveCount()
+{
+    $count = $this->Dashboardinfo->getPosponedToApproveCount();
+    echo json_encode($count);
+}
+
+    public function getEditRequestToApproveCount()
+{
+    $count = $this->Dashboardinfo->getEditRequestToApproveCount();
+    echo json_encode($count);
+}
+    public function getECancelApproveCount()
+{
+    $count = $this->Dashboardinfo->getECancelApproveCount();
+    echo json_encode($count);
+}
+    
+
+
 
 
 }
