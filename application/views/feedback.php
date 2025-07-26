@@ -312,32 +312,24 @@ include "include/topnavbar.php";
                     "targets": -1,
                     "className": 'text-right',
                     "data": null,
-                    "render": function(data, type, full) {
+                    "render": function (data, type, full) {
                         var button = '';
 
-                        // Use the approval datetime as-is (assumed to be in Sri Lanka time already)
-                        // var approvedTime = new Date(full['approvedatetime']);
-                        // var now = new Date();
+                        // Pass required data attributes to be handled in the click logic
+                        button += '<button type="button" class="btn btn-success btn-sm mr-1 open-feedback-modal" ' +
+                                'data-idtbl_job_list="' + full['idtbl_job_list'] + '" ' +
+                                'data-start-date="' + full['start_date'] + '" ' +
+                                'data-end-time="' + full['end_time'] + '">' +
+                                '<i class="far fa-comment"></i></button>';
 
-                        // var diffMs = now - approvedTime;
-                        // var diffMinutes = diffMs / (1000 * 60);
+                        button += '<button class="btn btn-dark btn-sm btnview mr-1" id="' + full['idtbl_job_list'] + '">' +
+                                '<i class="fas fa-eye"></i></button>';
 
-                        // console.log("Approved At:", full['approvedatetime']);
-                        // console.log("Now:", now.toISOString());
-                        // console.log("Diff Minutes:", diffMinutes);
-                        
-                        button += '<button type="button" class="btn btn-success btn-sm mr-1" data-toggle="modal" data-target="#staticBackdrop" data-idtbl_job_list="' + full['idtbl_job_list'] + '"><i class="far fa-comment"></i></button>';
-
-                        // button += '<button type="button" class="btn btn-success btn-sm mr-1 open-feedback-modal" data-idtbl_job_list="' + full['idtbl_job_list'] + '" data-diff-minutes="' + diffMinutes + '"><i class="far fa-comment"></i></button>';
-
-
-                        button += '<button class="btn btn-dark btn-sm btnview mr-1" id="' + full['idtbl_job_list'] + '"><i class="fas fa-eye"></i></button>';
                         return button;
                     }
-
-
-
                 }
+
+
             ],
             drawCallback: function(settings) {
                 $('[data-toggle="tooltip"]').tooltip();
@@ -439,21 +431,47 @@ include "include/topnavbar.php";
 //     $('#modaltblJobListField').val(idtbl_job_list);
 // });
 $(document).on('click', '.open-feedback-modal', function () {
-    var diffMinutes = parseInt($(this).data('diff-minutes'));
     var jobId = $(this).data('idtbl_job_list');
+    var startDate = $(this).data('start-date'); // format: "2025-07-16"
+    var endTime = $(this).data('end-time');     // format: "11:00:00"
 
-    if (diffMinutes > 100) {
+    var now = new Date();
+    var jobDateOnly = new Date(startDate);
+
+    // Strip time to compare just dates
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var jobDate = new Date(jobDateOnly.getFullYear(), jobDateOnly.getMonth(), jobDateOnly.getDate());
+
+    if (jobDate < today) {
+        // Job is in the past
         Swal.fire({
-        icon: "info",
-        title: "Oops...",
-        text: "Time exceeded!",
+            icon: "warning",
+            title: "Not Allowed",
+            text: "You can't give feedback for past jobs.",
         });
+    } else if (jobDate.getTime() === today.getTime()) {
+        // Job is today → check end time
+        var endDateTime = new Date(startDate + 'T' + endTime);
+        var diffMs = now - endDateTime;
+        var diffMinutes = diffMs / (1000 * 60);
+
+        if (diffMinutes > 120) {
+            Swal.fire({
+                icon: "info",
+                title: "Too Late",
+                text: "More than 120 minutes have passed since the job ended!",
+            });
+        } else {
+            $('#modaltblJobListField').val(jobId);
+            $('#staticBackdrop').modal('show');
+        }
     } else {
+        // Job is in the future → allow
         $('#modaltblJobListField').val(jobId);
-        console.log("Hidden input value:", $('input[name="idtbl_job_list"]').val());
         $('#staticBackdrop').modal('show');
     }
 });
+
 
 
     function pause_confirm() {

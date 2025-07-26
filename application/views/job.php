@@ -412,7 +412,7 @@ $('#jobForm').on('submit', function(e) {
                 $('#task').val('');
                 $('#itenary').val('');
                 $('#meet_location').val('');
-                $('#recordOption').val('1');
+                $('#recordOption').val('');
                 $('#recordID').val('');
                 $('#submitBtn').html('<i class="far fa-save"></i>&nbsp;Add');
 

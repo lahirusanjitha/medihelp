@@ -50,7 +50,8 @@ $columns = array(
 	array( 'db' => '`u`.`edit_request`', 'dt' => 'edit_request', 'field' => 'edit_request' ),
 	array( 'db' => '`u`.`tbl_med_user_id`', 'dt' => 'tbl_med_user_id', 'field' => 'tbl_med_user_id' ),
 	array( 'db' => '`u`.`feedback`', 'dt' => 'feedback', 'field' => 'feedback' ),
-	array( 'db' => '`ap`.`approvedatetime`', 'dt' => 'approvedatetime', 'field' => 'approvedatetime' )
+	array( 'db' => '`ap`.`approvedatetime`', 'dt' => 'approvedatetime', 'field' => 'approvedatetime' ),
+	array( 'db' => '`cl`.`completed_datetime`', 'dt' => 'completed_datetime', 'field' => 'completed_datetime' )
 
 );
 
@@ -67,7 +68,7 @@ $year = isset($_POST['year']) ? $_POST['year'] : '';
 $month = isset($_POST['month']) ? $_POST['month'] : '';  
 $bdm = isset($_POST['bdm']) ? $_POST['bdm'] : '';  
 
-$extraWhere = "`u`.`status` IN (1, 2) AND `u`.`confirmation` IN (1)";
+$extraWhere = "( (`u`.`status` IN (1, 2) AND `u`.`confirmation` IN (1)) OR `u`.`completion` IN (1) )";
 
 if (!empty($year)) {
     $extraWhere .= " AND YEAR(`u`.`start_date`) = '$year'";
@@ -75,10 +76,10 @@ if (!empty($year)) {
 if (!empty($month)) {
     $extraWhere .= " AND MONTH(`u`.`start_date`) = '$month'";
 }
-
 if (!empty($bdm)) {
-    $extraWhere .= " AND `u`.`tbl_med_user_id` = '$bdm'";  
+    $extraWhere .= " AND `u`.`tbl_med_user_id` = '$bdm'";
 }
+
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -94,6 +95,8 @@ $joinQuery = "FROM `tbl_job_list` AS `u`
     LEFT JOIN `tbl_itenary_group` AS `uc` ON (`uc`.`tblid_itenary_group` = `u`.`tbl_itenary_group_id`)
     LEFT JOIN `tbl_itenary_type` AS `ua` ON (`ua`.`idtbl_itenary_type` = `u`.`tbl_itenary_type_tblid_itenary_type`)
     LEFT JOIN `tbl_location` AS `ud` ON (`ud`.`idtbl_location` = `u`.`tblid_location`)
+	LEFT JOIN `tbl_completed_list` AS `cl` ON (`cl`.`tbl_joblist_idtbl_joblist` = `u`.`idtbl_job_list`)
+
     LEFT JOIN (
         SELECT a.*
         FROM tbl_approval_list a

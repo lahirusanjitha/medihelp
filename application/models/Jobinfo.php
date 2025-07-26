@@ -11,7 +11,7 @@ class Jobinfo extends CI_Model{
         $date= $this->input->post('date');
         $start_time= $this->input->post('start_time');
         $end_time= $this->input->post('end_time');
-        // $itenary_type= $this->input->post('type');
+        $itenary_type= $this->input->post('type');
         $category= $this->input->post('category');
         $group= $this->input->post('group');
         $task= $this->input->post('task');
@@ -31,7 +31,7 @@ class Jobinfo extends CI_Model{
                 'start_date'=>$date,
                 'start_time'=>$start_time,
                 'end_time'=>$end_time,
-                // 'tbl_itenary_type_tblid_itenary_type'=>$itenary_type,
+                'tbl_itenary_type_tblid_itenary_type'=>$itenary_type,
                 'tbl_itenary_category_id'=>$category,
                 'tbl_itenary_group_id'=>$group,
                 'task'=>$task,
