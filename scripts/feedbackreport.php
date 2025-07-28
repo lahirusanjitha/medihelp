@@ -19,7 +19,9 @@ $columns = array(
         'dt' => 'time_range',
         'field' => 'start_time',
         'formatter' => function($start_time, $row) {
-            return $start_time . ' - ' . $row['end_time'];
+            $start = date("g:i A", strtotime($start_time));
+            $end = date("g:i A", strtotime($row['end_time']));
+            return $start . ' - ' . $end;
         }
     ),
     array( 'db' => '`u`.`end_time`', 'dt' => 'end_time', 'field' => 'end_time' ),
@@ -49,6 +51,8 @@ $sql_details = array(
 $year = isset($_POST['year']) ? $_POST['year'] : '';  
 $month = isset($_POST['month']) ? $_POST['month'] : '';  
 $bdm = isset($_POST['bdm']) ? $_POST['bdm'] : '';  
+$fromDate = isset($_POST['fromDate']) ? $_POST['fromDate'] : '';
+$toDate = isset($_POST['toDate']) ? $_POST['toDate'] : '';
 
 $extraWhere = "`ue`.`tbl_joblist_idtbl_joblist` IS NOT NULL AND `ue`.`is_admin` IN(0)"; 
 
@@ -61,6 +65,12 @@ if (!empty($month)) {
 
 if (!empty($bdm)) {
     $extraWhere .= " AND `ue`.`tbl_med_user_idtbl_med_user` = '$bdm'";  
+}
+if (!empty($fromDate)) {
+    $extraWhere .= " AND DATE(`u`.`start_date`) >= '" . $fromDate . "'";
+}
+if (!empty($toDate)) {
+    $extraWhere .= " AND DATE(`u`.`start_date`) <= '" . $toDate . "'";
 }
 
 

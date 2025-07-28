@@ -83,7 +83,7 @@ include "include/topnavbar.php";
                             <!-- Second Row -->
                             <div class="row align-items-end mt-2">
                                 <div class="col-4">
-                                    <label class="small font-weight-bold">Itinerary*</label>
+                                    <label class="small font-weight-bold">Activity in Detail*</label>
                                     <textarea class="form-control form-control-sm" name="itenary" id="itenary" rows="4" maxlength="320" required></textarea>
                                 </div>
                                 <div class="col-auto">
@@ -91,7 +91,7 @@ include "include/topnavbar.php";
                                     <input type="number" class="form-control form-control-sm" name="task" id="task" required>
                                 </div>
                                 <div class="col-auto">
-                                    <label class="small font-weight-bold">Location*</label>
+                                    <label class="small font-weight-bold">Allocate Location*</label>
                                     <select class="form-control form-control-sm" name="location" id="location" required>
                                         <option value="">Select</option>
                                         <?php foreach ($locationdetails->result() as $location) { ?>
@@ -132,8 +132,8 @@ include "include/topnavbar.php";
                                             <th>Itinerary Category</th>
                                             <th>Itinerary Status</th>
                                             <th>Revenue potental</th>
-                                            <th>Location</th>
-                                            <th>Itinerary</th>
+                                            <th>Allocate Location</th>
+                                            <th>Activity in Detail</th>
                                             <th>Meet Location</th>
                                             <th>Status</th>
                                             <th class="text-right">Actions</th>
@@ -244,21 +244,10 @@ include "include/topnavbar.php";
                 [10, 25, 50, -1],
                 [10, 25, 50, 'All'],
             ],
-            "buttons": [{
-					extend: 'excel',
-					className: 'btn btn-success btn-sm',
-					title: 'Monthly Itinary Information',
-					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
-				},
-                {
-					extend: 'csv',
-					className: 'btn btn-warning btn-sm',
-					title: 'Monthly Itinary Information',
-					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
-				},
-                {
+            "buttons": [
+                                {
                     extend: 'pdf',
-                    className: 'btn btn-danger btn-sm',
+                    className: 'btn btn-primary btn-sm',
                     title: '',
                     filename: 'Monthly Itinary Information',
                     text: '<i class="fas fa-file-pdf mr-2"></i> PDF',
@@ -313,7 +302,19 @@ include "include/topnavbar.php";
                             alignment: 'center'
                         };
                  }
-                }
+                },
+                {
+					extend: 'excel',
+					className: 'btn btn-success btn-sm',
+					title: 'Monthly Itinary Information',
+					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
+				},
+                {
+					extend: 'csv',
+					className: 'btn btn-info btn-sm',
+					title: 'Monthly Itinary Information',
+					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
+				},
             ],
             ajax: {
                 url: "<?php echo base_url() ?>scripts/joblist.php",
@@ -412,8 +413,8 @@ $('#jobForm').on('submit', function(e) {
                 $('#task').val('');
                 $('#itenary').val('');
                 $('#meet_location').val('');
-                $('#recordOption').val('');
-                $('#recordID').val('');
+                // $('#recordOption').val('');
+                // $('#recordID').val('');
                 $('#submitBtn').html('<i class="far fa-save"></i>&nbsp;Add');
 
                 $('#dataTable').DataTable().ajax.reload();

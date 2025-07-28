@@ -243,7 +243,7 @@ function checkprivilege($arraymenu, $menuID, $type){
             <?php if(menucheck($menuprivilegearray, 9) == 1 | menucheck($menuprivilegearray, 10) == 1 | menucheck($menuprivilegearray, 12) == 1) { ?>
     <a class="nav-link p-0 px-3 py-2 collapsed text-dark" href="javascript:void(0);" data-toggle="collapse" data-target="#itenaryfilesinfo" aria-expanded="false" aria-controls="itenaryfilesinfo">
         <div class="nav-link-icon"><i class="fas fa-sticky-note"></i></div>
-        Itinerary Files
+        Itinerary Master Files 
         <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
     </a>
 
@@ -279,13 +279,13 @@ function checkprivilege($arraymenu, $menuID, $type){
                 <?php } if(menucheck($menuprivilegearray, 16)==1){ ?>
                 <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Confirmjob'; ?>">Approvel  </a> 
                 <?php } if(menucheck($menuprivilegearray, 29)==1){ ?>
-                    <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Feedback'; ?>">Feed Back </a> 
+                    <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Feedback'; ?>">BD Feedback</a> 
                 <?php } if(menucheck($menuprivilegearray, 17)==1){ ?>
-                    <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'ItinaryCompletion'; ?>">Itinerary Completion  </a> 
+                    <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'ItinaryCompletion'; ?>">Itinerary Feedback</a> 
                 <?php } if(menucheck($menuprivilegearray, 19)==1){ ?>
-                    <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'ChangeRequest'; ?>">Itinerary Actions</a> 
+                    <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'ChangeRequest'; ?>">Itinerary Edit Request</a> 
                 <?php } if(menucheck($menuprivilegearray, 30)==1){ ?>
-                    <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'EditApproval'; ?>">Actions Approval</a> 
+                    <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'EditApproval'; ?>">Edit Request Approval </a> 
                 <?php } ?> 
                 </nav>
             </div>
@@ -301,7 +301,7 @@ function checkprivilege($arraymenu, $menuID, $type){
                 <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
 
                 <?php } if(menucheck($menuprivilegearray, 23)==1){ ?>
-                    <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Feedbackreport'; ?>">Feed Back Report</a>
+                    <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Feedbackreport'; ?>">Feedback Report</a>
                     <?php } if(menucheck($menuprivilegearray, 24)==1){ ?>
                     <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Cancelreport'; ?>">Cancel Report </a>
                     <?php } if(menucheck($menuprivilegearray, 25)==1){ ?>
@@ -309,7 +309,7 @@ function checkprivilege($arraymenu, $menuID, $type){
                     <?php } if(menucheck($menuprivilegearray, 26)==1){ ?>
                     <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Missingereport'; ?>">Missing Report </a>
                     <?php } if(menucheck($menuprivilegearray, 27)==1){ ?>
-                    <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Actionreport'; ?>">Action Report </a>
+                    <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Actionreport'; ?>">Live Action Report</a>
                     <?php } if(menucheck($menuprivilegearray, 32)==1){ ?>
                         <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Logreport'; ?>">Log report</a> 
                     <?php } if(menucheck($menuprivilegearray, 28)==1){ ?>

@@ -13,7 +13,7 @@ include "include/topnavbar.php";
                     <div class="page-header-content py-3">
                         <h1 class="page-header-title font-weight-light">
                             <div class="page-header-icon"><i data-feather="list"></i></div>
-                            <span>Itinerary Actions</span>
+                            <span>Itinerary Edit Request</span>
                         </h1>
                     </div>
                 </div>

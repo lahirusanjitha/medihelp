@@ -22,7 +22,7 @@ include "include/topnavbar.php";
                     <div class="page-header-content py-3">
                         <h1 class="page-header-title font-weight-light">
                             <div class="page-header-icon"><i data-feather="list"></i></div>
-                            <span>Feed Back</span>
+                            <span>BD Feedback</span>
                         </h1>
                     </div>
                 </div>
@@ -63,7 +63,7 @@ include "include/topnavbar.php";
                                 </select>
                             </div>
                             <div class="col-md-6 col-lg-3">
-                            <label for="bdm">Select DB Team Member</label>
+                            <label for="bdm">BD Team Member</label>
                             <select id="bdm" class="form-control form-control-sm" <?php if($statuscheck != 1) echo 'disabled'; ?>>
                                 <?php foreach ($user->result() as $users) { ?>
                                     <option value="<?php echo $_SESSION['userid'];?>" style="display:none;">
@@ -253,10 +253,6 @@ include "include/topnavbar.php";
                             alignment: 'center',
                             margin: [0, 10, 0, 10]
                         });
-
-
-
-
                         doc.content[doc.content.length - 1].layout = {
                             hLineWidth: function () { return 0; },
                             vLineWidth: function () { return 0; },
@@ -271,12 +267,12 @@ include "include/topnavbar.php";
                             alignment: 'center',
                             bold: true
                         };
-                        doc.styles.tableBodyEven = {
-                            alignment: 'center'
-                        };
-                        doc.styles.tableBodyOdd = {
-                            alignment: 'center'
-                        };
+                        // doc.styles.tableBodyEven = {
+                        //     alignment: 'center'
+                        // };
+                        // doc.styles.tableBodyOdd = {
+                        //     alignment: 'center'
+                        // };
                  }
                 }
             ],

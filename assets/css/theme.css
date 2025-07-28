@@ -1,0 +1,13 @@
+.page-header.page-header-light .page-header-title span {
+  color: #003087;
+  font-weight: 700; 
+  font-family: 'Poppins', 'Roboto', 'Lato', sans-serif; 
+}
+
+.page-header.page-header-light .page-header-title .page-header-icon {
+  color: #003087;
+}
+
+.page-header.page-header-light .page-header-title .page-header-icon i {
+  font-family: 'Poppins', 'Roboto', 'Lato', sans-serif;
+}

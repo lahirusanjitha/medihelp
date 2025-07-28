@@ -52,9 +52,16 @@ include "include/topnavbar.php";
                         <option value="12">December</option>
                     </select>
                 </div>
-
                 <div class="col-md-6 col-lg-3">
-                <label for="bdm">Select DB Team Member</label>
+                    <label for="fromDate">From Date</label>
+                    <input type="date" id="fromDate" class="form-control form-control-sm">
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <label for="toDate">To Date</label>
+                    <input type="date" id="toDate" class="form-control form-control-sm">
+                </div>
+                <div class="col-md-6 col-lg-3">
+                <label for="bdm">BD Team Member</label>
                 <select id="bdm" class="form-control form-control-sm" <?php if($statuscheck != 1) echo 'disabled'; ?>>
                     <?php foreach ($user->result() as $users) { ?>
                         <option value="<?php echo $_SESSION['userid'];?>" style="display:none;">
@@ -80,8 +87,8 @@ include "include/topnavbar.php";
                                             <th>Time</th>
                                             <!-- <th>Itinerary Type</th> -->
                                             <th>Itinerary Category</th>
-                                            <th>Itinerary Status</th>
-                                            <th>Itinerary</th>
+                                            <th>Call Status</th>
+                                            <th>Activity in Detail </th>
                                             <th>Task</th>
                                             <th>Meet Location</th>
                                             <th>Reason Type</th>
@@ -119,22 +126,10 @@ include "include/topnavbar.php";
                 [10, 25, 50, 'All'],
             ],
             "buttons": [{
-					extend: 'excel',
-					className: 'btn btn-success btn-sm',
-					title: 'Cancel Report Information',
-					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
-				},
-                {
-					extend: 'csv',
-					className: 'btn btn-warning btn-sm',
-					title: 'Cancel Report Information',
-					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
-				},
-                {
                     extend: 'pdf',
-                    className: 'btn btn-danger btn-sm',
+                    className: 'btn btn-primary btn-sm',
                     title: '',
-                    filename: 'Canceled Itinary Information',
+                    filename: 'Canceled report Information',
                     text: '<i class="fas fa-file-pdf mr-2"></i> PDF',
                     exportOptions: {
                         columns: [0,1,2,3,4,5,6,7,8,9]
@@ -148,19 +143,19 @@ include "include/topnavbar.php";
 
                         doc.content.splice(0, 0, {
                             image: base64,
-                            width: 100, 
+                            width: 140, 
                             alignment: 'center',
                             margin: [0, 0, 0, 5]
                         });
                         doc.content.splice(1, 0, {
-                            text: 'Canceled Itinary Information',
-                            fontSize: 13,
+                            text: 'Canceled Itinerary Information',
+                            fontSize: 16,
                             bold: true,
                             alignment: 'center',
                             margin: [0, 10, 0, 10]
                         });
                         doc.content.splice(2, 0, {
-                            text: 'DB Team Member: ' + selectedUsername, 
+                            text: 'BD Team Member: ' + selectedUsername, 
                             fontSize: 10,
                             alignment: 'left',
                             margin: [0, 10, 0, 10]
@@ -169,8 +164,7 @@ include "include/topnavbar.php";
 
                         var table = doc.content[doc.content.length - 1].table;
                         if (table && table.body && table.body.length > 0) {
-                            var colCount = table.body[0].length;
-                            table.widths = Array(colCount).fill('*');
+                            table.widths = ['2%', '*', '*', '*', '*', '15%', '*', '*', '*', '20%']; // ← Custom widths
                         }
 
                         doc.content[doc.content.length - 1].layout = {
@@ -181,20 +175,32 @@ include "include/topnavbar.php";
                         };
 
                         doc.styles.tableHeader = {
-                            fillColor: '#202ba8',
-                            fontSize: 12,
+                            fillColor: '#003087',
+                            fontSize: 13,
                             color: 'white',
-                            alignment: 'center',
+                            alignment: 'left',
                             bold: true
                         };
-                        doc.styles.tableBodyEven = {
-                            alignment: 'center'
-                        };
-                        doc.styles.tableBodyOdd = {
-                            alignment: 'center'
-                        };
+                        // doc.styles.tableBodyEven = {
+                        //     alignment: 'center'
+                        // };
+                        // doc.styles.tableBodyOdd = {
+                        //     alignment: 'center'
+                        // };
                  }
-                }
+                },
+                {
+					extend: 'excel',
+					className: 'btn btn-success btn-sm',
+					title: 'Cancel Report Information',
+					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
+				},
+                {
+					extend: 'csv',
+					className: 'btn btn-info btn-sm',
+					title: 'Cancel Report Information',
+					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
+				},
             ],
             ajax: {
                 url: "<?php echo base_url() ?>scripts/cancelreport.php",
@@ -203,6 +209,8 @@ include "include/topnavbar.php";
                 d.year = $('#yearSelect').val();
                 d.bdm = $('#bdm').val();   
                 d.month = $('#monthSelect').val(); 
+                d.fromDate = $('#fromDate').val(); 
+                d.toDate = $('#toDate').val(); 
             }
             },
             "order": [[ 0, "desc" ]],
@@ -230,34 +238,8 @@ include "include/topnavbar.php";
                 $('[data-toggle="tooltip"]').tooltip();
             }
         });
-        $('#dataTable tbody').on('click', '.btnEdit', function() {
-            var r = confirm("Are you sure, You want to Edit this ? ");
-            if (r == true) {
-                var id = $(this).attr('id');
-                $.ajax({
-                    type: "POST",
-                    data: {
-                        recordID: id
-                    },
-                    url: '<?php echo base_url() ?>Job/Jobedit',
-                    success: function(result) { //alert(result);
-                        var obj = JSON.parse(result);
-                        $('#recordID').val(obj.id);
-                        $('#start_date').val(obj.start_date);
-                        $('#end_date').val(obj.end_date); 
-                        $('#category').val(obj.itenary_category);
-                        $('#sub_category').val(obj.sub_category);                        
-                        $('#group').val(obj.group);
-                        $('#task').val(obj.task);  
-                        $('#location').val(obj.location);                     
 
-                        $('#recordOption').val('2');
-                        $('#submitBtn').html('<i class="far fa-save"></i>&nbsp;Update');
-                    }
-                });
-            }
-        });
-        $('#yearSelect, #monthSelect, #bdm').change(function() {
+        $('#yearSelect, #monthSelect, #bdm, #fromDate,#toDate').change(function() {
             table.draw(); 
         });
     });
