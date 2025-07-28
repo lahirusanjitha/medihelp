@@ -18,7 +18,7 @@ include "include/topnavbar.php";
                     </div>
                 </div>
             </div>
-            <div class="container-fluid mt-2 p-0 p-2">
+            <div class="container-fluid p-0">
                 <div class="card">
                     <div class="card-body p-0 p-2">
                         <div class="row">
@@ -57,7 +57,7 @@ include "include/topnavbar.php";
                                     </div>
 
                                     <div class="col-md-4 col-lg-3">
-                                        <label for="bdm">Select DB Team Member</label>
+                                        <label for="bdm">Select BD Team Member</label>
                                         <select id="bdm" class="form-control form-control-sm" <?php if($statuscheck != 1) echo 'disabled'; ?> >
                                             <option value="<?php echo $_SESSION['userid'];?>" style="display:none;">
                                                 <?php echo $_SESSION['name'];?>
@@ -134,13 +134,13 @@ include "include/topnavbar.php";
 				},
                 {
 					extend: 'csv',
-					className: 'btn btn-warning btn-sm',
+					className: 'btn btn-info btn-sm',
 					title: 'Send to Approve Information',
 					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
 				},
                 {
                     extend: 'pdf',
-                    className: 'btn btn-danger btn-sm',
+                    className: 'btn btn-primary btn-sm',
                     title: '',
                     filename: 'Send_to_approve_Information',
                     text: '<i class="fas fa-file-pdf mr-2"></i> PDF',

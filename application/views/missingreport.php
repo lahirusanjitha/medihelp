@@ -18,7 +18,7 @@ include "include/topnavbar.php";
                     </div>
                 </div>
             </div>
-            <div class="container-fluid mt-2 p-0 p-2">
+            <div class="container-fluid p-0">
                 <div class="card">
             <div class="card-body p-2">
             <div class="row align-items-end"> 
@@ -61,7 +61,7 @@ include "include/topnavbar.php";
                     <input type="date" id="toDate" class="form-control form-control-sm">
                 </div>
                 <div class="col-md-6 col-lg-3">
-                <label for="bdm">Select DB Team Member</label>
+                <label for="bdm">Select BD Team Member</label>
                 <select id="bdm" class="form-control form-control-sm" <?php if($statuscheck != 1) echo 'disabled'; ?>>
                     <?php foreach ($user->result() as $users) { ?>
                         <option value="<?php echo $_SESSION['userid'];?>" style="display:none;">

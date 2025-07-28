@@ -18,7 +18,7 @@ include "include/topnavbar.php";
                     </div>
                 </div>
                 </div>
-            <div class="container-fluid mt-2 p-0 p-2">
+            <div class="container-fluid p-0">
             <div class="card">
             <div class="card-body p-2">
             <div class="row align-items-end">  
@@ -55,7 +55,7 @@ include "include/topnavbar.php";
                 </div>
 
                 <div class="col-md-6 col-lg-3">
-                    <label for="bdm">Select DB Team Member</label>
+                    <label for="bdm">Select BD Team Member</label>
                     <select id="bdm" class="form-control form-control-sm">
                         <option value="<?php echo $_SESSION['userid'];?>" style="display:none;">
                             <?php echo $_SESSION['name'];?>
@@ -93,7 +93,7 @@ include "include/topnavbar.php";
                         <tbody></tbody>
                     </table>
                     <div class="mt-3">
-                        <button style="float: right; margin-left: 5px;" id="rejectAllBtn" class="btn btn-danger btn-sm">Reject</button>
+                        <button style="float: right; margin-left: 5px;" id="rejectAllBtn" class="btn btn-primary btn-sm">Reject</button>
                         <button style="float: right;" id="approveAllBtn" class="btn btn-primary btn-sm">Approve</button>
                     </div>
                 </div>
@@ -120,8 +120,8 @@ include "include/topnavbar.php";
         <textarea id="rejectReasonInput" class="form-control" rows="4" placeholder="Type reason here..."></textarea>
       </div>
       <div class="modal-footer">
-        <button type="button" id="submitRejectBtn" class="btn btn-danger">Submit</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" id="submitRejectBtn" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
       </div>
     </div>
   </div>
@@ -155,13 +155,13 @@ include "include/topnavbar.php";
 				},
                 {
 					extend: 'csv',
-					className: 'btn btn-warning btn-sm',
+					className: 'btn btn-info btn-sm',
 					title: 'Approval Information',
 					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
 				},
                 {
                     extend: 'pdf',
-                    className: 'btn btn-danger btn-sm',
+                    className: 'btn btn-primary btn-sm',
                     title: '',
                     filename: 'Approval Level Information',
                     text: '<i class="fas fa-file-pdf mr-2"></i> PDF',

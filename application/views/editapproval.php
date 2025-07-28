@@ -18,7 +18,7 @@ include "include/topnavbar.php";
                     </div>
                 </div>
             </div>
-            <div class="container-fluid mt-2 p-0 p-2">
+            <div class="container-fluid p-0">
                 <div class="card">
             <div class="card-body p-2">
             
@@ -82,8 +82,8 @@ include "include/topnavbar.php";
       </div>
       <div class="modal-footer">
         <input type="hidden" id="postponed-job-id" name="postponed-job-id">
-        <button type="button" id="approve-postponed" class="btn btn-primary">Approve Postponed</button>
-        <button type="button" id="reject-postponed" class="btn btn-danger">Reject Postponed</button>
+        <button type="button" id="approve-postponed" class="btn btn-info">Approve Postponed</button>
+        <button type="button" id="reject-postponed" class="btn btn-primary">Reject Postponed</button>
       </div>
     </div>
   </div>
@@ -116,8 +116,8 @@ include "include/topnavbar.php";
       </div>
       <div class="modal-footer">
         <input type="hidden" id="cancel-job-id" name="cancel-job-id">
-        <button type="button" id="approve-cancel" class="btn btn-primary">Approve Cancel</button>
-        <button type="button" id="reject-cancel" class="btn btn-danger">Reject Cancel</button>
+        <button type="button" id="approve-cancel" class="btn btn-info">Approve Cancel</button>
+        <button type="button" id="reject-cancel" class="btn btn-primary">Reject Cancel</button>
       </div>
     </div>
   </div>
@@ -151,7 +151,7 @@ include "include/topnavbar.php";
       <div class="modal-footer">
         <input type="hidden" id="edit-job-id" name="edit-job-id">
         <button type="button" id="approve-edit" class="btn btn-primary">Approve Cancel</button>
-        <button type="button" id="reject-edit" class="btn btn-danger">Reject Cancel</button>
+        <button type="button" id="reject-edit" class="btn btn-primary">Reject Cancel</button>
       </div>
     </div>
   </div>
@@ -183,13 +183,13 @@ include "include/topnavbar.php";
 				},
                 {
 					extend: 'csv',
-					className: 'btn btn-warning btn-sm',
+					className: 'btn btn-info btn-sm',
 					title: 'Edit Approval Information',
 					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
 				},
                 {
                     extend: 'pdf',
-                    className: 'btn btn-danger btn-sm',
+                    className: 'btn btn-primary btn-sm',
                     title: '',
                     filename: 'Edit Approval Information',
                     text: '<i class="fas fa-file-pdf mr-2"></i> PDF',

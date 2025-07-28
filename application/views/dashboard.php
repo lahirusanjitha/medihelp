@@ -221,7 +221,7 @@
                         </div>
                         
                         <div class="col-md-6 col-lg-3">
-                            <label for="bdm">Select DB Team Member</label>
+                            <label for="bdm">Select BD Team Member</label>
                             <select name="bdm" id="bdm" class="form-control form-control-sm" <?php if($statuscheck != 1) echo 'disabled';?>>
                                 <option value="<?php echo $_SESSION['userid'];?>" style="display:none;">
                                     <?php echo $_SESSION['name'];?>
@@ -388,7 +388,7 @@
                     labels: ['Postponed', 'Canceled', 'Completed', 'Missing'],
                     datasets: [{
                         data: [postponedCount, canceledCount, completedCount, missingCount],
-                        backgroundColor: ['#f39c12', '#e74c3c', '#2ecc71', '#3498db'],
+                        backgroundColor: ['#f39c12', '#3ce7aeff', '#2ecc71', '#3498db'],
                     }]
                 },
                 options: {

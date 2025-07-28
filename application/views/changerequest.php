@@ -18,7 +18,7 @@ include "include/topnavbar.php";
                     </div>
                 </div>
             </div>
-            <div class="container-fluid mt-2 p-0 p-2">
+            <div class="container-fluid p-0">
                 <div class="card">
             <div class="card-body p-2">
             
@@ -172,7 +172,7 @@ include "include/topnavbar.php";
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-danger">Confirm</button>
+                    <button type="submit" class="btn btn-primary">Confirm</button>
                 </div>
                 <input type="hidden" name="recordOption" id="recordOption" value="1">
                 <input type="hidden" name="recordID" id="recordID" value="">
@@ -207,13 +207,13 @@ include "include/topnavbar.php";
 				},
                 {
 					extend: 'csv',
-					className: 'btn btn-warning btn-sm',
+					className: 'btn btn-info btn-sm',
 					title: 'Aprrove Change Information',
 					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
 				},
                 {
                     extend: 'pdf',
-                    className: 'btn btn-danger btn-sm',
+                    className: 'btn btn-primary btn-sm',
                     title: '',
                     filename: 'Aprrove Change Information',
                     text: '<i class="fas fa-file-pdf mr-2"></i> PDF',
@@ -329,9 +329,9 @@ include "include/topnavbar.php";
                         button += '<button type="button" class="btn btn-info btn-sm mr-1" data-toggle="modal" data-target="#pospondModal" data-idtbl_job_list="' + full['idtbl_job_list'] + '"><i class="fas fa-pause"></i></button>';
 
                             if (full['confirmation'] == 1 || full['confirmation'] == 2) {
-                                button += '<button type="button" class="btn btn-warning btn-sm mr-1" data-toggle="modal" data-target="#staticBackdrop" data-idtbl_job_list="' + full['idtbl_job_list'] + '"><i class="fas fa-times"></i></button>';
+                                button += '<button type="button" class="btn btn-info btn-sm mr-1" data-toggle="modal" data-target="#staticBackdrop" data-idtbl_job_list="' + full['idtbl_job_list'] + '"><i class="fas fa-times"></i></button>';
                             } else if (full['confirmation'] == 3) {
-                                button += '<button type="button" class="btn btn-danger btn-sm mr-1"><i class="fas fa-times"></i></button>';
+                                button += '<button type="button" class="btn btn-primary btn-sm mr-1"><i class="fas fa-times"></i></button>';
                             }
 
                         return button;

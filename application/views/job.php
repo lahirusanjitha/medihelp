@@ -5,9 +5,9 @@ include "include/topnavbar.php";
 <head>
 <style>
     .rejectHighlight {
-  background-color:rgb(224, 79, 11);  
-  font-weight: bold;
-}
+        background-color:rgb(224, 79, 11);  
+        font-weight: bold;
+    }
 </style>
 </head>
 <div id="layoutSidenav">
@@ -26,7 +26,7 @@ include "include/topnavbar.php";
                     </div>
                 </div>
             </div>
-            <div class="container-fluid mt-2 p-0 p-2">
+            <div class="container-fluid p-0">
                 <div class="card">
                     <div class="card-body p-0 p-2">
                         <div class="row">
@@ -34,29 +34,29 @@ include "include/topnavbar.php";
                         <form id="jobForm" action="<?php echo base_url() ?>Job/Jobinsertupdate" method="post" autocomplete="off">
                             <!-- First Row -->
                             <div class="row align-items-end">
-                                <div class="col-auto">
+                                <div class="col-2">
                                     <label class="small font-weight-bold">Month*</label>
                                     <input type="month" class="form-control form-control-sm" value="<?= $this->session->flashdata('form_month') ?? '' ?> name="month" id="month" required>
                                 </div>
-                                <div class="col-auto">
+                                <div class="col-2">
                                     <label class="small font-weight-bold">Date*</label>
                                     <input type="date" class="form-control form-control-sm" name="date" id="date" required>
                                 </div>
-                                <div class="col-auto">
+                                <div class="col-2">
                                     <label class="small font-weight-bold">Start time*</label>
                                     <select class="form-control form-control-sm" name="start_time" id="start_time" required>
                                         <option value="">-- Select Time --</option>
                                         <?= $time;?>
                                     </select>
                                 </div>
-                                <div class="col-auto">
+                                <div class="col-2">
                                     <label class="small font-weight-bold">End time*</label>
                                     <select class="form-control form-control-sm" name="end_time" id="end_time" required>
                                         <option value="">-- Select Time --</option>
                                         <?= $time;?>
                                     </select>
                                 </div>
-                                <div class="col-auto">
+                                <div class="col-2">
                                     <label class="small font-weight-bold">Itinerary Category*</label>
                                     <select class="form-control form-control-sm" name="category" id="category" required>
                                         <option value="">Select</option>
@@ -67,7 +67,7 @@ include "include/topnavbar.php";
                                         <?php } ?>
                                     </select>
                                 </div>
-                                <div class="col-auto">
+                                <div class="col-2">
                                     <label class="small font-weight-bold">Itinerary Status*</label>
                                     <select class="form-control form-control-sm" name="group" id="group" required>
                                         <option value="">Select</option>
@@ -84,13 +84,13 @@ include "include/topnavbar.php";
                             <div class="row align-items-end mt-2">
                                 <div class="col-4">
                                     <label class="small font-weight-bold">Activity in Detail*</label>
-                                    <textarea class="form-control form-control-sm" name="itenary" id="itenary" rows="4" maxlength="320" required></textarea>
+                                    <textarea class="form-control form-control-sm" name="itenary" id="itenary" rows="2" maxlength="320" required></textarea>
                                 </div>
-                                <div class="col-auto">
+                                <div class="col-2">
                                     <label class="small font-weight-bold">Revenue potential*</label>
                                     <input type="number" class="form-control form-control-sm" name="task" id="task" required>
                                 </div>
-                                <div class="col-auto">
+                                <div class="col-2">
                                     <label class="small font-weight-bold">Allocate Location*</label>
                                     <select class="form-control form-control-sm" name="location" id="location" required>
                                         <option value="">Select</option>
@@ -101,7 +101,7 @@ include "include/topnavbar.php";
                                         <?php } ?>
                                     </select>
                                 </div>
-                                <div class="col-auto">
+                                <div class="col-2">
                                     <label class="small font-weight-bold">Meet Location*</label>
                                     <input type="text" class="form-control form-control-sm" name="meet_location" id="meet_location" required>
                                 </div>
@@ -575,7 +575,7 @@ $(document).on('click', '.btnview', function () {
                     },
                     {
                         extend: 'pdf',
-                        className: 'btn btn-danger btn-sm',
+                        className: 'btn btn-primary btn-sm',
                         title: 'Log Report',
                         text: '<i class="fas fa-file-pdf mr-2"></i> PDF',
                     }

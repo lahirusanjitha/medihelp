@@ -18,7 +18,7 @@ include "include/topnavbar.php";
                     </div>
                 </div>
             </div>
-            <div class="container-fluid mt-2 p-0 p-2">
+            <div class="container-fluid p-0">
                 <div class="card">
             <div class="card-body p-2">
             <div class="row align-items-end">  
@@ -126,13 +126,13 @@ include "include/topnavbar.php";
 				},
                 {
 					extend: 'csv',
-					className: 'btn btn-warning btn-sm',
+					className: 'btn btn-info btn-sm',
 					title: 'Feedback Report Information',
 					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
 				},
                 {
                     extend: 'pdf',
-                    className: 'btn btn-danger btn-sm',
+                    className: 'btn btn-primary btn-sm',
                     title: '',
                     filename: 'Feedback report Information',
                     text: '<i class="fas fa-file-pdf mr-2"></i> PDF',
