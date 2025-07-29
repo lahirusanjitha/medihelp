@@ -77,29 +77,38 @@ public function getItineraryToApproveCount()
     $this->db->where('tbl_job_list.approval_send', 1);
     $this->db->group_by('tbl_res_user.name');
     $query = $this->db->get();
-    return $query->result(); // returns array of objects with name and request_count
+    return $query->result(); 
 }
 
  public function getPosponedToApproveCount()
     {
-        return $this->db
-            ->from('tbl_job_list')
-            ->where('postponed_request', 1)
-            ->count_all_results();
+        $this->db->select('tbl_res_user.name, COUNT(tbl_job_list.idtbl_job_list) as request_count');
+        $this->db->from('tbl_job_list');
+        $this->db->join('tbl_res_user', 'tbl_job_list.tbl_med_user_id = tbl_res_user.idtbl_res_user');
+        $this->db->where('tbl_job_list.postponed_request', 1);
+        $this->db->group_by('tbl_res_user.name');
+        $query = $this->db->get();
+        return $query->result(); 
     }
  public function getEditRequestToApproveCount()
     {
-        return $this->db
-            ->from('tbl_job_list')
-            ->where('edit_request', 1)
-            ->count_all_results();
+        $this->db->select('tbl_res_user.name, COUNT(tbl_job_list.idtbl_job_list) as request_count');
+        $this->db->from('tbl_job_list');
+        $this->db->join('tbl_res_user', 'tbl_job_list.tbl_med_user_id = tbl_res_user.idtbl_res_user');
+        $this->db->where('tbl_job_list.edit_request', 1);
+        $this->db->group_by('tbl_res_user.name');
+        $query = $this->db->get();
+        return $query->result(); 
     }
  public function getECancelApproveCount()
     {
-        return $this->db
-            ->from('tbl_job_list')
-            ->where('cancel_request', 1)
-            ->count_all_results();
+        $this->db->select('tbl_res_user.name, COUNT(tbl_job_list.idtbl_job_list) as request_count');
+        $this->db->from('tbl_job_list');
+        $this->db->join('tbl_res_user', 'tbl_job_list.tbl_med_user_id = tbl_res_user.idtbl_res_user');
+        $this->db->where('tbl_job_list.cancel_request', 1);
+        $this->db->group_by('tbl_res_user.name');
+        $query = $this->db->get();
+        return $query->result(); 
     }
     
 

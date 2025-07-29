@@ -82,7 +82,7 @@
                                                     Itineraries to Approve (<span id="toApproveCount">0</span>)
                                                 </a>
                                             </h3>
-                                            <div id="userList" class="mt-1 small text-muted text-right"></div>
+                                            <div id="ApproveuserList" class="mt-1 small text-muted text-right"></div>
                                         </div>
                                         <div class="row no-gutters h-100">
                                             <div class="col">
@@ -112,6 +112,7 @@
                                                     Approval Requested For Postponed (<span id="toPostponedCount">0</span>)
                                                 </a>
                                             </h3>
+                                            <div id="PostponeduserList" class="mt-1 small text-muted text-right"></div>
                                         </div>
                                         <div class="row no-gutters h-100">
                                             <div class="col">
@@ -140,6 +141,7 @@
                                                     Approval Requested For Edit (<span id="toeditrequestcount">0</span>)
                                                 </a>
                                             </h3>
+                                            <div id="EdituserList" class="mt-1 small text-muted text-right"></div>
                                         </div>
                                         <div class="row no-gutters h-100">
                                             <div class="col">
@@ -168,6 +170,7 @@
                                                     Approval Requested For Cancel (<span id="tocancelcount">0</span>)
                                                 </a>
                                             </h3>
+                                            <div id="CanceluserList" class="mt-1 small text-muted text-right"></div>
                                         </div>
                                         <div class="row no-gutters h-100">
                                             <div class="col">
@@ -471,19 +474,19 @@
                 dataType: "json",
                 success: function(data) {
                     let totalCount = 0;
-                    let userList = '';
+                    let ApproveuserList = '';
 
                     if (data.length > 0) {
                         data.forEach(function(user) {
                             totalCount += parseInt(user.request_count);
-                            userList += '<div>' + user.name + ' (' + user.request_count + ')</div>';
+                            ApproveuserList += '<div>' + user.name + ' (' + user.request_count + ')</div>';
                         });
                     } else {
-                        userList = '<div>No requests</div>';
+                        ApproveuserList = '<div>No requests</div>';
                     }
 
                     $('#toApproveCount').text(totalCount);
-                    $('#userList').html(userList);
+                    $('#ApproveuserList').html(ApproveuserList);
                 }
             });
         }
@@ -492,8 +495,22 @@
             $.ajax({
                 url: "<?php echo base_url(); ?>Dashboard/getPosponedToApproveCount",
                 method: "GET",
+                dataType: "json",
                 success: function(data) {
-                    $('#toPostponedCount').text(data);
+                    let totalCount = 0;
+                    let PostponeduserList = '';
+
+                    if (data.length > 0) {
+                        data.forEach(function(user) {
+                            totalCount += parseInt(user.request_count);
+                            PostponeduserList += '<div>' + user.name + ' (' + user.request_count + ')</div>';
+                        });
+                    } else {
+                        PostponeduserList = '<div>No requests</div>';
+                    }
+
+                    $('#toPostponedCount').text(totalCount);
+                    $('#PostponeduserList').html(PostponeduserList);
                 }
             });
         
@@ -502,8 +519,22 @@
             $.ajax({
                 url: "<?php echo base_url(); ?>Dashboard/getEditRequestToApproveCount",
                 method: "GET",
+                dataType: "json",
                 success: function(data) {
-                    $('#toeditrequestcount').text(data);
+                    let totalCount = 0;
+                    let EdituserList = '';
+
+                    if (data.length > 0) {
+                        data.forEach(function(user) {
+                            totalCount += parseInt(user.request_count);
+                            EdituserList += '<div>' + user.name + ' (' + user.request_count + ')</div>';
+                        });
+                    } else {
+                        EdituserList = '<div>No requests</div>';
+                    }
+
+                    $('#toeditrequestcount').text(totalCount);
+                    $('#EdituserList').html(EdituserList);
                 }
             });
         
@@ -512,8 +543,22 @@
             $.ajax({
                 url: "<?php echo base_url(); ?>Dashboard/getECancelApproveCount",
                 method: "GET",
+                dataType: "json",
                 success: function(data) {
-                    $('#tocancelcount').text(data);
+                    let totalCount = 0;
+                    let CanceluserList = '';
+
+                    if (data.length > 0) {
+                        data.forEach(function(user) {
+                            totalCount += parseInt(user.request_count);
+                            CanceluserList += '<div>' + user.name + ' (' + user.request_count + ')</div>';
+                        });
+                    } else {
+                        CanceluserList = '<div>No requests</div>';
+                    }
+
+                    $('#tocancelcount').text(totalCount);
+                    $('#CanceluserList').html(CanceluserList);
                 }
             });
         
