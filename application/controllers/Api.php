@@ -368,29 +368,21 @@ class Api extends REST_Controller {
     }
 
     public function Jobinsertupdate_post() {
-        $this->form_validation->set_rules('month', 'Month', 'required');
-        $this->form_validation->set_rules('date', 'Date', 'required');
-        $this->form_validation->set_rules('start_time', 'Start Time', 'required');
-        $this->form_validation->set_rules('end_time', 'End Time', 'required');
-        $this->form_validation->set_rules('type', 'Itinerary Type', 'required');
-        $this->form_validation->set_rules('category', 'Itinerary Category', 'required');
-        $this->form_validation->set_rules('group', 'Itinerary Status', 'required');
-        $this->form_validation->set_rules('itenary', 'Itinerary', 'required');
-        $this->form_validation->set_rules('task', 'Task', 'required|numeric');
-        $this->form_validation->set_rules('location', 'Location', 'required');
-        $this->form_validation->set_rules('meet_location', 'Meet Location', 'required');
-        $this->form_validation->set_rules('reason', 'Reason');
-        $this->form_validation->set_rules('comment', 'Comment');
-        
-        if ($this->form_validation->run() == false) {
-            $this->response([
-                'status' => false,
-                'message' => 'Validation rules violated',
-                'errors' => validation_errors()
-            ], REST_Controller::HTTP_OK);
-            return;
-        }
-    
+        $month = $this->input->post('month');
+        $date = $this->input->post('date');
+        $start_time = $this->input->post('start_time');
+        $end_time = $this->input->post('end_time');
+        $type = $this->input->post('type');
+        $category = $this->input->post('category');
+        $group = $this->input->post('group');
+        $itenary = $this->input->post('itenary');
+        $task = $this->input->post('task');
+        $location = $this->input->post('location');
+        $meet_location = $this->input->post('meet_location');
+        $recordOption = $this->input->post('recordOption');
+        $recordID = $this->input->post('recordID');
+
+        // Check Authorization token
         $headers = $this->input->request_headers();
         if (!isset($headers['Authorization'])) {
             $this->response([
@@ -399,14 +391,14 @@ class Api extends REST_Controller {
             ], REST_Controller::HTTP_UNAUTHORIZED);
             return;
         }
-    
+
         try {
-            $decodedToken = $this->authorization_token->validateToken($headers['Authorization']);   
+            $decodedToken = $this->authorization_token->validateToken($headers['Authorization']);
             if (!isset($decodedToken['data']->uid)) {
                 throw new Exception('User ID not found in token.');
-            }    
-            $user_id = $decodedToken['data']->uid;  
-    
+            }
+            $user_id = $decodedToken['data']->uid;
+
         } catch (Exception $e) {
             $this->response([
                 'status' => false,
@@ -414,13 +406,27 @@ class Api extends REST_Controller {
             ], REST_Controller::HTTP_UNAUTHORIZED);
             return;
         }
-    
-        $data = $this->input->post();
-        $data['userid'] = $user_id;
-    
+
+        $data = [
+            'month' => $month,
+            'date' => $date,
+            'start_time' => $start_time,
+            'end_time' => $end_time,
+            'type' => $type,
+            'category' => $category,
+            'group' => $group,
+            'itenary' => $itenary,
+            'task' => $task,
+            'location' => $location,
+            'meet_location' => $meet_location,
+            'recordOption' => $recordOption,
+            'recordID' => $recordID,
+            'userid' => $user_id
+        ];
+
         $result = $this->ApiInfo->Jobinsertupdate($data);
-        
-        if ($result['status'] == 'success') {
+
+        if ($result['status'] === 'success') {
             $this->response([
                 'status' => true,
                 'message' => $result['message'],

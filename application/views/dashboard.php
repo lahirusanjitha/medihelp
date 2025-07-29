@@ -65,9 +65,9 @@
                 </div>
 
                 <div class="dashboard-container">
-                    <!-- itianaries to approve -->
-                                    <!-- Combined card row -->
-                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5">
+                <!-- itianaries to approve -->
+                    <!-- Combined card row -->
+                    <div class="row ">
                         <!-- Card 1: Itineraries to Approve -->
                         <div class="col mb-3">
                             <div class="card border border-success shadow-none h-100">
@@ -126,26 +126,25 @@
                             </div>
                         </div>
 
-                                <div class="col mb-3">
-                                <div class="card border border-info shadow-none h-100">
-                                    <div class="row no-gutters h-100">
-                                        <div class="col-auto p-2 text-primary">
-                                            <i class="fas fa-file-alt fa-3x"></i>
+                        <div class="col mb-3">
+                            <div class="card border border-info shadow-none h-100">
+                                <div class="row no-gutters h-100">
+                                    <div class="col-auto p-2 text-primary">
+                                        <i class="fas fa-file-alt fa-3x"></i>
+                                    </div>
+                                    <div class="col">
+                                        <div class="card-body p-0 px-2 py-3 text-right">
+                                            <h3 class="card-title text-primary m-0 font-weight-bold">
+                                                <a href="<?php echo base_url('EditApproval'); ?>" class="text-primary">
+                                                    Approval Requested For Edit (<span id="toeditrequestcount">0</span>)
+                                                </a>
+                                            </h3>
                                         </div>
-                                        <div class="col">
-                                            <div class="card-body p-0 px-2 py-3 text-right">
-                                                <h3 class="card-title text-primary m-0 font-weight-bold">
-                                                    <a href="<?php echo base_url('EditApproval'); ?>" class="text-primary">
-                                                        Approval Requested For Edit (<span id="toeditrequestcount">0</span>)
-                                                    </a>
-                                                </h3>
-                                            </div>
-                                            <div class="row no-gutters h-100">
-                                                <div class="col">
-                                                    <div class="card-body p-0 p-2 text-right">
-                                                        <div class="progress" style="height: 3px;">
-                                                            <div class="progress-bar bg-primary" style="width: 100%;"></div>
-                                                        </div>
+                                        <div class="row no-gutters h-100">
+                                            <div class="col">
+                                                <div class="card-body p-0 p-2 text-right">
+                                                    <div class="progress" style="height: 3px;">
+                                                        <div class="progress-bar bg-primary" style="width: 100%;"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -153,27 +152,27 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="col mb-3">
-                                <div class="card border border-info shadow-none h-100">
-                                    <div class="row no-gutters h-100">
-                                        <div class="col-auto p-2 text-success">
-                                            <i class="fas fa-file-alt fa-3x"></i>
+                        <div class="col mb-3">
+                            <div class="card border border-info shadow-none h-100">
+                                <div class="row no-gutters h-100">
+                                    <div class="col-auto p-2 text-success">
+                                        <i class="fas fa-file-alt fa-3x"></i>
+                                    </div>
+                                    <div class="col">
+                                        <div class="card-body p-0 px-2 py-3 text-right">
+                                            <h3 class="card-title text-success m-0 font-weight-bold">
+                                                <a href="<?php echo base_url('EditApproval'); ?>" class="text-success">
+                                                    Approval Requested For Cancel (<span id="tocancelcount">0</span>)
+                                                </a>
+                                            </h3>
                                         </div>
-                                        <div class="col">
-                                            <div class="card-body p-0 px-2 py-3 text-right">
-                                                <h3 class="card-title text-success m-0 font-weight-bold">
-                                                    <a href="<?php echo base_url('EditApproval'); ?>" class="text-success">
-                                                        Approval Requested For Cancel (<span id="tocancelcount">0</span>)
-                                                    </a>
-                                                </h3>
-                                            </div>
-                                            <div class="row no-gutters h-100">
-                                                <div class="col">
-                                                    <div class="card-body p-0 p-2 text-right">
-                                                        <div class="progress" style="height: 3px;">
-                                                            <div class="progress-bar bg-success" style="width: 100%;"></div>
-                                                        </div>
+                                        <div class="row no-gutters h-100">
+                                            <div class="col">
+                                                <div class="card-body p-0 p-2 text-right">
+                                                    <div class="progress" style="height: 3px;">
+                                                        <div class="progress-bar bg-success" style="width: 100%;"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -181,14 +180,10 @@
                                     </div>
                                 </div>
                             </div>
-            
-            
-                    </div>
-                    
+                        </div>           
+                    </div>               
 
-
-                    <div class="row mb-4">
-
+                <div class="row mb-4">
                     <div class="col-md-6 col-lg-3">
                 <label for="yearSelect">Select Year</label>
                 <select id="yearSelect" class="form-control form-control-sm">

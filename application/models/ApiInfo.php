@@ -191,8 +191,6 @@ class ApiInfo extends CI_Model{
             'itenary' => $data['itenary'],
             'tblid_location' => $data['location'],
             'meet_location' => $data['meet_location'],
-            'reason' => $data['reason'],
-            'comment' => $data['comment'],
             'updatedatetime' => date('Y-m-d H:i:s')
         );
 
@@ -217,65 +215,65 @@ class ApiInfo extends CI_Model{
     public function Jobinsertupdate($input) {
         $this->db->trans_begin();
 
-        $userID = $input['userid'];
-        $month = $input['month'];
-        $date = $input['date'];
-        $start_time = $input['start_time'];
-        $end_time = $input['end_time'];
-        $itenary_type = $input['type'];
-        $category = $input['category'];
-        $group = $input['group'];
-        $task = $input['task'];
-        $location = $input['location'];
-        $itenary = $input['itenary'];
-        $meet_location = $input['meet_location'];
-        $reason = $input['reason'];
-        $comment = $input['comment'];
-        $recordOption = $input['recordOption'];
-        $recordID = $input['recordID'] ?? null;
+        $userID         = $input['userid'] ?? null;
+        $month          = $input['month'] ?? null;
+        $date           = $input['date'] ?? null;
+        $start_time     = $input['start_time'] ?? null;
+        $end_time       = $input['end_time'] ?? null;
+        $itenary_type   = $input['type'] ?? null;
+        $category       = $input['category'] ?? null;
+        $group          = $input['group'] ?? null;
+        $task           = $input['task'] ?? null;
+        $location       = $input['location'] ?? null;
+        $itenary        = $input['itenary'] ?? null;
+        $meet_location  = $input['meet_location'] ?? null;
+        $recordOption   = $input['recordOption'] ?? null;
+        $recordID       = $input['recordID'] ?? null;
 
-        $month_date = $month . '-01';
+        $month_date     = $month ? $month . '-01' : null;
         $updatedatetime = date('Y-m-d H:i:s');
 
         try {
-            if ($recordOption == 1) { 
+            if ($recordOption == 1) { // Insert
                 $data = [
-                    'month' => $month_date,
-                    'start_date' => $date,
-                    'start_time' => $start_time,
-                    'end_time' => $end_time,
-                    'tbl_itenary_type_tblid_itenary_type' => $itenary_type,
-                    'tbl_itenary_category_id' => $category,
-                    'tbl_itenary_group_id' => $group,
-                    'task' => $task,
-                    'tblid_location' => $location,
-                    'itenary' => $itenary,
-                    'meet_location' => $meet_location,
-                    'reason' => $reason,
-                    'comment' => $comment,
-                    'status' => '1',
-                    'completion' => '2',
-                    'confirmation' => '2',
-                    'instertdatetime' => $updatedatetime,
-                    'tbl_med_user_id' => $userID
+                    'month'                                 => $month_date,
+                    'start_date'                            => $date,
+                    'start_time'                            => $start_time,
+                    'end_time'                              => $end_time,
+                    'tbl_itenary_type_tblid_itenary_type'   => $itenary_type,
+                    'tbl_itenary_category_id'               => $category,
+                    'tbl_itenary_group_id'                  => $group,
+                    'task'                                  => $task,
+                    'tblid_location'                        => $location,
+                    'itenary'                               => $itenary,
+                    'meet_location'                         => $meet_location,
+                    'status'                                => '1',
+                    'completion'                            => '2',
+                    'confirmation'                          => '2',
+                    'instertdatetime'                       => $updatedatetime,
+                    'tbl_med_user_id'                       => $userID
                 ];
-                $this->db->insert('tbl_job_list', $data);
 
-            } else { 
+                $this->db->insert('tbl_job_list', $data);
+            } else { // Update
+                if (!$recordID) {
+                    throw new Exception('Record ID required for update.');
+                }
+
                 $data = [
-                    'start_date' => $date,
-                    'start_time' => $start_time,
-                    'end_time' => $end_time,
-                    'tbl_itenary_type_tblid_itenary_type' => $itenary_type,
-                    'tbl_itenary_category_id' => $category,
-                    'tbl_itenary_group_id' => $group,
-                    'task' => $task,
-                    'itenary' => $itenary,
-                    'meet_location' => $location,
-                    'reason' => $reason,
-                    'comment' => $comment,
-                    'updatedatetime' => $updatedatetime,
+                    'start_date'                            => $date,
+                    'start_time'                            => $start_time,
+                    'end_time'                              => $end_time,
+                    'tbl_itenary_type_tblid_itenary_type'   => $itenary_type,
+                    'tbl_itenary_category_id'               => $category,
+                    'tbl_itenary_group_id'                  => $group,
+                    'task'                                  => $task,
+                    'itenary'                               => $itenary,
+                    'meet_location'                         => $meet_location,
+                    'tblid_location'                        => $location,
+                    'updatedatetime'                        => $updatedatetime
                 ];
+
                 $this->db->where('idtbl_job_list', $recordID);
                 $this->db->update('tbl_job_list', $data);
 
@@ -285,20 +283,21 @@ class ApiInfo extends CI_Model{
             }
 
             if ($this->db->trans_status() === FALSE) {
-                throw new Exception('Transaction failed.');
+                throw new Exception('Database transaction failed.');
             }
 
             $this->db->trans_commit();
+
             return [
-                'status' => 'success',
+                'status'  => 'success',
                 'message' => $recordOption == 1 ? 'Record added successfully.' : 'Record updated successfully.',
-                'data' => $data
+                'data'    => $data
             ];
 
         } catch (Exception $e) {
             $this->db->trans_rollback();
             return [
-                'status' => 'error',
+                'status'  => 'error',
                 'message' => $e->getMessage()
             ];
         }

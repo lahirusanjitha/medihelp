@@ -78,7 +78,7 @@ $columns = array(
             $cancel_request = $row['cancel_request'];
     
             if ($status == 1 && $confirmation == 3 && $completion == 2) {
-                return '<span class="badge badge-danger">Canceled</span>';
+                return '<span class="badge badge-dark">Canceled</span>';
             }
     
             if ($confirmation == 1 && $status == 2) {
@@ -99,13 +99,13 @@ $columns = array(
             if ($completion == 1) {
                 return '<span class="badge badge-success">Completed</span>';
             } elseif ($confirmation == 2) {
-                return '<span class="badge badge-secondary">Not Approved Yet</span>';
+                return '<span class="badge badge-info">Not Approved Yet</span>';
             } elseif ($confirmation == 1) {
                 return '<span class="badge badge-primary">Approved</span>';
             } elseif ($confirmation == 3) {
-                return '<span class="badge badge-danger">Canceled</span>';
+                return '<span class="badge badge-warning">Canceled</span>';
             } elseif ($status == 2) {
-                return '<span class="badge badge-info">Postponed</span>';
+                return '<span class="badge badge-dark">Postponed</span>';
             }
     
             return '<span class="badge badge-secondary">Unknown</span>';
