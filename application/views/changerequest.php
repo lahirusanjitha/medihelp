@@ -115,7 +115,7 @@ include "include/topnavbar.php";
           <input type="hidden" name="recordOption" id="recordOption" value="1">
 
           <div class="form-group">
-            <label for="reson_type" class="font-weight-bold">Reject Reason Type</label>
+            <label for="reson_type" class="font-weight-bold">Reason Type</label>
             <select class="form-control form-control-sm" name="reson_type" id="reson_type" required>
               <option value="">Select</option>
               <?php foreach ($RejectReason->result() as $reason) { ?>
@@ -326,12 +326,12 @@ include "include/topnavbar.php";
                             buttonClass += ' d-none'; 
                         }
 
-                        button += '<a href="#" class="' + buttonClass + '" data-id="' + full['idtbl_job_list'] + '" data-toggle="modal" data-target="#editModal"><i class="fa fa-paper-plane"></i></a>';
+                        button += '<a href="#" class="' + buttonClass + ' mr-1" data-id="' + full['idtbl_job_list'] + '" data-toggle="modal" data-target="#editModal"><i class="fa fa-paper-plane"></i></a>';
 
                         button += '<button type="button" class="btn btn-info btn-sm mr-1" data-toggle="modal" data-target="#pospondModal" data-idtbl_job_list="' + full['idtbl_job_list'] + '"><i class="fas fa-pause"></i></button>';
 
                             if (full['confirmation'] == 1 || full['confirmation'] == 2) {
-                                button += '<button type="button" class="btn btn-info btn-sm mr-1" data-toggle="modal" data-target="#staticBackdrop" data-idtbl_job_list="' + full['idtbl_job_list'] + '"><i class="fas fa-times"></i></button>';
+                                button += '<button type="button" class="btn btn-success btn-sm mr-1" data-toggle="modal" data-target="#staticBackdrop" data-idtbl_job_list="' + full['idtbl_job_list'] + '"><i class="fas fa-times"></i></button>';
                             } else if (full['confirmation'] == 3) {
                                 button += '<button type="button" class="btn btn-primary btn-sm mr-1"><i class="fas fa-times"></i></button>';
                             }

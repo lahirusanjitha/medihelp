@@ -144,7 +144,7 @@ include "include/topnavbar.php";
                     extend: 'pdf',
                     className: 'btn btn-primary btn-sm',
                     title: '',
-                    filename: 'Action Status Information',
+                    filename: 'Action Status',
                     text: '<i class="fas fa-file-pdf mr-2"></i> PDF',
                     exportOptions: {
                         columns: [0,1,2,3,4,5,6,8,9]

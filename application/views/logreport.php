@@ -131,7 +131,7 @@ include "include/topnavbar.php";
                     extend: 'pdf',
                     className: 'btn btn-primary btn-sm',
                     title: '',
-                    filename: 'Log report Information',
+                    filename: 'Log report',
                     text: '<i class="fas fa-file-pdf mr-2"></i> PDF',
                     exportOptions: {
                         columns: [0,1,2,3,4,5,6,7,8,9]
@@ -194,13 +194,13 @@ include "include/topnavbar.php";
                 {
 					extend: 'excel',
 					className: 'btn btn-success btn-sm',
-					title: 'Feedback Report Information',
+					title: 'Feedback Report',
 					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
 				},
                 {
 					extend: 'csv',
 					className: 'btn btn-info btn-sm',
-					title: 'Feedback Report Information',
+					title: 'Feedback Report',
 					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
 				},
                 

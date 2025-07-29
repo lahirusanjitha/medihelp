@@ -443,6 +443,11 @@ $(document).on('click', '.open-feedback-modal', function () {
     var startDate = $(this).data('start-date'); // format: "2025-07-16"
     var endTime = $(this).data('end-time');     // format: "11:00:00"
 
+    // Temporarily allow feedback on any date (past, today, future)
+    $('#modaltblJobListField').val(jobId);
+    $('#staticBackdrop').modal('show');
+
+    /*
     var now = new Date();
     var jobDateOnly = new Date(startDate);
 
@@ -478,8 +483,8 @@ $(document).on('click', '.open-feedback-modal', function () {
         $('#modaltblJobListField').val(jobId);
         $('#staticBackdrop').modal('show');
     }
+    */
 });
-
 
 
     function pause_confirm() {

@@ -69,13 +69,17 @@ class Dashboardinfo extends CI_Model {
         return $query->get()->result_array();
     }
 
- public function getItineraryToApproveCount()
-    {
-        return $this->db
-            ->from('tbl_job_list')
-            ->where('approval_send', 1)
-            ->count_all_results();
-    }
+public function getItineraryToApproveCount()
+{
+    $this->db->select('tbl_res_user.name, COUNT(tbl_job_list.idtbl_job_list) as request_count');
+    $this->db->from('tbl_job_list');
+    $this->db->join('tbl_res_user', 'tbl_job_list.tbl_med_user_id = tbl_res_user.idtbl_res_user');
+    $this->db->where('tbl_job_list.approval_send', 1);
+    $this->db->group_by('tbl_res_user.name');
+    $query = $this->db->get();
+    return $query->result(); // returns array of objects with name and request_count
+}
+
  public function getPosponedToApproveCount()
     {
         return $this->db

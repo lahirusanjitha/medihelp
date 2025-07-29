@@ -82,6 +82,7 @@
                                                     Itineraries to Approve (<span id="toApproveCount">0</span>)
                                                 </a>
                                             </h3>
+                                            <div id="userList" class="mt-1 small text-muted text-right"></div>
                                         </div>
                                         <div class="row no-gutters h-100">
                                             <div class="col">
@@ -467,13 +468,26 @@
             $.ajax({
                 url: "<?php echo base_url(); ?>Dashboard/getItineraryToApproveCount",
                 method: "GET",
+                dataType: "json",
                 success: function(data) {
-                    $('#toApproveCount').text(data);
+                    let totalCount = 0;
+                    let userList = '';
+
+                    if (data.length > 0) {
+                        data.forEach(function(user) {
+                            totalCount += parseInt(user.request_count);
+                            userList += '<div>' + user.name + ' (' + user.request_count + ')</div>';
+                        });
+                    } else {
+                        userList = '<div>No requests</div>';
+                    }
+
+                    $('#toApproveCount').text(totalCount);
+                    $('#userList').html(userList);
                 }
             });
-
-        
         }
+
         function loadPosponedAprroveCounts() {
             $.ajax({
                 url: "<?php echo base_url(); ?>Dashboard/getPosponedToApproveCount",

@@ -193,13 +193,13 @@ include "include/topnavbar.php";
                 {
 					extend: 'excel',
 					className: 'btn btn-success btn-sm',
-					title: 'Missing Report Information',
+					title: 'Missing Report',
 					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
 				},
                 {
 					extend: 'csv',
 					className: 'btn btn-info btn-sm',
-					title: 'Missing Report Information',
+					title: 'Missing Report',
 					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
 				},
                 
