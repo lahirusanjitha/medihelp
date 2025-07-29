@@ -36,8 +36,8 @@ include "include/topnavbar.php";
                                             <th>Itinerary Category</th>
                                             <!-- <th>Itinerary Sub Category</th> -->
                                             <th>Itinerary Status</th>
-                                            <th>Task</th>
-                                            <th>Itinerary</th>
+                                            <th>Revenue Potential</th>
+                                            <th>Activity in Detail</th>
                                             <th>Meet Location</th>
                                             <th>Status</th>
                                             <th class="text-right">Actions</th>
@@ -175,19 +175,8 @@ include "include/topnavbar.php";
                 [10, 25, 50, -1],
                 [10, 25, 50, 'All'],
             ],
-            "buttons": [{
-					extend: 'excel',
-					className: 'btn btn-success btn-sm',
-					title: 'Edit Approval Information',
-					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
-				},
-                {
-					extend: 'csv',
-					className: 'btn btn-info btn-sm',
-					title: 'Edit Approval Information',
-					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
-				},
-                {
+            "buttons": [
+                                {
                     extend: 'pdf',
                     className: 'btn btn-primary btn-sm',
                     title: '',
@@ -202,13 +191,13 @@ include "include/topnavbar.php";
                         
                         doc.content.splice(0, 0, {
                             image: base64,
-                            width: 100, 
+                            width: 140, 
                             alignment: 'center',
                             margin: [0, 0, 0, 5]
                         });
                         doc.content.splice(1, 0, {
-                            text: 'Edit Approval Information Report',
-                            fontSize: 13,
+                            text: 'Edit Approval Information',
+                            fontSize: 16,
                             bold: true,
                             alignment: 'center',
                             margin: [0, 10, 0, 10]
@@ -217,8 +206,7 @@ include "include/topnavbar.php";
 
                         var table = doc.content[doc.content.length - 1].table;
                         if (table && table.body && table.body.length > 0) {
-                            var colCount = table.body[0].length;
-                            table.widths = Array(colCount).fill('*');
+                            table.widths = ['2%', '*', '*', '*', '*', '*', '*', '*', '*', '*'];
                         }
 
                         doc.content[doc.content.length - 1].layout = {
@@ -229,20 +217,33 @@ include "include/topnavbar.php";
                         };
 
                         doc.styles.tableHeader = {
-                            fillColor: '#202ba8',
-                            fontSize: 12,
+                            fillColor: '#003087',
+                            fontSize: 13,
                             color: 'white',
-                            alignment: 'center',
+                            alignment: 'left',
                             bold: true
                         };
-                        doc.styles.tableBodyEven = {
-                            alignment: 'center'
-                        };
-                        doc.styles.tableBodyOdd = {
-                            alignment: 'center'
-                        };
+                        // doc.styles.tableBodyEven = {
+                        //     alignment: 'center'
+                        // };
+                        // doc.styles.tableBodyOdd = {
+                        //     alignment: 'center'
+                        // };
                  }
-                }
+                },
+                {
+					extend: 'excel',
+					className: 'btn btn-success btn-sm',
+					title: 'Edit Approval Information',
+					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
+				},
+                {
+					extend: 'csv',
+					className: 'btn btn-info btn-sm',
+					title: 'Edit Approval Information',
+					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
+				},
+
             ],
             ajax: {
                 url: "<?php echo base_url() ?>scripts/editapproval.php",

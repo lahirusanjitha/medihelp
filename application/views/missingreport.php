@@ -89,7 +89,7 @@ include "include/topnavbar.php";
                                             <!-- <th>Itinerary Type</th> -->
                                             <th>Itinerary Category</th> 
                                             <th>Call Status</th>
-                                            <th>Task</th>
+                                            <th>Revenue Potential</th>
                                             <th>Location</th> 
                                             <th>Activity in Detail</th>
                                             <th>Meet Location</th>

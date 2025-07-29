@@ -63,6 +63,14 @@ include "include/topnavbar.php";
                                 </select>
                             </div>
                             <div class="col-md-6 col-lg-3">
+                                <label for="fromDate">From Date</label>
+                                <input type="date" id="fromDate" class="form-control form-control-sm">
+                            </div>
+                            <div class="col-md-6 col-lg-3">
+                                <label for="toDate">To Date</label>
+                                <input type="date" id="toDate" class="form-control form-control-sm">
+                            </div>
+                            <div class="col-md-6 col-lg-3">
                             <label for="bdm">BD Team Member</label>
                             <select id="bdm" class="form-control form-control-sm" <?php if($statuscheck != 1) echo 'disabled'; ?>>
                                 <?php foreach ($user->result() as $users) { ?>
@@ -91,10 +99,10 @@ include "include/topnavbar.php";
                                             <th>End Time</th>
                                             <!-- <th>Itinerary Type</th> -->
                                             <th>Itinerary Category</th>
-                                            <th>Itinerary Status</th>
-                                            <th>Task</th>
+                                            <th>Call Status</th>
+                                            <th>Revenue Potential</th>
                                             <th>Location</th>
-                                            <th>Itinerary</th>
+                                            <th>Activity In Detail</th>
                                             <th>Meet Location</th>
                                             <!-- <th>Itinary Action</th> -->
                                             <th class="text-right">Actions</th>
@@ -126,7 +134,7 @@ include "include/topnavbar.php";
                     <input type="hidden" id="modaltblJobListField" name="idtbl_job_list">
 
                     <div class="form-group">
-                                <label for="feedbacktype" class="font-weight-bold">Feed Back Type</label>
+                                <label for="feedbacktype" class="font-weight-bold">Feed Status</label>
                                 <select class="form-control form-control" name="feedbacktype" id="feedbacktype" required>
                                     <option value="">Select</option>
                                     <?php foreach ($feedbacktype->result() as $ftype) { ?>
@@ -138,7 +146,7 @@ include "include/topnavbar.php";
                     </div>
 
                     <div class="form-group">
-                        <label for="feedback" class="font-weight-bold">Comment</label>
+                        <label for="feedback" class="font-weight-bold">Feedback</label>
                         <textarea class="form-control" name="feedback" id="feedback" rows="4" maxlength="500" required></textarea>
                     </div>
                     
@@ -214,18 +222,7 @@ include "include/topnavbar.php";
                 [10, 25, 50, -1],
                 [10, 25, 50, 'All'],
             ],
-            "buttons": [{
-					extend: 'excel',
-					className: 'btn btn-success btn-sm',
-					title: 'FeedBack Information',
-					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
-				},
-                {
-					extend: 'csv',
-					className: 'btn btn-info btn-sm',
-					title: 'FeedBack Information',
-					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
-				},
+            "buttons": [
                 {
                     extend: 'pdf',
                     className: 'btn btn-primary btn-sm',
@@ -242,12 +239,12 @@ include "include/topnavbar.php";
                         
                         doc.content.splice(0, 0, {
                             image: base64,
-                            width: 100, 
+                            width: 140, 
                             alignment: 'center',
                             margin: [0, 0, 0, 5]
                         });
                         doc.content.splice(1, 0, {
-                            text: 'Feedback information Report ',
+                            text: 'Feedback information ',
                             fontSize: 13,
                             bold: true,
                             alignment: 'center',
@@ -261,10 +258,10 @@ include "include/topnavbar.php";
                         };
 
                         doc.styles.tableHeader = {
-                            fillColor: '#202ba8',
-                            fontSize: 12,
+                            fillColor: '#003087',
+                            fontSize: 13,
                             color: 'white',
-                            alignment: 'center',
+                            alignment: 'left',
                             bold: true
                         };
                         // doc.styles.tableBodyEven = {
@@ -274,7 +271,20 @@ include "include/topnavbar.php";
                         //     alignment: 'center'
                         // };
                  }
-                }
+                },
+                {
+					extend: 'excel',
+					className: 'btn btn-success btn-sm',
+					title: 'FeedBack Information',
+					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
+				},
+                {
+					extend: 'csv',
+					className: 'btn btn-info btn-sm',
+					title: 'FeedBack Information',
+					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
+				},
+                
             ],
             ajax: {
                 url: "<?php echo base_url() ?>scripts/feedback.php",
@@ -283,6 +293,8 @@ include "include/topnavbar.php";
                 d.year = $('#yearSelect').val();
                 d.bdm = $('#bdm').val();   
                 d.month = $('#monthSelect').val(); 
+                d.fromDate = $('#fromDate').val(); 
+                d.toDate = $('#toDate').val(); 
             }
             },
 
@@ -339,7 +351,7 @@ include "include/topnavbar.php";
             }
         
     });
-        $('#yearSelect,#monthSelect, #bdm').change(function() {
+        $('#yearSelect,#monthSelect, #bdm, #fromDate,#toDate').change(function() {
             table.draw(); 
         });
 

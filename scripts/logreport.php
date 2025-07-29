@@ -21,7 +21,9 @@ $columns = array(
         'dt' => 'time_range',
         'field' => 'start_time',
         'formatter' => function($start_time, $row) {
-            return $start_time . ' - ' . $row['end_time'];
+            $start = date("g:i A", strtotime($start_time));
+            $end = date("g:i A", strtotime($row['end_time']));
+            return $start . ' - ' . $end;
         }
     ),
     array( 'db' => '`ua`.`itenary_type`', 'dt' => 'itenary_type', 'field' => 'itenary_type' ),
@@ -42,6 +44,8 @@ $sql_details = array(
 $year = isset($_POST['year']) ? $_POST['year'] : '';  
 $month = isset($_POST['month']) ? $_POST['month'] : '';  
 $bdm = isset($_POST['bdm']) ? $_POST['bdm'] : '';  
+$fromDate = isset($_POST['fromDate']) ? $_POST['fromDate'] : '';
+$toDate = isset($_POST['toDate']) ? $_POST['toDate'] : '';
 
 $extraWhere = "`u`.`status` IN (1, 2)";
 
@@ -54,6 +58,12 @@ if (!empty($month)) {
 
 if (!empty($bdm)) {
     $extraWhere .= " AND `u`.`tbl_med_user_id` = '$bdm'";  
+}
+if (!empty($fromDate)) {
+    $extraWhere .= " AND DATE(`u`.`start_date`) >= '" . $fromDate . "'";
+}
+if (!empty($toDate)) {
+    $extraWhere .= " AND DATE(`u`.`start_date`) <= '" . $toDate . "'";
 }
 
 

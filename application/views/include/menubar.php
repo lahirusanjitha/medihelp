@@ -235,7 +235,7 @@ function checkprivilege($arraymenu, $menuID, $type){
                     <?php } if(menucheck($menuprivilegearray, 20)==1){ ?>
                     <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'RejectReason'; ?>">Reject Reason</a> 
                     <?php } if(menucheck($menuprivilegearray, 21)==1){ ?>
-                    <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'FeedbackType'; ?>">Feedback Type</a> 
+                    <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'FeedbackType'; ?>">Feedback Status</a> 
                     <?php } ?>
                 </nav>
             </div>
@@ -277,7 +277,7 @@ function checkprivilege($arraymenu, $menuID, $type){
                 <?php } if(menucheck($menuprivilegearray, 18)==1){ ?>
                     <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Sendtoapprove'; ?>">Send to Approve  </a>  
                 <?php } if(menucheck($menuprivilegearray, 16)==1){ ?>
-                <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Confirmjob'; ?>">Approvel  </a> 
+                <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Confirmjob'; ?>">Approval  </a> 
                 <?php } if(menucheck($menuprivilegearray, 29)==1){ ?>
                     <a class="nav-link p-0 px-3 py-1 text-dark" href="<?php echo base_url().'Feedback'; ?>">BD Feedback</a> 
                 <?php } if(menucheck($menuprivilegearray, 17)==1){ ?>

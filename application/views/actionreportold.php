@@ -13,7 +13,7 @@ include "include/topnavbar.php";
                     <div class="page-header-content py-3">
                         <h1 class="page-header-title font-weight-light">
                             <div class="page-header-icon"><i data-feather="list"></i></div>
-                            <span>Cancel Report</span>
+                            <span>Live Action Report</span>
                         </h1>
                     </div>
                 </div>
@@ -21,19 +21,19 @@ include "include/topnavbar.php";
             <div class="container-fluid p-0">
                 <div class="card">
             <div class="card-body p-2">
-            <div class="row align-items-end"> 
-            <div class="col-md-6 col-lg-3">
-                <label for="yearSelect">Select Year</label>
-                <select id="yearSelect" class="form-control form-control-sm">
-                    <option value="">All Years</option>
-                    <?php
-                        $currentYear = date("Y");
-                        for ($i = $currentYear; $i >= $currentYear - 5; $i--) { 
-                            echo "<option value='$i'>$i</option>";
-                        }
-                    ?>
-                </select>
-             </div> 
+            <div class="row align-items-end">  
+            <div class="col-md-4 col-lg-3">
+                    <label for="yearSelect">Select Year</label>
+                            <select id="yearSelect" class="form-control form-control-sm">
+                                <option value="">All Years</option>
+                                    <?php
+                                        $currentYear = date("Y");
+                                        for ($i = $currentYear; $i >= $currentYear - 5; $i--) { 
+                                        echo "<option value='$i'>$i</option>";
+                                        }
+                                ?>
+                    </select>
+                </div>
                 <div class="col-md-6 col-lg-3">
                     <label for="monthSelect">Select Month</label>
                     <select id="monthSelect" class="form-control form-control-sm">
@@ -73,8 +73,22 @@ include "include/topnavbar.php";
                     <?php } ?>
                 </select>
                 </div>
-                    </div>
-                    <hr>
+
+                <div class="col-md-6 col-lg-3">
+                    <label for="statusSelect">Select Status</label>
+                    <select id="statusSelect" class="form-control form-control-sm">
+                        <option value="">All Statuses</option>
+                        <option value="1">Completed</option>
+                        <option value="2">Not Approved</option>
+                        <option value="3">Canceled</option>
+                        <option value="4">Approved - Not Completed</option>
+                        <option value="5">Postponed</option>
+                    </select>
+                </div>
+
+
+            </div>
+            <hr>
                     <div class="card-body p-0 p-2">
                         <div class="row">     
                             <div class="col-12">
@@ -82,17 +96,17 @@ include "include/topnavbar.php";
                                 <table class="table table-bordered table-striped table-sm nowrap" id="dataTable" width="100%">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
+                                        <th>#</th>
                                             <th>Date</th>
-                                            <th>Time</th>
-                                            <!-- <th>Itinerary Type</th> -->
-                                            <th>Itinerary Category</th>
-                                            <th>Call Status</th>
-                                            <th>Activity in Detail </th>
-                                            <th>Revenue Potential</th>
+                                            <!-- <th>Start Time</th> -->
+                                            <th>Time</th> 
+                                            <th>Itinerary Category</th> 
+                                            <th>Itinerary Status</th>
+                                            <th>Task</th>
+                                            <th>Location</th> 
+                                            <th>Itinerary</th>
                                             <th>Meet Location</th>
-                                            <th>Reason Type</th>
-                                            <th>Comment</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -125,14 +139,15 @@ include "include/topnavbar.php";
                 [10, 25, 50, -1],
                 [10, 25, 50, 'All'],
             ],
-            "buttons": [{
+            "buttons": [
+                {
                     extend: 'pdf',
                     className: 'btn btn-primary btn-sm',
                     title: '',
-                    filename: 'Canceled report Information',
+                    filename: 'Action Status Information',
                     text: '<i class="fas fa-file-pdf mr-2"></i> PDF',
                     exportOptions: {
-                        columns: [0,1,2,3,4,5,6,7,8,9]
+                        columns: [0,1,2,3,4,5,6,8,9,10]
                     },
                     customize: function (doc) {
                         doc.pageSize = 'A4'; 
@@ -148,7 +163,7 @@ include "include/topnavbar.php";
                             margin: [0, 0, 0, 5]
                         });
                         doc.content.splice(1, 0, {
-                            text: 'Canceled Itinerary Information',
+                            text: 'Action Status Information',
                             fontSize: 16,
                             bold: true,
                             alignment: 'center',
@@ -158,13 +173,13 @@ include "include/topnavbar.php";
                             text: 'BD Team Member: ' + selectedUsername, 
                             fontSize: 10,
                             alignment: 'left',
-                            margin: [0, 10, 0, 10]
+                            margin: [0, 0, 0, 10]
                         });
-
 
                         var table = doc.content[doc.content.length - 1].table;
                         if (table && table.body && table.body.length > 0) {
-                            table.widths = ['2%', '*', '*', '*', '*', '15%', '*', '*', '*', '20%']; // ← Custom widths
+                            var colCount = table.body[0].length;
+                            table.widths = Array(colCount).fill('*');
                         }
 
                         doc.content[doc.content.length - 1].layout = {
@@ -176,9 +191,9 @@ include "include/topnavbar.php";
 
                         doc.styles.tableHeader = {
                             fillColor: '#003087',
-                            fontSize: 13,
+                            fontSize: 12,
                             color: 'white',
-                            alignment: 'left',
+                            alignment: 'center',
                             bold: true
                         };
                         // doc.styles.tableBodyEven = {
@@ -192,45 +207,46 @@ include "include/topnavbar.php";
                 {
 					extend: 'excel',
 					className: 'btn btn-success btn-sm',
-					title: 'Cancel Report Information',
+					title: 'Action Report Information',
 					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
 				},
                 {
 					extend: 'csv',
 					className: 'btn btn-info btn-sm',
-					title: 'Cancel Report Information',
+					title: 'Action Report Information',
 					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
 				},
             ],
             ajax: {
-                url: "<?php echo base_url() ?>scripts/cancelreport.php",
+                url: "<?php echo base_url() ?>scripts/actionreport.php",
                 type: "POST", 
                 "data": function(d) {
                 d.year = $('#yearSelect').val();
                 d.bdm = $('#bdm').val();   
                 d.month = $('#monthSelect').val(); 
-                d.fromDate = $('#fromDate').val(); 
-                d.toDate = $('#toDate').val(); 
+                d.status = $('#statusSelect').val();
+               // d.userid = <?php //echo json_encode($_SESSION['userid']); ?>;
             }
             },
             "order": [[ 0, "desc" ]],
-            "columns": [ 
+            "columns": [
                 {  
                 "data": null,
                 "render": function(data, type, row, meta) {
                     return meta.row + 1 + meta.settings._iDisplayStart;
                 } 
-                 },         
-                { "data": "start_date" },   
-                { "data": "time_range" },  
-                // { "data": "itenary_type"},
-                { "data": "itenary_category"},
-                { "data": "itenary_category"},
-                { "data": "itenary"},
+                 },                
+                { "data": "start_date" },    
+                // { "data": "start_time" }, 
+                { "data": "time_range"},
+                { "data": "itenary_type"},
+                { "data": "itenary_category" },                    
+                { "data": "group" },
                 { "data": "task"},
                 { "data": "location"},
-                { "data": "cancel_reason"},
-                { "data": "comment"}
+                { "data": "itenary"},
+                { "data": "meet_location"},
+                { "data": "actions"}
                 
                 
             ],
@@ -238,34 +254,13 @@ include "include/topnavbar.php";
                 $('[data-toggle="tooltip"]').tooltip();
             }
         });
-
-        $('#yearSelect, #monthSelect, #bdm, #fromDate,#toDate').change(function() {
+        $('#yearSelect,#monthSelect, #bdm, #statusSelect').change(function() {
             table.draw(); 
         });
     });
-    $('#staticBackdrop').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget);
-    var idtbl_job_list = button.data('idtbl_job_list');
-    $('#modalIdTbljoblistField').val(idtbl_job_list);
-});
 
 
 
-
-    function deactive_confirm() {
-        return confirm("Are you sure want to deconfirm this?");
-    }
-
-    function active_confirm() {
-        return confirm("Are you sure you want to Confirm this?");
-    }
-
-    function delete_confirm() {
-        return confirm("Are you sure you want to remove this?");
-    }
-    function cancel_confirm(){
-        return confirm("Are you sure want to cancel this?");
-    }
 </script>
 <?php include "include/base64.php"; ?>
 <?php include "include/footer.php"; ?>

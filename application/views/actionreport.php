@@ -18,7 +18,7 @@ include "include/topnavbar.php";
                     </div>
                 </div>
             </div>
-            <div class="container-fluid p-0">
+            <div class="container-fluid mt-2 p-0 p-2">
                 <div class="card">
             <div class="card-body p-2">
             <div class="row align-items-end">  
@@ -100,11 +100,12 @@ include "include/topnavbar.php";
                                             <th>Date</th>
                                             <!-- <th>Start Time</th> -->
                                             <th>Time</th> 
+                                            <!-- <th>Itinerary Type</th> -->
                                             <th>Itinerary Category</th> 
-                                            <th>Itinerary Status</th>
-                                            <th>Task</th>
+                                            <th>Call Status</th>
+                                             <th>Revenue Potential </th>
                                             <th>Location</th> 
-                                            <th>Itinerary</th>
+                                            <th>Activity in Detail</th>
                                             <th>Meet Location</th>
                                             <th>Status</th>
                                         </tr>
@@ -139,15 +140,14 @@ include "include/topnavbar.php";
                 [10, 25, 50, -1],
                 [10, 25, 50, 'All'],
             ],
-            "buttons": [
-                {
+            "buttons": [{
                     extend: 'pdf',
                     className: 'btn btn-primary btn-sm',
                     title: '',
                     filename: 'Action Status Information',
                     text: '<i class="fas fa-file-pdf mr-2"></i> PDF',
                     exportOptions: {
-                        columns: [0,1,2,3,4,5,6,8,9,10]
+                        columns: [0,1,2,3,4,5,6,8,9]
                     },
                     customize: function (doc) {
                         doc.pageSize = 'A4'; 
@@ -163,14 +163,14 @@ include "include/topnavbar.php";
                             margin: [0, 0, 0, 5]
                         });
                         doc.content.splice(1, 0, {
-                            text: 'Action Status Information',
+                            text: 'Action Status Report',
                             fontSize: 16,
                             bold: true,
                             alignment: 'center',
                             margin: [0, 10, 0, 10]
                         });
                         doc.content.splice(2, 0, {
-                            text: 'BD Team Member: ' + selectedUsername, 
+                            text: 'DB Team Member: ' + selectedUsername, 
                             fontSize: 10,
                             alignment: 'left',
                             margin: [0, 0, 0, 10]
@@ -191,9 +191,9 @@ include "include/topnavbar.php";
 
                         doc.styles.tableHeader = {
                             fillColor: '#003087',
-                            fontSize: 12,
+                            fontSize: 13,
                             color: 'white',
-                            alignment: 'center',
+                            alignment: 'left',
                             bold: true
                         };
                         // doc.styles.tableBodyEven = {
@@ -207,13 +207,13 @@ include "include/topnavbar.php";
                 {
 					extend: 'excel',
 					className: 'btn btn-success btn-sm',
-					title: 'Action Report Information',
+					title: 'Action Report',
 					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
 				},
                 {
 					extend: 'csv',
 					className: 'btn btn-info btn-sm',
-					title: 'Action Report Information',
+					title: 'Action Report',
 					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
 				},
             ],
@@ -224,6 +224,8 @@ include "include/topnavbar.php";
                 d.year = $('#yearSelect').val();
                 d.bdm = $('#bdm').val();   
                 d.month = $('#monthSelect').val(); 
+                d.fromDate = $('#fromDate').val(); 
+                d.toDate = $('#toDate').val(); 
                 d.status = $('#statusSelect').val();
                // d.userid = <?php //echo json_encode($_SESSION['userid']); ?>;
             }
@@ -239,7 +241,7 @@ include "include/topnavbar.php";
                 { "data": "start_date" },    
                 // { "data": "start_time" }, 
                 { "data": "time_range"},
-                { "data": "itenary_type"},
+                // { "data": "itenary_type"},
                 { "data": "itenary_category" },                    
                 { "data": "group" },
                 { "data": "task"},
@@ -254,7 +256,7 @@ include "include/topnavbar.php";
                 $('[data-toggle="tooltip"]').tooltip();
             }
         });
-        $('#yearSelect,#monthSelect, #bdm, #statusSelect').change(function() {
+        $('#yearSelect,#monthSelect, #bdm, #statusSelect, #fromDate,#toDate').change(function() {
             table.draw(); 
         });
     });

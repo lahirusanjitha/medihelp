@@ -53,9 +53,17 @@ include "include/topnavbar.php";
                         <option value="12">December</option>
                     </select>
                 </div>
+                <div class="col-md-6 col-lg-3">
+                    <label for="fromDate">From Date</label>
+                    <input type="date" id="fromDate" class="form-control form-control-sm">
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <label for="toDate">To Date</label>
+                    <input type="date" id="toDate" class="form-control form-control-sm">
+                </div>
 
                 <div class="col-md-6 col-lg-3">
-                    <label for="bdm">Select BD Team Member</label>
+                    <label for="bdm">BD Team Member</label>
                     <select id="bdm" class="form-control form-control-sm">
                         <option value="<?php echo $_SESSION['userid'];?>" style="display:none;">
                             <?php echo $_SESSION['name'];?>
@@ -83,9 +91,9 @@ include "include/topnavbar.php";
                                 <!-- <th>Itinerary Type</th> -->
                                 <th>Itinerary Category</th>
                                 <th>Itinerary Status</th>
-                                <th>Task</th>
+                                <th>Revenue Potential</th>
                                 <th>Location</th>
-                                <th>Itinerary</th>
+                                <th>Activity in Detail</th>
                                 <th>Meet Location</th>
                                <!-- <th class="text-right">Actions</th>-->
                             </tr>
@@ -147,18 +155,7 @@ include "include/topnavbar.php";
                 [10, 25, 50, -1],
                 [10, 25, 50, 'All'],
             ],
-            "buttons": [{
-					extend: 'excel',
-					className: 'btn btn-success btn-sm',
-					title: 'Approval Information',
-					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
-				},
-                {
-					extend: 'csv',
-					className: 'btn btn-info btn-sm',
-					title: 'Approval Information',
-					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
-				},
+            "buttons": [
                 {
                     extend: 'pdf',
                     className: 'btn btn-primary btn-sm',
@@ -175,13 +172,13 @@ include "include/topnavbar.php";
 
                         doc.content.splice(0, 0, {
                             image: base64,
-                            width: 100, 
+                            width: 140, 
                             alignment: 'center',
                             margin: [0, 0, 0, 5]
                         });
                         doc.content.splice(1, 0, {
-                            text: 'Approval Information Report',
-                            fontSize: 13,
+                            text: 'Approval Report',
+                            fontSize: 16,
                             bold: true,
                             alignment: 'center',
                             margin: [0, 10, 0, 10]
@@ -203,20 +200,33 @@ include "include/topnavbar.php";
                         };
 
                         doc.styles.tableHeader = {
-                            fillColor: '#202ba8',
-                            fontSize: 12,
+                            fillColor: '#003087',
+                            fontSize: 13,
                             color: 'white',
-                            alignment: 'center',
+                            alignment: 'left',
                             bold: true
                         };
-                        doc.styles.tableBodyEven = {
-                            alignment: 'center'
-                        };
-                        doc.styles.tableBodyOdd = {
-                            alignment: 'center'
-                        };
+                        // doc.styles.tableBodyEven = {
+                        //     alignment: 'center'
+                        // };
+                        // doc.styles.tableBodyOdd = {
+                        //     alignment: 'center'
+                        // };
                  }
-                }
+                },
+                {
+					extend: 'excel',
+					className: 'btn btn-success btn-sm',
+					title: 'Approval Information',
+					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
+				},
+                {
+					extend: 'csv',
+					className: 'btn btn-info btn-sm',
+					title: 'Approval Information',
+					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
+				},
+                
             ],
             ajax: {
                 url: "<?php echo base_url() ?>scripts/jobconfirm.php",
@@ -225,6 +235,8 @@ include "include/topnavbar.php";
                 d.bdm = $('#bdm').val();   
                 d.month = $('#monthSelect').val(); 
                 d.year = $('#yearSelect').val(); 
+                d.fromDate = $('#fromDate').val(); 
+                d.toDate = $('#toDate').val(); 
             }
             },
             "order": [[ 2, "desc" ]],
@@ -258,7 +270,7 @@ include "include/topnavbar.php";
                 $('[data-toggle="tooltip"]').tooltip();
             }
         });
-$('#yearSelect,#monthSelect, #bdm').change(function() {
+$('#yearSelect,#monthSelect, #bdm, #fromDate,#toDate').change(function() {
             table.draw(); 
 });
 

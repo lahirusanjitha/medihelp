@@ -53,7 +53,15 @@ include "include/topnavbar.php";
                     </select>
                 </div>
                 <div class="col-md-6 col-lg-3">
-                <label for="bdm">Select DB Team Member</label>
+                    <label for="fromDate">From Date</label>
+                    <input type="date" id="fromDate" class="form-control form-control-sm">
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <label for="toDate">To Date</label>
+                    <input type="date" id="toDate" class="form-control form-control-sm">
+                </div>
+                <div class="col-md-6 col-lg-3">
+                <label for="bdm">BD Team Member</label>
                 <select id="bdm" class="form-control form-control-sm" <?php if($statuscheck != 1) echo 'disabled'; ?>>
                     <?php foreach ($user->result() as $users) { ?>
                         <option value="<?php echo $_SESSION['userid'];?>" style="display:none;">
@@ -80,9 +88,9 @@ include "include/topnavbar.php";
                                             <th>Time</th>
                                             <!-- <th>Itinerary Type</th> -->
                                             <th>Itinerary Category</th>
-                                            <th>Itinerary Status</th>
-                                            <th>Itinerary</th>
-                                            <th>Task</th>
+                                            <th>Call Status</th>
+                                            <th>Activity in Detail</th>
+                                            <th>Revenue Potential</th>
                                             <th>Insert time</th>
                                             <th>Action</th>
                                             <th>Action Date Time</th>
@@ -118,23 +126,12 @@ include "include/topnavbar.php";
                 [10, 25, 50, -1],
                 [10, 25, 50, 'All'],
             ],
-            "buttons": [{
-					extend: 'excel',
-					className: 'btn btn-success btn-sm',
-					title: 'Feedback Report Information',
-					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
-				},
-                {
-					extend: 'csv',
-					className: 'btn btn-info btn-sm',
-					title: 'Feedback Report Information',
-					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
-				},
+            "buttons": [
                 {
                     extend: 'pdf',
                     className: 'btn btn-primary btn-sm',
                     title: '',
-                    filename: 'Feedback report Information',
+                    filename: 'Log report Information',
                     text: '<i class="fas fa-file-pdf mr-2"></i> PDF',
                     exportOptions: {
                         columns: [0,1,2,3,4,5,6,7,8,9]
@@ -149,19 +146,19 @@ include "include/topnavbar.php";
                         
                         doc.content.splice(0, 0, {
                             image: base64,
-                            width: 100, 
+                            width: 140, 
                             alignment: 'center',
                             margin: [0, 0, 0, 5]
                         });
                         doc.content.splice(1, 0, {
-                            text: 'Log Report Information ',
-                            fontSize: 13,
+                            text: 'Log Report ',
+                            fontSize: 16,
                             bold: true,
                             alignment: 'center',
                             margin: [0, 10, 0, 10]
                         });
                         doc.content.splice(2, 0, {
-                            text: 'DB Team Member: ' + selectedUsername, 
+                            text: 'BD Team Member: ' + selectedUsername, 
                             fontSize: 10,
                             alignment: 'left',
                             margin: [0, 0, 0, 10]
@@ -169,8 +166,7 @@ include "include/topnavbar.php";
 
                         var table = doc.content[doc.content.length - 1].table;
                         if (table && table.body && table.body.length > 0) {
-                            var colCount = table.body[0].length;
-                            table.widths = Array(colCount).fill('*');
+                        table.widths = ['2%', '*', '*', '*', '*', '*', '*', '*', '*', '20%']; 
                         }
 
                         doc.content[doc.content.length - 1].layout = {
@@ -181,20 +177,33 @@ include "include/topnavbar.php";
                         };
 
                         doc.styles.tableHeader = {
-                            fillColor: '#202ba8',
-                            fontSize: 12,
+                            fillColor: '#003087',
+                            fontSize: 13,
                             color: 'white',
-                            alignment: 'center',
+                            alignment: 'left',
                             bold: true
                         };
-                        doc.styles.tableBodyEven = {
-                            alignment: 'center'
-                        };
-                        doc.styles.tableBodyOdd = {
-                            alignment: 'center'
-                        };
+                        // doc.styles.tableBodyEven = {
+                        //     alignment: 'center'
+                        // };
+                        // doc.styles.tableBodyOdd = {
+                        //     alignment: 'center'
+                        // };
                  }
-                }
+                },
+                {
+					extend: 'excel',
+					className: 'btn btn-success btn-sm',
+					title: 'Feedback Report Information',
+					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
+				},
+                {
+					extend: 'csv',
+					className: 'btn btn-info btn-sm',
+					title: 'Feedback Report Information',
+					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
+				},
+                
             ],
             ajax: {
                 url: "<?php echo base_url() ?>scripts/logreport.php",
@@ -203,6 +212,8 @@ include "include/topnavbar.php";
                 d.year = $('#yearSelect').val();
                 d.bdm = $('#bdm').val();   
                 d.month = $('#monthSelect').val(); 
+                d.fromDate = $('#fromDate').val(); 
+                d.toDate = $('#toDate').val(); 
                // d.userid = <?php //echo json_encode($_SESSION['userid']); ?>;
             }
             },
@@ -235,7 +246,7 @@ include "include/topnavbar.php";
                 $('[data-toggle="tooltip"]').tooltip();
             }
         });
-        $('#yearSelect,#monthSelect, #bdm').change(function() {
+        $('#yearSelect,#monthSelect, #bdm, #fromDate,#toDate').change(function() {
             table.draw(); 
         });
     });

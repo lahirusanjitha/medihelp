@@ -90,7 +90,7 @@ include "include/topnavbar.php";
                                             <th>Itinerary Category</th>
                                             <th>Call Status</th>
                                             <th>Activity in Detail</th>
-                                            <th>Task</th>
+                                            <th>Revenue Potential</th>
                                             <th>Meet Location</th>
                                             <th>Feedback Type</th>
                                             <th>Feedback</th>

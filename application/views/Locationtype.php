@@ -72,18 +72,7 @@ include "include/topnavbar.php";
                 [10, 25, 50, -1],
                 [10, 25, 50, 'All'],
             ],
-             "buttons": [{
-					extend: 'excel',
-					className: 'btn btn-success btn-sm',
-					title: 'Location Type  Information',
-					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
-				},
-                {
-					extend: 'csv',
-					className: 'btn btn-info btn-sm',
-					title: 'Location Type  Information',
-					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
-				},
+             "buttons": [
                 {
                     extend: 'pdf',
                     className: 'btn btn-primary btn-sm',
@@ -147,7 +136,20 @@ include "include/topnavbar.php";
                             alignment: 'center'
                         };
                  }
-                }
+                },
+                {
+					extend: 'excel',
+					className: 'btn btn-success btn-sm',
+					title: 'Location Type  Information',
+					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
+				},
+                {
+					extend: 'csv',
+					className: 'btn btn-info btn-sm',
+					title: 'Location Type  Information',
+					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
+				},
+                
             ],
 
             ajax: {

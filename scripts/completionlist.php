@@ -31,8 +31,22 @@ $primaryKey = 'idtbl_job_list';
 $columns = array(
 	array( 'db' => '`u`.`idtbl_job_list`', 'dt' => 'idtbl_job_list', 'field' => 'idtbl_job_list' ),
 	array( 'db' => '`u`.`start_date`', 'dt' => 'start_date', 'field' => 'start_date' ),
-	array( 'db' => '`u`.`start_time`', 'dt' => 'start_time', 'field' => 'start_time' ),
-	array( 'db' => '`u`.`end_time`', 'dt' => 'end_time', 'field' => 'end_time' ),
+		array(
+		'db' => '`u`.`start_time`',
+		'dt' => 'start_time',
+		'field' => 'start_time',
+		'formatter' => function($d, $row) {
+			return date("g:i A", strtotime($d)); 
+		}
+	),
+	array(
+    'db' => '`u`.`end_time`',
+    'dt' => 'end_time',
+    'field' => 'end_time',
+    'formatter' => function($d, $row) {
+        return date("g:i A", strtotime($d)); 
+    }
+	),
 	array( 'db' => '`ua`.`itenary_type`', 'dt' => 'itenary_type', 'field' => 'itenary_type' ),
 	array( 'db' => '`u`.`task`', 'dt' => 'task', 'field' => 'task' ),
 	array( 'db' => '`ud`.`name`', 'dt' => 'location', 'field' => 'name' ),
@@ -58,7 +72,9 @@ $sql_details = array(
 
 $year = isset($_POST['year']) ? $_POST['year'] : '';  
 $month = isset($_POST['month']) ? $_POST['month'] : '';  
-$bdm = isset($_POST['bdm']) ? $_POST['bdm'] : '';  
+$bdm = isset($_POST['bdm']) ? $_POST['bdm'] : ''; 
+$fromDate = isset($_POST['fromDate']) ? $_POST['fromDate'] : '';
+$toDate = isset($_POST['toDate']) ? $_POST['toDate'] : ''; 
 
 $extraWhere = "`u`.`completion` IN (2) AND `confirmation` IN (1)";
 
@@ -71,6 +87,12 @@ if (!empty($month)) {
 
 if (!empty($bdm)) {
     $extraWhere .= " AND `u`.`tbl_med_user_id` = '$bdm'";  
+}
+if (!empty($fromDate)) {
+    $extraWhere .= " AND DATE(`u`.`start_date`) >= '" . $fromDate . "'";
+}
+if (!empty($toDate)) {
+    $extraWhere .= " AND DATE(`u`.`start_date`) <= '" . $toDate . "'";
 }
 
 

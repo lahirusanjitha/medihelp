@@ -74,18 +74,6 @@ include "include/topnavbar.php";
             ],
             "buttons": [
                 {
-					extend: 'excel',
-					className: 'btn btn-success btn-sm',
-					title: 'Itinary Status Information',
-					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
-				},
-                {
-					extend: 'csv',
-					className: 'btn btn-info btn-sm',
-					title: 'Itinary Status Information',
-					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
-				},
-                {
                     extend: 'pdf',
                     className: 'btn btn-primary btn-sm',
                     title: '',
@@ -139,7 +127,20 @@ include "include/topnavbar.php";
                             alignment: 'center'
                         };
                  }
-                }
+                },
+                {
+					extend: 'excel',
+					className: 'btn btn-success btn-sm',
+					title: 'Itinary Status Information',
+					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
+				},
+                {
+					extend: 'csv',
+					className: 'btn btn-info btn-sm',
+					title: 'Itinary Status Information',
+					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
+				},
+                
             ],
             ajax: {
                 url: "<?php echo base_url() ?>scripts/itenarygroup.php",

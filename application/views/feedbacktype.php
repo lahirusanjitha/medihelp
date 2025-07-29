@@ -13,7 +13,7 @@ include "include/topnavbar.php";
                     <div class="page-header-content py-3">
                         <h1 class="page-header-title font-weight-light">
                             <div class="page-header-icon"><i data-feather="list"></i></div>
-                            <span>Feedback Type</span>
+                            <span>Feedback Status</span>
                         </h1>
                     </div>
                 </div>
@@ -25,7 +25,7 @@ include "include/topnavbar.php";
                             <div class="col-3">
                                 <form action="<?php echo base_url() ?>FeedbackType/FeedbackTypeinsertupdate" method="post" autocomplete="off">
                                     <div class="form-group mb-1">
-                                        <label class="small font-weight-bold">Feedback Type*</label>
+                                        <label class="small font-weight-bold">Feedback Status*</label>
                                         <input type="text" class="form-control form-control-sm" name="feedback_type" id="feedback_type" required>
                                     </div>
                                     <div class="form-group mt-2 text-right">
@@ -40,7 +40,7 @@ include "include/topnavbar.php";
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Feedback Type</th>
+                                            <th>Feedback Status</th>
                                             <th class="text-right">Actions</th>
                                         </tr>
                                     </thead>
@@ -72,18 +72,7 @@ include "include/topnavbar.php";
                 [10, 25, 50, -1],
                 [10, 25, 50, 'All'],
             ],
-            "buttons": [{
-					extend: 'excel',
-					className: 'btn btn-success btn-sm',
-					title: 'FeedBack Type Information',
-					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
-				},
-                {
-					extend: 'csv',
-					className: 'btn btn-info btn-sm',
-					title: 'FeedBack Type Information',
-					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
-				},
+            "buttons": [
                 {
                     extend: 'pdf',
                     className: 'btn btn-primary btn-sm',
@@ -139,7 +128,20 @@ include "include/topnavbar.php";
                             alignment: 'center'
                         };
                  }
-                }
+                },
+                {
+					extend: 'excel',
+					className: 'btn btn-success btn-sm',
+					title: 'FeedBack Type Information',
+					text: '<i class="fas fa-file-excel mr-2"></i> EXCEL',
+				},
+                {
+					extend: 'csv',
+					className: 'btn btn-info btn-sm',
+					title: 'FeedBack Type Information',
+					text: '<i class="fas fa-file-csv mr-2"></i> CSV',
+				},
+                
             ],
             ajax: {
                 url: "<?php echo base_url() ?>scripts/feedbacktype.php",
