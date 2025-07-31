@@ -46,33 +46,30 @@ class Dashboard extends CI_Controller {
         $records = $this->Dashboardinfo->getMissingRecords($year,$month,$bdm);
         echo json_encode($records);
     }
-    public function getItineraryToApproveCount()
-{
-    $count = $this->Dashboardinfo->getItineraryToApproveCount();
-    echo json_encode($count);
-}
 
-    public function getPosponedToApproveCount()
-{
-    $count = $this->Dashboardinfo->getPosponedToApproveCount();
-    echo json_encode($count);
-}
+    public function getItineraryToApproveCount(){
+        $count = $this->Dashboardinfo->getItineraryToApproveCount();
+        echo json_encode($count);
+    }
 
-    public function getEditRequestToApproveCount()
-{
-    $count = $this->Dashboardinfo->getEditRequestToApproveCount();
-    echo json_encode($count);
-}
-    public function getECancelApproveCount()
-{
-    $count = $this->Dashboardinfo->getECancelApproveCount();
-    echo json_encode($count);
-}
+    public function getPosponedToApproveCount(){
+        $count = $this->Dashboardinfo->getPosponedToApproveCount();
+        echo json_encode($count);
+    }
+
+    public function getEditRequestToApproveCount(){
+        $count = $this->Dashboardinfo->getEditRequestToApproveCount();
+        echo json_encode($count);
+    }
+
+    public function getECancelApproveCount(){
+        $count = $this->Dashboardinfo->getECancelApproveCount();
+        echo json_encode($count);
+    }
     
-
-
-
-
+    public function getItinerarySubmissionStatus(){
+        $this->load->model('Dashboardinfo');
+        $data = $this->Dashboardinfo->getTodayItineraryStatus();
+        echo json_encode($data);
+    }
 }
-
-

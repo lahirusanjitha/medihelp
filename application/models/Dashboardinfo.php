@@ -71,7 +71,7 @@ class Dashboardinfo extends CI_Model {
 
 public function getItineraryToApproveCount()
 {
-    $this->db->select('tbl_res_user.name, COUNT(tbl_job_list.idtbl_job_list) as request_count');
+    $this->db->select('tbl_job_list.tbl_med_user_id, tbl_res_user.name, COUNT(tbl_job_list.idtbl_job_list) as request_count');
     $this->db->from('tbl_job_list');
     $this->db->join('tbl_res_user', 'tbl_job_list.tbl_med_user_id = tbl_res_user.idtbl_res_user');
     $this->db->where('tbl_job_list.approval_send', 1);
@@ -110,7 +110,31 @@ public function getItineraryToApproveCount()
         $query = $this->db->get();
         return $query->result(); 
     }
-    
+ public function getTodayItineraryStatus()
+    {
+        $today = date('Y-m-d');
+
+        // Get all users
+        $this->db->select('idtbl_res_user, name');
+        $users = $this->db->get('tbl_res_user')->result();
+
+        $statusList = [];
+
+        foreach ($users as $user) {
+            $count = $this->db->from('tbl_job_list')
+                ->where('tbl_med_user_id', $user->idtbl_res_user)
+                ->like('instertdatetime', $today, 'after')
+                ->count_all_results();
+
+            $statusList[] = [
+                'name' => $user->name,
+                'status' => ($count > 0) ? true : false
+            ];
+        }
+
+        return $statusList;
+    }
+   
 
 }
 ?>

@@ -185,54 +185,82 @@
                                 </div>
                             </div>
                         </div>           
-                    </div>               
+                    </div> 
+                    
+                    <div class="row">
+                        <div class="col-lg-3 ms-auto">
+                            <!-- Summary Card -->
+                            <div class="card p-3">
+                                <h4 class="text-center">Summary</h4>
+                                <div class="summary-container">
+                                    <div id="noDataMessage" style="display:none; text-align: center; font-size: 16px;">No Records available.</div> 
+                                    <canvas id="summaryPieChart"></canvas>
+                                </div>
+                            </div>
 
-                <div class="row mb-4">
-                    <div class="col-md-6 col-lg-3">
-                <label for="yearSelect">Select Year</label>
-                <select id="yearSelect" class="form-control form-control-sm">
-                    <option value="">All Years</option>
-                    <?php
-                        $currentYear = date("Y");
-                        for ($i = $currentYear; $i >= $currentYear - 10; $i--) { 
-                            echo "<option value='$i'>$i</option>";
-                        }
-                    ?>
-                         </select>
-                     </div>
-                        <div class="col-md-6 col-lg-3">
-                            <label for="monthSelect">Select Month</label>
-                            <select id="monthSelect" class="form-control form-control-sm">
-                                <option value="">All Months</option>
-                                <option value="01">January</option>
-                                <option value="02">February</option>
-                                <option value="03">March</option>
-                                <option value="04">April</option>
-                                <option value="05">May</option>
-                                <option value="06">June</option>
-                                <option value="07">July</option>
-                                <option value="08">August</option>
-                                <option value="09">September</option>
-                                <option value="10">October</option>
-                                <option value="11">November</option>
-                                <option value="12">December</option>
-                            </select>
-                        </div>
-                        
-                        <div class="col-md-6 col-lg-3">
-                            <label for="bdm">Select BD Team Member</label>
-                            <select name="bdm" id="bdm" class="form-control form-control-sm" <?php if($statuscheck != 1) echo 'disabled';?>>
-                                <option value="<?php echo $_SESSION['userid'];?>" style="display:none;">
-                                    <?php echo $_SESSION['name'];?>
-                                </option>
-                                <?php foreach ($user->result() as $users) { ?>
-                                    <option value="<?php echo $users->idtbl_res_user; ?>">
-                                        <?php echo $users->name; ?>
-                                    </option>
-                                <?php } ?>
-                            </select>
+                            <!-- Today's Itinerary Card -->
+                            <div class="card p-3 mt-2" style="font-size: 0.85rem; max-width: 320px; min-width: 200px;">
+                                <div class="card-header bg-info text-white py-1 px-2" style="font-size: 0.9rem;">
+                                    Today's Itinerary Status
+                                </div>
+                                <div class="card-body py-2 px-2" id="itineraryStatusList" style="line-height: 1;">
+                                    Loading...
+                                </div>
+                            </div>
                         </div>
                     </div>
+
+
+                <div class="row mb-3">
+                    <div class="col-md-6 col-lg-4">
+                        <label for="yearSelect">Select Year</label>
+                        <select id="yearSelect" class="form-control form-control-sm">
+                            <option value="">All Years</option>
+                            <?php
+                                $currentYear = date("Y");
+                                for ($i = $currentYear; $i >= $currentYear - 10; $i--) { 
+                                    echo "<option value='$i'>$i</option>";
+                                }
+                            ?>
+                         </select>
+                     </div>
+                    <div class="col-md-6 col-lg-4">
+                        <label for="monthSelect">Select Month</label>
+                        <select id="monthSelect" class="form-control form-control-sm">
+                            <option value="">All Months</option>
+                            <option value="01">January</option>
+                            <option value="02">February</option>
+                            <option value="03">March</option>
+                            <option value="04">April</option>
+                            <option value="05">May</option>
+                            <option value="06">June</option>
+                            <option value="07">July</option>
+                            <option value="08">August</option>
+                            <option value="09">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-md-6 col-lg-4">
+                        <label for="bdm">Select BD Team Member</label>
+                        <select name="bdm" id="bdm" class="form-control form-control-sm" <?php if($statuscheck != 1) echo 'disabled';?>>
+                            <option value="<?php echo $_SESSION['userid'];?>" style="display:none;">
+                                <?php echo $_SESSION['name'];?>
+                            </option>
+                            <?php foreach ($user->result() as $users) { ?>
+                                <option value="<?php echo $users->idtbl_res_user; ?>">
+                                    <?php echo $users->name; ?>
+                                </option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                </div>
+                    
+
+                        
+
             
 
 
@@ -253,7 +281,7 @@
                     </div> -->
 
                     <div class="row">
-                        <div class="col-lg-9">
+                        <div class="col-lg-12">
                             <div class="card p-3">
                                 <ul class="nav nav-tabs" id="detailsTab" role="tablist">
                                     <li class="nav-item">
@@ -343,15 +371,10 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-3">
-                            <div class="card p-3">
-                                <h4 class="text-center">Summary</h4>
-                                <div class="summary-container">
-                                    <div id="noDataMessage" style="display:none; text-align: center; font-size: 16px;">No Records available.</div> 
-                                    <canvas id="summaryPieChart"></canvas>
-                                </div>
-                            </div>
-                        </div>
+                        
+
+
+
                     </div>
                 </div>
             </main>
@@ -479,7 +502,7 @@
                     if (data.length > 0) {
                         data.forEach(function(user) {
                             totalCount += parseInt(user.request_count);
-                            ApproveuserList += '<div>' + user.name + ' (' + user.request_count + ')</div>';
+                            ApproveuserList += '<div><a href="<?php echo base_url('Confirmjob'); ?>?user_id=' + user.tbl_med_user_id + '">' + user.name + ' (' + user.request_count + ')</a></div>';
                         });
                     } else {
                         ApproveuserList = '<div>No requests</div>';
@@ -560,9 +583,38 @@
                     $('#tocancelcount').text(totalCount);
                     $('#CanceluserList').html(CanceluserList);
                 }
-            });
-        
+            });      
         }
+
+        function loadItineraryStatusList() {
+            $.ajax({
+                url: "<?php echo base_url(); ?>Dashboard/getItinerarySubmissionStatus",
+                method: "GET",
+                dataType: "json",
+                success: function (data) {
+                    let html = '<ul class="list-group">';
+                    if (data.length > 0) {
+                        data.forEach(function (user) {
+                            let icon = user.status ? '✅' : '❌';
+                            let colorClass = user.status ? 'text-success' : 'text-danger';
+                            html += `<li class="list-group-item d-flex justify-content-between align-items-center">
+                                        ${user.name}
+                                        <span class="${colorClass}" style="font-size: 1.2rem;">${icon}</span>
+                                    </li>`;
+                        });
+                    } else {
+                        html += '<li class="list-group-item">No users found.</li>';
+                    }
+                    html += '</ul>';
+                    $('#itineraryStatusList').html(html);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            loadItineraryStatusList();
+        });
+
         $(document).ready(function(){
             loadItineraryCounts();
             loadPosponedAprroveCounts();

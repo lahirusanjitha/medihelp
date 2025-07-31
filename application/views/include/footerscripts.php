@@ -32,8 +32,8 @@
     <?php if($this->router->fetch_class()=='Cashier' && $this->router->fetch_method()=='Dashboard'){}else{ ?>
     function tablerowhighlight(){
         $('table tbody').on('click', 'tr', function(){
-            $('table tbody>tr').removeClass('table-warning text-dark');
-            $(this).addClass('table-warning text-dark');
+            $('table tbody>tr').removeClass('table-info text-dark');
+            $(this).addClass('table-info text-dark');
         });
     }
     <?php } ?>

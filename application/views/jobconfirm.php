@@ -64,12 +64,11 @@ include "include/topnavbar.php";
 
                 <div class="col-md-6 col-lg-3">
                     <label for="bdm">BD Team Member</label>
+                    <?php $selectedUserId = isset($_GET['user_id']) ? $_GET['user_id'] : $_SESSION['userid']; ?>
                     <select id="bdm" class="form-control form-control-sm">
-                        <option value="<?php echo $_SESSION['userid'];?>" style="display:none;">
-                            <?php echo $_SESSION['name'];?>
-                        </option>
                         <?php foreach ($user->result() as $users) { ?>
-                            <option value="<?php echo $users->idtbl_res_user; ?>">
+                            <option value="<?php echo $users->idtbl_res_user; ?>" 
+                                <?php echo ($users->idtbl_res_user == $selectedUserId) ? 'selected' : ''; ?>>
                                 <?php echo $users->name; ?>
                             </option>
                         <?php } ?>
@@ -302,7 +301,7 @@ $('#approveAllBtn').on('click', function () {
                 Swal.fire({
                     position: "top-end",
                     icon: "success",
-                    title: "Itinary Approved Successfully",
+                    title: "Itinerary Approved Successfully",
                     showConfirmButton: false,
                     timer: 2000
                     });
