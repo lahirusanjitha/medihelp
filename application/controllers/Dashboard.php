@@ -12,6 +12,7 @@ class Dashboard extends CI_Controller {
         $this->load->model('Commeninfo');
         $result['menuaccess'] = $this->Commeninfo->Getmenuprivilege();
         $result['user'] = $this->Dashboardinfo->getUser();
+        $result['monthly_summary'] = $this->getCurrentMonthFeedbackSummary();
         $this->load->view('dashboard', $result);  
     }
 
@@ -72,4 +73,31 @@ class Dashboard extends CI_Controller {
         $data = $this->Dashboardinfo->getTodayItineraryStatus();
         echo json_encode($data);
     }
+
+    public function getCurrentMonthFeedbackSummary() {
+        $monthStart = date('Y-m-01');
+        $monthEnd = date('Y-m-t');
+
+        $query = $this->db->query("
+            SELECT 
+                COUNT(j.idtbl_job_list) AS total_jobs,
+                COUNT(f.tbl_joblist_idtbl_joblist) AS jobs_with_feedback
+            FROM tbl_job_list j
+            LEFT JOIN tbl_feedback f 
+                ON j.idtbl_job_list = f.tbl_joblist_idtbl_joblist
+            WHERE j.start_date BETWEEN '$monthStart' AND '$monthEnd'
+        ");
+
+        $row = $query->row();
+        $total = $row->total_jobs;
+        $withFeedback = $row->jobs_with_feedback;
+        $percentage = ($total > 0) ? round(($withFeedback / $total) * 100, 2) : 0;
+
+        return [
+            'total' => $total,
+            'with_feedback' => $withFeedback,
+            'percentage' => $percentage
+        ];
+    }
+
 }

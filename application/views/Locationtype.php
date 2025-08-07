@@ -18,7 +18,7 @@ include "include/topnavbar.php";
                     </div>
                 </div>
             </div>
-            <<div class="container-fluid p-0">
+            <div class="container-fluid p-0">
                 <div class="card">
                     <div class="card-body p-0 p-2">
                         <div class="row">

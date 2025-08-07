@@ -147,7 +147,7 @@ include "include/topnavbar.php";
 
                     <div class="form-group">
                         <label for="feedback" class="font-weight-bold">Feedback</label>
-                        <textarea class="form-control" name="feedback" id="feedback" rows="4" maxlength="500" required></textarea>
+                        <textarea class="form-control" name="feedback" id="feedback" rows="4" required></textarea>
                     </div>
                     
                 </div>
