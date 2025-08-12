@@ -116,6 +116,7 @@ public function getItineraryToApproveCount()
 
         // Get all users
         $this->db->select('idtbl_res_user, name');
+        $this->db->where('status', 1);
         $users = $this->db->get('tbl_res_user')->result();
 
         $statusList = [];

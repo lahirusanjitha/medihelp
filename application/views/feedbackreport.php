@@ -128,69 +128,24 @@ include "include/topnavbar.php";
             ],
             "buttons": [
                 {
-                    extend: 'pdf',
-                    className: 'btn btn-primary btn-sm',
-                    title: '',
-                    filename: 'Feedback report',
                     text: '<i class="fas fa-file-pdf mr-2"></i> PDF',
-                    exportOptions: {
-                        columns: [0,1,2,3,4,5,6,7,8,9]
-                    },
-                    customize: function (doc) {
-                        var bdmSelect = document.getElementById("bdm");
-                        var selectedUsername = bdmSelect.options[bdmSelect.selectedIndex].text;
+                    className: 'btn btn-primary btn-sm',
+                    action: function (e, dt, node, config) {
+                        var year = $('#yearSelect').val() || '';
+                        var month = $('#monthSelect').val() || '';
+                        var bdm = $('#bdm').val() || '';
+                        var fromDate = $('#fromDate').val() || '';
+                        var toDate = $('#toDate').val() || '';
 
-                        doc.pageSize = 'A4'; 
-                        doc.pageOrientation = 'landscape';
+                        var pdfUrl = "<?php echo base_url('Feedbackreport/feedback_pdf'); ?>?" +
+                                    "year=" + encodeURIComponent(year) +
+                                    "&month=" + encodeURIComponent(month) +
+                                    "&bdm=" + encodeURIComponent(bdm) +
+                                    "&fromDate=" + encodeURIComponent(fromDate) +
+                                    "&toDate=" + encodeURIComponent(toDate);
 
-                        doc.content.splice(0, 0, {
-                            image: base64,
-                            width: 140, 
-                            alignment: 'center',
-                            margin: [0, 0, 0, 5]
-                        });
-                        doc.content.splice(1, 0, {
-                            text: 'Feedback Report',
-                            fontSize: 16,
-                            bold: true,
-                            alignment: 'center',
-                            margin: [0, 10, 0, 10]
-                        });
-                        doc.content.splice(2, 0, {
-                            text: 'BD Team Member: ' + selectedUsername, 
-                            fontSize: 10,
-                            alignment: 'left',
-                            margin: [0, 0, 0, 10]
-                        });
-
-                        var table = doc.content[doc.content.length - 1].table;
-                        if (table && table.body && table.body.length > 0) {
-                            table.widths = ['2%', '*', '*', '*', '*', '15%', '*', '*', '*', '20%']; // ← Custom widths
-                            // var colCount = table.body[0].length;
-                            // table.widths = Array(colCount).fill('*');
-                        }
-
-                        doc.content[doc.content.length - 1].layout = {
-                            hLineWidth: function () { return 0; },
-                            vLineWidth: function () { return 0; },
-                            hLineColor: function () { return 'white'; },
-                            vLineColor: function () { return 'white'; }
-                        };
-
-                        doc.styles.tableHeader = {
-                            fillColor: '#003087',
-                            fontSize: 13,
-                            color: 'white',
-                            alignment: 'left',
-                            bold: true
-                        };
-                        // doc.styles.tableBodyEven = {
-                        //     alignment: 'center'
-                        // };
-                        // doc.styles.tableBodyOdd = {
-                        //     alignment: 'center'
-                        // };
-                 }
+                        window.open(pdfUrl, '_blank');
+                    }
                 },
                 {
 					extend: 'excel',
