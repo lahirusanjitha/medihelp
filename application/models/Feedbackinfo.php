@@ -63,7 +63,7 @@ class Feedbackinfo extends CI_Model{
         $recordID = $this->input->post('recordID');  
         $isAdmin = $this->input->post('is_admin');  
     
-        $this->db->select('tbl_feedback.insertdatetime, tbl_feedback.comment, tbl_feedback_type.feedback_type');
+        $this->db->select('tbl_feedback.idtbl_feedback, tbl_feedback.insertdatetime, tbl_feedback.comment, tbl_feedback_type.feedback_type');
         $this->db->from('tbl_feedback');
         $this->db->join('tbl_feedback_type', 'tbl_feedback.tbl_feedback_type_idtbl_feedback_type = tbl_feedback_type.idtbl_feedback_type', 'left');
         $this->db->where('tbl_feedback.tbl_joblist_idtbl_joblist', $recordID);
@@ -90,7 +90,10 @@ class Feedbackinfo extends CI_Model{
                 $html .= '<tr>
                     <td>' . $rowdetail->insertdatetime . '</td>
                     <td>' . $rowdetail->feedback_type . '</td>
-                    <td>' . $rowdetail->comment . '</td>
+                    <td class="editable-comment" data-id="' . $rowdetail->idtbl_feedback . '">' . $rowdetail->comment . '</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary edit-feedback" data-id="' . $rowdetail->idtbl_feedback . '">Edit</button>
+                    </td>
                 </tr>';
             }
     
@@ -117,6 +120,29 @@ class Feedbackinfo extends CI_Model{
         echo json_encode(['status' => 'success', 'html' => $html]);
     }
     
-    
+    public function updateFeedback($feedbackID, $newComment, $updatedBy){
+        $oldFeedback = $this->db->select('comment, tbl_joblist_idtbl_joblist')
+                                ->from('tbl_feedback')
+                                ->where('idtbl_feedback', $feedbackID)
+                                ->get()
+                                ->row();
+
+        if (!$oldFeedback) {
+            return ['status' => 'error', 'message' => 'Feedback not found'];
+        }
+
+        $this->db->insert('tbl_feedback_history', [
+            'tbl_feedback_idtbl_feedback' => $feedbackID,
+            'tbl_joblist_idtbl_joblist'   => $oldFeedback->tbl_joblist_idtbl_joblist,
+            'previous_comment'            => $oldFeedback->comment,
+            'updated_by'                  => $updatedBy
+        ]);
+
+        $this->db->where('idtbl_feedback', $feedbackID)
+                 ->update('tbl_feedback', ['comment' => $newComment]);
+
+        return ['status' => 'success', 'message' => 'Feedback updated successfully'];
+    }
+
 
 }

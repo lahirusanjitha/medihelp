@@ -24,5 +24,21 @@ class Feedback extends CI_Controller {
         $this->load->model('Feedbackinfo');
         $result=$this->Feedbackinfo->feedbackdetails();
     }
+    public function updateFeedback(){
+        $feedbackID = $this->input->post('feedbackID');
+        $newComment = $this->input->post('comment');
+        $updatedBy  = $this->session->userdata('userid');
+
+        $this->load->model('Feedbackinfo');
+
+        $result = $this->Feedbackinfo->updateFeedback($feedbackID, $newComment, $updatedBy);
+
+        if ($result['status'] === 'success') {
+            echo json_encode(['status' => 'success', 'message' => $result['message']]);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => $result['message']]);
+        }
+    }
+
 
 }

@@ -430,6 +430,56 @@ include "include/topnavbar.php";
         });
         
     });
+
+    $(document).on('click', '.edit-feedback', function () {
+        let feedbackID = $(this).data('id');
+        let td = $(this).closest('tr').find('.editable-comment');
+        let oldComment = td.text().trim();
+
+        // Replace td with textarea + Save/Cancel
+        td.html('<textarea class="form-control form-control-sm edit-textarea">' + oldComment + '</textarea>');
+        $(this).removeClass('edit-feedback btn-primary').addClass('save-feedback btn-success').text('Save')
+            .after(' <button class="btn btn-sm btn-secondary cancel-edit">Cancel</button>');
+    });
+
+    $(document).on('click', '.cancel-edit', function () {
+        let td = $(this).closest('tr').find('.editable-comment');
+        let textarea = td.find('.edit-textarea');
+        td.text(textarea.val()); // revert back to original text
+        $(this).closest('tr').find('.save-feedback')
+            .removeClass('save-feedback btn-success').addClass('edit-feedback btn-primary').text('Edit');
+        $(this).remove();
+    });
+
+    $(document).on('click', '.save-feedback', function () {
+        let feedbackID = $(this).data('id');
+        let td = $(this).closest('tr').find('.editable-comment');
+        let newComment = td.find('.edit-textarea').val();
+
+        $.ajax({
+            url: 'Feedback/updateFeedback',
+            method: 'POST',
+            data: { feedbackID: feedbackID, comment: newComment },
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    td.text(newComment);
+                    Swal.fire('Updated!', response.message, 'success');
+                } else {
+                    Swal.fire('Error!', response.message, 'error');
+                }
+            },
+            error: function () {
+                Swal.fire('Error!', 'Something went wrong while updating.', 'error');
+            }
+        });
+
+        // revert Save button back to Edit
+        $(this).removeClass('save-feedback btn-success').addClass('edit-feedback btn-primary').text('Edit');
+        $(this).closest('tr').find('.cancel-edit').remove();
+    });
+
+
  
 //     $('#staticBackdrop').on('show.bs.modal', function (event) {
 //     var button = $(event.relatedTarget);
