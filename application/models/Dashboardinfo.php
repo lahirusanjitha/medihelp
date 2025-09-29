@@ -110,16 +110,27 @@ public function getItineraryToApproveCount()
         $query = $this->db->get();
         return $query->result(); 
     }
- public function getTodayItineraryStatus()
+    public function getTodayItineraryStatus()
     {
-        $today = date('Y-m-d');
-
-        // Get all users
-        $this->db->select('idtbl_res_user, name');
-        $this->db->where('status', 1);
-        $users = $this->db->get('tbl_res_user')->result();
+        $today   = date('Y-m-d');
+        $type    = $this->session->userdata('type');
+        $userid = $this->session->userdata('userid'); // adjust field if different
 
         $statusList = [];
+
+        if ($type == 1 || $type == 2) {
+            // Get all active users
+            $this->db->select('idtbl_res_user, name');
+            $this->db->where('status', 1);
+            $this->db->where_not_in('idtbl_res_user', [1, 2]);
+            $users = $this->db->get('tbl_res_user')->result();
+        } else {
+            // Only the logged-in user
+            $this->db->select('idtbl_res_user, name');
+            $this->db->where('status', 1);
+            $this->db->where('idtbl_res_user', $userid);
+            $users = $this->db->get('tbl_res_user')->result();
+        }
 
         foreach ($users as $user) {
             $count = $this->db->from('tbl_job_list')
@@ -128,13 +139,14 @@ public function getItineraryToApproveCount()
                 ->count_all_results();
 
             $statusList[] = [
-                'name' => $user->name,
-                'status' => ($count > 0) ? true : false
+                'name'   => $user->name,
+                'status' => ($count > 0)
             ];
         }
 
         return $statusList;
     }
+
    
 
 }

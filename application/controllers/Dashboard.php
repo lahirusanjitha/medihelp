@@ -76,7 +76,16 @@ class Dashboard extends CI_Controller {
 
     public function getCurrentMonthFeedbackSummary() {
         $monthStart = date('Y-m-01');
-        $monthEnd = date('Y-m-t');
+        $monthEnd   = date('Y-m-t');
+
+        $type    = $this->session->userdata('type');
+        $userid = $this->session->userdata('userid'); // adjust field name if different
+
+        $whereUser = "";
+        if (!($type == 1 || $type == 2)) {
+            // only their own records
+            $whereUser = " AND j.tbl_med_user_id = " . $this->db->escape($userid);
+        }
 
         $query = $this->db->query("
             SELECT 
@@ -86,6 +95,7 @@ class Dashboard extends CI_Controller {
             LEFT JOIN tbl_feedback f 
                 ON j.idtbl_job_list = f.tbl_joblist_idtbl_joblist
             WHERE j.start_date BETWEEN '$monthStart' AND '$monthEnd'
+            $whereUser
         ");
 
         $row = $query->row();
@@ -94,9 +104,9 @@ class Dashboard extends CI_Controller {
         $percentage = ($total > 0) ? round(($withFeedback / $total) * 100, 2) : 0;
 
         return [
-            'total' => $total,
+            'total'         => $total,
             'with_feedback' => $withFeedback,
-            'percentage' => $percentage
+            'percentage'    => $percentage
         ];
     }
 

@@ -66,6 +66,7 @@
 
                 <div class="dashboard-container">
                     <!-- Top row with 4 approval cards -->
+                    <?php if ($this->session->userdata('type') == 1 || $this->session->userdata('type') == 2): ?>
                     <div class="row mb-4">
                         <!-- Card 1: Itineraries to Approve -->
                         <div class="col-lg-3 col-md-6 mb-3">
@@ -187,6 +188,7 @@
                             </div>
                         </div>           
                     </div> 
+                    <?php endif; ?>
 
                     <!-- Main content row with charts and tall right sidebar -->
                     <div class="row mb-3">
@@ -194,6 +196,7 @@
                         <div class="col-lg-9">
                             <!-- Charts row -->
                             <div class="row mb-3">
+                                <?php if ($this->session->userdata('type') == 1 || $this->session->userdata('type') == 2): ?>
                                 <div class="col-lg-6">
                                     <div class="card p-3 h-100 bg-light">
                                         <h4 class="text-center" style="font-size: 24px;">Summary</h4>
@@ -203,6 +206,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <?php endif; ?>
                                 
                                 <div class="col-lg-6">
                                     <div class="card p-3 h-100 bg-light">
@@ -368,7 +372,7 @@
                         
                         <!-- Right side: Today's Itinerary Status (tall card spanning full height) -->
                         <div class="col-lg-3">
-                            <div class="card p-3 mt-2" style="font-size: 0.85rem; max-width: 320px; min-width: 200px; min-height: 500px;">
+                            <div class="card p-3 mt-2" style="font-size: 0.85rem; max-width: 320px; min-width: 200px; min-height: 400px;">
                                 <div class="card-header bg-primary text-white py-1 px-2" style="font-size: 1.2rem;">
                                     Today's Itinerary Status
                                 </div>
