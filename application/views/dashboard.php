@@ -196,7 +196,7 @@
                         <div class="col-lg-9">
                             <!-- Charts row -->
                             <div class="row mb-3">
-                                <?php if ($this->session->userdata('type') == 1 || $this->session->userdata('type') == 2): ?>
+                            <?php if ($this->session->userdata('type') == 1 || $this->session->userdata('type') == 2): ?>
                                 <div class="col-lg-6">
                                     <div class="card p-3 h-100 bg-light">
                                         <h4 class="text-center" style="font-size: 24px;">Summary</h4>
@@ -206,17 +206,24 @@
                                         </div>
                                     </div>
                                 </div>
-                                <?php endif; ?>
-                                
                                 <div class="col-lg-6">
+                            <?php else: ?>
+                                <div class="col-lg-12">
+                            <?php endif; ?>
                                     <div class="card p-3 h-100 bg-light">
                                         <h4 class="text-center" style="font-size: 24px;">Monthly Feedback Summary</h4>
                                         <div class="summary-container">
                                             <?php if (!empty($monthly_summary)): ?>
                                                 <div class="text-center" style="font-size: 16px;">
-                                                    <p class="text-success" style="font-size: 24px; line-height: 2;"><strong>Total Itineraries:</strong> <?= $monthly_summary['total'] ?></p>
-                                                    <p class="text-info" style="font-size: 24px; line-height: 1;"><strong>With Feedback:</strong> <?= $monthly_summary['with_feedback'] ?></p>
-                                                    <p class="text-primary" style="font-size: 24px; line-height: 2;"><strong>Feedback Coverage:</strong> <?= $monthly_summary['percentage'] ?>%</p>
+                                                    <p class="text-success" style="font-size: 24px; line-height: 2;">
+                                                        <strong>Total Itineraries:</strong> <?= $monthly_summary['total'] ?>
+                                                    </p>
+                                                    <p class="text-info" style="font-size: 24px; line-height: 1;">
+                                                        <strong>With Feedback:</strong> <?= $monthly_summary['with_feedback'] ?>
+                                                    </p>
+                                                    <p class="text-primary" style="font-size: 24px; line-height: 2;">
+                                                        <strong>Feedback Coverage:</strong> <?= $monthly_summary['percentage'] ?>%
+                                                    </p>
                                                 </div>
                                             <?php else: ?>
                                                 <div id="noDataMessage2" style="text-align: center; font-size: 16px;">No Records available.</div>
