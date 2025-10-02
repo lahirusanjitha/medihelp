@@ -5,6 +5,7 @@ use Dompdf\Options;
 class PdfFeedbackReport extends CI_Model {
     
     public function generatePdf($year, $month, $bdm, $fromDate, $toDate, $bdmUsername) {
+        ini_set('memory_limit', '512M');
         $results = $this->getFeedbackData($year, $month, $bdm, $fromDate, $toDate);
         $html = $this->generateHtmlContent($results, $bdmUsername);
         
@@ -18,6 +19,7 @@ class PdfFeedbackReport extends CI_Model {
         $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
         
+        ob_end_clean();
         $dompdf->stream("feedback_report_" . date('Y-m-d') . ".pdf", ["Attachment" => false]);
 
         $logo_base64 = $this->getBase64Logo();
