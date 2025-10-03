@@ -10,18 +10,18 @@ class Dashboardinfo extends CI_Model {
        return $repond = $this->db->get();
     }
 
-    private function applyFilter($query, $year, $month, $bdm) {
-        if ($year) {
-            $query->where('YEAR(month)', $year); 
-        }
-        if ($month) {
-            $query->where('MONTH(month)', $month); 
-        }
-        if ($bdm) {
-            $query->where('tbl_job_list.tbl_med_user_id', $bdm); 
-        }
-        return $query;
+private function applyFilter($query, $year, $month, $bdm) {
+    if ($year) {
+        $query->where('YEAR(start_date)', $year); 
     }
+    if ($month) {
+        $query->where('MONTH(start_date)', $month); 
+    }
+    if ($bdm && $bdm != 1) {  
+        $query->where('tbl_job_list.tbl_med_user_id', $bdm); 
+    }
+    return $query;
+}
     
     public function getPostponedRecords($year = null ,$month = null, $bdm = null) {
         $query = $this->db->select('idtbl_job_list as id, start_date, start_time ,end_time, tbl_itenary_type.itenary_type, tbl_itenary_category.itenary_category, tbl_itenary_group.group')
