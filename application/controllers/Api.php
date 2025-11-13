@@ -489,58 +489,64 @@ class Api extends REST_Controller {
         }
     }
     
-    public function insertFeedback_post() {
-        $headers = $this->input->request_headers();
-    
-        if (isset($headers['Authorization'])) {
-            $decodedToken = $this->authorization_token->validateToken($headers['Authorization']);
-            if ($decodedToken['status']) {
-                $userID = $decodedToken['data']->uid; 
-                $idtbl_job_list = $this->post('idtbl_job_list');
-                $feedbacktype = $this->post('feedbacktype');
-                $feedback = $this->post('feedback');
-    
-                if (!$idtbl_job_list || !$feedbacktype || !$feedback) {
-                    $this->response([
-                        "status" => "error",
-                        "message" => "Missing required fields: idtbl_job_list, feedbacktype, or feedback"
-                    ], REST_Controller::HTTP_BAD_REQUEST);
-                    return;
-                }
-    
-                $updatedatetime = date('Y-m-d H:i:s');
-    
-                $data = [
-                    'comment' => $feedback,
-                    'tbl_feedback_type_idtbl_feedback_type' => $feedbacktype,
-                    'tbl_joblist_idtbl_joblist' => $idtbl_job_list,
-                    'insertdatetime' => $updatedatetime,
-                    'tbl_med_user_idtbl_med_user' => $userID
-                ];
-    
-                $result = $this->ApiInfo->insertFeedback($data, $idtbl_job_list);
-    
-                if ($result) {
-                    $this->response([
-                        "status" => "success",
-                        "message" => "Feedback added successfully"
-                    ], REST_Controller::HTTP_OK);
-                } else {
-                    $this->response([
-                        "status" => "error",
-                        "message" => "Failed to add feedback"
-                    ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
-                }
+public function insertFeedback_post() {
+    $headers = $this->input->request_headers();
+
+    if (isset($headers['Authorization'])) {
+        $decodedToken = $this->authorization_token->validateToken($headers['Authorization']);
+        if ($decodedToken['status']) {
+            $userID = $decodedToken['data']->uid; 
+            $idtbl_job_list = $this->post('idtbl_job_list');
+            $feedbacktype = $this->post('feedbacktype');
+            $feedback = $this->post('feedback');
+            $latitude = $this->post('latitude');
+            $longitude = $this->post('longitude');
+
+            if (!$idtbl_job_list || !$feedbacktype || !$feedback) {
+                $this->response([
+                    "status" => "error",
+                    "message" => "Missing required fields: idtbl_job_list, feedbacktype, or feedback"
+                ], REST_Controller::HTTP_BAD_REQUEST);
+                return;
+            }
+
+            $updatedatetime = date('Y-m-d H:i:s');
+
+            $data = [
+                'comment' => $feedback,
+                'tbl_feedback_type_idtbl_feedback_type' => $feedbacktype,
+                'tbl_joblist_idtbl_joblist' => $idtbl_job_list,
+                'insertdatetime' => $updatedatetime,
+                'tbl_med_user_idtbl_med_user' => $userID,
+                'latitude' => $latitude,
+                'longitude' => $longitude
+            ];
+
+            $result = $this->ApiInfo->insertFeedback($data, $idtbl_job_list);
+
+            if ($result) {
+                $this->response([
+                    "status" => "success",
+                    "message" => "Feedback added successfully"
+                ], REST_Controller::HTTP_OK);
             } else {
                 $this->response([
-                    "error" => isset($decodedToken['message']) && $decodedToken['message'] === 'Token Time expire' ?
-                        "Token has expired" : "Invalid token or access denied"
-                ], REST_Controller::HTTP_UNAUTHORIZED);
+                    "status" => "error",
+                    "message" => "Failed to add feedback"
+                ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
             }
         } else {
-            $this->response(["error" => "Authentication failed"], REST_Controller::HTTP_UNAUTHORIZED);
+            $this->response([
+                "error" => isset($decodedToken['message']) && $decodedToken['message'] === 'Token Time expire'
+                    ? "Token has expired" 
+                    : "Invalid token or access denied"
+            ], REST_Controller::HTTP_UNAUTHORIZED);
         }
+    } else {
+        $this->response(["error" => "Authentication failed"], REST_Controller::HTTP_UNAUTHORIZED);
     }
+}
+
 
     public function viewFeedbacks_post() {
         $headers = $this->input->request_headers();
